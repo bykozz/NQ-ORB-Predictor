@@ -107,8 +107,12 @@
       <div class="section-label">Overall performance</div>
       <div class="grid4" id="overview-metrics"></div>
       <div class="divider"></div>
-      <div class="section-label">Tomorrow's confidence — by setup</div>
+      <div class="section-label">Tomorrow's confidence score — by setup</div>
+      <p style="font-size:12px;color:#888780;margin-bottom:.875rem;margin-top:-.5rem">Weighted probability using historical win rate, recency (last 20 trades weighted 2×), losing streak boost, and winning streak adjustment.</p>
       <div id="confidence-list"></div>
+      <div class="divider"></div>
+      <div class="section-label">Historical win rate — by setup</div>
+      <div id="historical-list"></div>
       <div class="divider"></div>
       <div class="grid2">
         <div>
@@ -332,6 +336,50 @@ function drawRing(canvasId,pct,color){
   ctx.strokeStyle=color;ctx.lineWidth=8;ctx.lineCap='round';ctx.stroke();
 }
 
+function calcConfidence(arr){
+  if(!arr.length)return null;
+  // 1. Base: overall win rate
+  const baseWR=arr.filter(t=>t.result==='W').length/arr.length;
+
+  // 2. Recency: last 20 trades weighted 2x vs older
+  const recent=arr.slice(-20);
+  const older=arr.slice(0,-20);
+  const recentWins=recent.filter(t=>t.result==='W').length;
+  const olderWins=older.filter(t=>t.result==='W').length;
+  const weightedWins=recentWins*2+olderWins;
+  const weightedTotal=recent.length*2+older.length;
+  const weightedWR=weightedTotal>0?weightedWins/weightedTotal:baseWR;
+
+  // 3. Current streak effect
+  let streak=0;let streakType=null;
+  for(let i=arr.length-1;i>=0;i--){
+    if(streakType===null)streakType=arr[i].result;
+    if(arr[i].result===streakType)streak++;
+    else break;
+  }
+
+  // 4. After-loss win rate
+  const sk=calcStreak(arr);
+  const afterLossWR=sk.alwr!==null?sk.alwr:weightedWR;
+
+  // 5. Combine
+  let conf=weightedWR;
+  if(streakType==='L'){
+    // losing streak: boost confidence toward after-loss win rate
+    // more losses in a row = stronger boost
+    const boost=Math.min(streak*0.08,0.25);
+    conf=weightedWR+(afterLossWR-weightedWR)*0.6+boost;
+  } else if(streakType==='W'&&streak>=5){
+    // long win streak: slight regression toward mean
+    const drag=Math.min((streak-4)*0.015,0.08);
+    conf=weightedWR-drag;
+  }
+
+  // clamp 0-1
+  conf=Math.max(0.05,Math.min(0.99,conf));
+  return{conf,weightedWR,baseWR,streak,streakType,afterLossWR,sk};
+}
+
 function renderDashboard(){
   if(!trades.length){
     document.getElementById('empty-dashboard').style.display='block';
@@ -367,42 +415,77 @@ function renderDashboard(){
     <div class="card-sm"><div class="sm-label">Last session</div><div class="med-num" style="font-size:16px">${lastDate}</div><div class="sm-label">${lastTrades.length} trade${lastTrades.length!==1?'s':''}</div></div>
   `;
 
+  // --- CONFIDENCE SECTION ---
   let confHTML='';
   SETUPS.forEach((setup,i)=>{
     const sub=trades.filter(t=>t.tf===setup.tf&&t.system===setup.sys);
     if(!sub.length)return;
+    const c=calcConfidence(sub);
     const st=calcStats(sub);
-    const sk=calcStreak(sub);
-    const lt=lastTrades.find(t=>t.tf===setup.tf&&t.system===setup.sys);
-    let conf=st.wr,note=`${st.total} trades overall`;
-    if(lt&&lt.result==='L'&&sk.alwr!==null){conf=sk.alwr;note=`Last session loss → after-loss rate (${sk.alt} samples)`;}
-    const reentry=(setup.tf==='1min'||setup.tf==='3min')&&lt&&lt.result==='L';
+    const reentry=(setup.tf==='1min'||setup.tf==='3min')&&lastTrades.find(t=>t.tf===setup.tf&&t.system===setup.sys)?.result==='L';
+
+    let streakNote='';
+    if(c.streakType==='L'){
+      streakNote=`<span class="badge badge-a">${c.streak}L streak → boosted</span>`;
+    } else if(c.streakType==='W'&&c.streak>=5){
+      streakNote=`<span class="badge badge-gray">${c.streak}W streak → slight drag</span>`;
+    } else if(c.streakType==='W'){
+      streakNote=`<span class="badge badge-g">${c.streak}W streak</span>`;
+    }
+
     confHTML+=`<div class="conf-card">
-      <div class="ring-wrap"><canvas id="ring-${i}"></canvas>
-        <div class="ring-label"><div class="ring-pct ${pctCol(conf)}">${Math.round(conf*100)}%</div></div>
+      <div class="ring-wrap"><canvas id="ring-c-${i}"></canvas>
+        <div class="ring-label"><div class="ring-pct ${pctCol(c.conf)}">${Math.round(c.conf*100)}%</div></div>
       </div>
       <div class="conf-info">
         <div class="conf-title">${setup.label}</div>
-        <div class="conf-note">${note}</div>
-        <div class="bar-track"><div class="bar-fill ${barCls(conf)}" style="width:${Math.round(conf*100)}%"></div></div>
+        <div class="conf-note">Weighted score · historical ${Math.round(c.baseWR*100)}% · recency-adjusted ${Math.round(c.weightedWR*100)}%</div>
+        <div class="bar-track"><div class="bar-fill ${barCls(c.conf)}" style="width:${Math.round(c.conf*100)}%"></div></div>
         <div style="margin-top:6px;display:flex;gap:5px;flex-wrap:wrap">
-          <span class="badge ${badgeCls(conf)}">${conf>=.65?'High confidence':conf>=.45?'Moderate':'Low confidence'}</span>
-          <span class="badge badge-gray">${st.wins}W / ${st.losses}L</span>
-          ${sk.maxL>0?`<span class="badge badge-gray">Max streak: ${sk.maxL}L</span>`:''}
+          <span class="badge ${badgeCls(c.conf)}">${c.conf>=.75?'High confidence':c.conf>=.5?'Moderate':'Low confidence'}</span>
+          ${streakNote}
           ${reentry?'<span class="badge badge-a">Re-entry tomorrow</span>':''}
         </div>
       </div>
     </div>`;
   });
-  document.getElementById('confidence-list').innerHTML=confHTML||'<p style="color:#888780;font-size:13px;padding:.5rem 0">Log trades across multiple setups to see confidence scores per setup.</p>';
+  document.getElementById('confidence-list').innerHTML=confHTML||'<p style="color:#888780;font-size:13px;padding:.5rem 0">Log trades across multiple setups to see confidence scores.</p>';
   SETUPS.forEach((_,i)=>{
     const sub=trades.filter(t=>t.tf===SETUPS[i].tf&&t.system===SETUPS[i].sys);
     if(!sub.length)return;
-    const st=calcStats(sub);const sk=calcStreak(sub);
-    const lt=lastTrades.find(t=>t.tf===SETUPS[i].tf&&t.system===SETUPS[i].sys);
-    let conf=st.wr;
-    if(lt&&lt.result==='L'&&sk.alwr!==null)conf=sk.alwr;
-    drawRing(`ring-${i}`,conf,ringColor(conf));
+    const c=calcConfidence(sub);
+    drawRing(`ring-c-${i}`,c.conf,ringColor(c.conf));
+  });
+
+  // --- HISTORICAL WIN RATE SECTION ---
+  let histHTML='';
+  SETUPS.forEach((setup,j)=>{
+    const sub=trades.filter(t=>t.tf===setup.tf&&t.system===setup.sys);
+    if(!sub.length)return;
+    const st=calcStats(sub);
+    const sk=calcStreak(sub);
+    histHTML+=`<div class="conf-card">
+      <div class="ring-wrap"><canvas id="ring-h-${j}"></canvas>
+        <div class="ring-label"><div class="ring-pct ${pctCol(st.wr)}">${Math.round(st.wr*100)}%</div></div>
+      </div>
+      <div class="conf-info">
+        <div class="conf-title">${setup.label}</div>
+        <div class="conf-note">All-time win rate · ${st.total} trades</div>
+        <div class="bar-track"><div class="bar-fill ${barCls(st.wr)}" style="width:${Math.round(st.wr*100)}%"></div></div>
+        <div style="margin-top:6px;display:flex;gap:5px;flex-wrap:wrap">
+          <span class="badge badge-gray">${st.wins}W / ${st.losses}L</span>
+          ${sk.maxL>0?`<span class="badge badge-gray">Max streak: ${sk.maxL}L</span>`:''}
+          ${sk.alwr!==null?`<span class="badge badge-b">After-loss win: ${Math.round(sk.alwr*100)}%</span>`:''}
+        </div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('historical-list').innerHTML=histHTML||'<p style="color:#888780;font-size:13px;padding:.5rem 0">No data yet.</p>';
+  SETUPS.forEach((_,j)=>{
+    const sub=trades.filter(t=>t.tf===SETUPS[j].tf&&t.system===SETUPS[j].sys);
+    if(!sub.length)return;
+    const st=calcStats(sub);
+    drawRing(`ring-h-${j}`,st.wr,ringColor(st.wr));
   });
 
   const tfs=['15min','1min','3min'];
