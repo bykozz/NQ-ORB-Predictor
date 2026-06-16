@@ -92,6 +92,7 @@
       <button class="nav-btn" onclick="showPage('log')"><i class="ti ti-plus"></i> Log trade</button>
       <button class="nav-btn" onclick="showPage('import')"><i class="ti ti-upload"></i> Import</button>
       <button class="nav-btn" onclick="showPage('history')"><i class="ti ti-clock"></i> History</button>
+      <button class="nav-btn" onclick="exportCSV()" title="Export all trades as CSV"><i class="ti ti-download"></i> Export</button>
     </div>
   </div>
 
@@ -474,6 +475,21 @@ function renderHistory(){
     <td style="color:#888780;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.notes||'—'}</td>
     <td><button class="btn btn-danger" style="padding:3px 8px;font-size:11px;border-radius:6px" onclick="deleteTrade(${t.id})" title="Delete"><i class="ti ti-trash"></i></button></td>
   </tr>`).join('');
+}
+
+function exportCSV(){
+  if(!trades.length){alert('No trades to export.');return;}
+  const headers='date,system,timeframe,result,pnl,contracts,notes';
+  const rows=trades.map(t=>[t.date,t.system,t.tf,t.result,t.pnl,t.contracts||1,(t.notes||'').replace(/,/g,';')].join(','));
+  const csv=[headers,...rows].join('\n');
+  const blob=new Blob([csv],{type:'text/csv'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;
+  const d=new Date().toISOString().split('T')[0];
+  a.download=`nq-orb-trades-${d}.csv`;
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 loadData();
