@@ -38,10 +38,19 @@
   .ring-wrap canvas{position:absolute;top:0;left:0}
   .ring-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
   .ring-pct{font-size:18px;font-weight:500;line-height:1}
-  .conf-card{display:flex;align-items:center;gap:14px;padding:.875rem 1rem;border-radius:10px;border:0.5px solid #e0dfd8;background:#fff;margin-bottom:8px}
+  .conf-card{display:flex;align-items:flex-start;gap:14px;padding:.875rem 1rem;border-radius:10px;border:0.5px solid #e0dfd8;background:#fff;margin-bottom:8px;flex-direction:column}
+  .conf-card-top{display:flex;align-items:center;gap:14px;width:100%}
   .conf-info{flex:1;min-width:0}
   .conf-title{font-size:13px;font-weight:500;margin-bottom:2px}
   .conf-note{font-size:11px;color:#888780}
+  .explain-btn{font-size:11px;color:#888780;background:none;border:0.5px solid #d3d1c7;border-radius:6px;padding:3px 8px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:4px;margin-top:6px}
+  .explain-btn:hover{background:#f1efe8;color:#1a1a18}
+  .explain-panel{display:none;width:100%;background:#f8f8f6;border-radius:8px;padding:.75rem 1rem;margin-top:4px}
+  .explain-panel.open{display:block}
+  .explain-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:0.5px solid #e0dfd8;font-size:12px}
+  .explain-row:last-child{border-bottom:none}
+  .explain-label{color:#5f5e5a}
+  .explain-val{font-weight:500;text-align:right}
   .bar-track{background:#f1efe8;border-radius:4px;height:6px;margin-top:8px;overflow:hidden}
   .bar-fill{height:6px;border-radius:4px}
   .bar-g{background:#639922}.bar-a{background:#BA7517}.bar-r{background:#E24B4A}
@@ -336,6 +345,21 @@ function drawRing(canvasId,pct,color){
   ctx.strokeStyle=color;ctx.lineWidth=8;ctx.lineCap='round';ctx.stroke();
 }
 
+function calcStreakSpecificWR(arr, streakType, streakLen){
+  // After exactly N consecutive streakType results, what % of next trades win?
+  let wins=0,total=0;
+  for(let i=0;i<arr.length-1;i++){
+    if(i<streakLen-1)continue;
+    // check if previous streakLen trades are all streakType
+    let match=true;
+    for(let j=0;j<streakLen;j++){
+      if(arr[i-j].result!==streakType){match=false;break;}
+    }
+    if(match){total++;if(arr[i+1].result==='W')wins++;}
+  }
+  return total>=3?{wr:wins/total,samples:total}:null;
+}
+
 function calcConfidence(arr){
   if(!arr.length)return null;
   // 1. Base: overall win rate
@@ -377,7 +401,11 @@ function calcConfidence(arr){
 
   // clamp 0-1
   conf=Math.max(0.05,Math.min(0.99,conf));
-  return{conf,weightedWR,baseWR,streak,streakType,afterLossWR,sk};
+
+  // streak-specific stat
+  const streakSpecific=calcStreakSpecificWR(arr,streakType,streak);
+
+  return{conf,weightedWR,baseWR,streak,streakType,afterLossWR,sk,streakSpecific};
 }
 
 function renderDashboard(){
@@ -433,19 +461,46 @@ function renderDashboard(){
       streakNote=`<span class="badge badge-g">${c.streak}W streak</span>`;
     }
 
+    // build explain rows
+    const streakSpecificNote=c.streakSpecific
+      ?`After ${c.streak} consecutive ${c.streakType==='W'?'wins':'losses'}, next trade won ${Math.round(c.streakSpecific.wr*100)}% (${c.streakSpecific.samples} samples)`
+      :`After ${c.streak} consecutive ${c.streakType==='W'?'wins':'losses'} — not enough samples yet (need 3+)`;
+
+    let streakEffect='No adjustment (streak < 5 wins)';
+    if(c.streakType==='L'){
+      const boost=Math.min(c.streak*0.08,0.25);
+      streakEffect=`+${Math.round(boost*100)}pp boost (${c.streak}L streak pushes toward after-loss rate)`;
+    } else if(c.streakType==='W'&&c.streak>=5){
+      const drag=Math.min((c.streak-4)*0.015,0.08);
+      streakEffect=`−${Math.round(drag*100)}pp drag (${c.streak}W streak, regression toward mean)`;
+    }
+
+    const explainId=`explain-${i}`;
     confHTML+=`<div class="conf-card">
-      <div class="ring-wrap"><canvas id="ring-c-${i}"></canvas>
-        <div class="ring-label"><div class="ring-pct ${pctCol(c.conf)}">${Math.round(c.conf*100)}%</div></div>
-      </div>
-      <div class="conf-info">
-        <div class="conf-title">${setup.label}</div>
-        <div class="conf-note">Weighted score · historical ${Math.round(c.baseWR*100)}% · recency-adjusted ${Math.round(c.weightedWR*100)}%</div>
-        <div class="bar-track"><div class="bar-fill ${barCls(c.conf)}" style="width:${Math.round(c.conf*100)}%"></div></div>
-        <div style="margin-top:6px;display:flex;gap:5px;flex-wrap:wrap">
-          <span class="badge ${badgeCls(c.conf)}">${c.conf>=.75?'High confidence':c.conf>=.5?'Moderate':'Low confidence'}</span>
-          ${streakNote}
-          ${reentry?'<span class="badge badge-a">Re-entry tomorrow</span>':''}
+      <div class="conf-card-top">
+        <div class="ring-wrap"><canvas id="ring-c-${i}"></canvas>
+          <div class="ring-label"><div class="ring-pct ${pctCol(c.conf)}">${Math.round(c.conf*100)}%</div></div>
         </div>
+        <div class="conf-info">
+          <div class="conf-title">${setup.label}</div>
+          <div class="conf-note">Weighted score · historical ${Math.round(c.baseWR*100)}% · recency-adjusted ${Math.round(c.weightedWR*100)}%</div>
+          <div class="bar-track"><div class="bar-fill ${barCls(c.conf)}" style="width:${Math.round(c.conf*100)}%"></div></div>
+          <div style="margin-top:6px;display:flex;gap:5px;flex-wrap:wrap;align-items:center">
+            <span class="badge ${badgeCls(c.conf)}">${c.conf>=.75?'High confidence':c.conf>=.5?'Moderate':'Low confidence'}</span>
+            ${streakNote}
+            ${reentry?'<span class="badge badge-a">Re-entry tomorrow</span>':''}
+            <button class="explain-btn" onclick="toggleExplain('${explainId}',this)"><i class="ti ti-info-circle" style="font-size:11px"></i> Explain score</button>
+          </div>
+        </div>
+      </div>
+      <div class="explain-panel" id="${explainId}">
+        <div class="explain-row"><span class="explain-label">Baseline — all-time win rate</span><span class="explain-val">${Math.round(c.baseWR*100)}% (${st.total} trades)</span></div>
+        <div class="explain-row"><span class="explain-label">Recency — last 20 trades (weighted 2×)</span><span class="explain-val">${Math.round(c.weightedWR*100)}%</span></div>
+        <div class="explain-row"><span class="explain-label">Current streak</span><span class="explain-val">${c.streak} consecutive ${c.streakType==='W'?'wins':'losses'}</span></div>
+        <div class="explain-row"><span class="explain-label">After-loss win rate (all samples)</span><span class="explain-val">${c.sk.alwr!==null?Math.round(c.sk.alwr*100)+'% ('+c.sk.alt+' samples)':'Not enough data'}</span></div>
+        <div class="explain-row"><span class="explain-label">Streak-specific stat</span><span class="explain-val" style="max-width:55%;text-align:right">${streakSpecificNote}</span></div>
+        <div class="explain-row"><span class="explain-label">Streak adjustment applied</span><span class="explain-val" style="max-width:55%;text-align:right">${streakEffect}</span></div>
+        <div class="explain-row" style="margin-top:4px;padding-top:8px;border-top:0.5px solid #d3d1c7"><span class="explain-label" style="font-weight:500">Final confidence score</span><span class="explain-val ${pctCol(c.conf)}" style="font-size:14px">${Math.round(c.conf*100)}%</span></div>
       </div>
     </div>`;
   });
@@ -604,6 +659,12 @@ function renderHistory(){
     <td style="color:#888780;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.notes||'—'}</td>
     <td><button class="btn btn-danger" style="padding:3px 8px;font-size:11px;border-radius:6px" onclick="deleteTrade(${t.id})" title="Delete"><i class="ti ti-trash"></i></button></td>
   </tr>`).join('');
+}
+
+function toggleExplain(id,btn){
+  const panel=document.getElementById(id);
+  const open=panel.classList.toggle('open');
+  btn.innerHTML=`<i class="ti ti-info-circle" style="font-size:11px"></i> ${open?'Hide explanation':'Explain score'}`;
 }
 
 function showImportTab(t){
