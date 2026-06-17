@@ -7,86 +7,112 @@
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
 <style>
-  *{box-sizing:border-box;margin:0;padding:0}
-  body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f8f6;color:#1a1a18;font-size:14px;min-height:100vh}
-  .app{max-width:900px;margin:0 auto;padding:1.5rem 1.25rem}
-  .header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:0.5px solid #e0dfd8;flex-wrap:wrap;gap:12px}
-  .header-left h1{font-size:20px;font-weight:500;color:#1a1a18;letter-spacing:-0.3px}
-  .header-left p{font-size:12px;color:#888780;margin-top:2px}
-  .nav{display:flex;gap:6px;flex-wrap:wrap}
-  .nav-btn{padding:7px 16px;border:0.5px solid #d3d1c7;border-radius:8px;cursor:pointer;font-size:13px;background:#fff;color:#5f5e5a;font-family:inherit;display:flex;align-items:center;gap:5px}
-  .nav-btn:hover{background:#f1efe8}
-  .nav-btn.active{background:#1a1a18;color:#fff;border-color:#1a1a18}
-  .page{display:none}
-  .page.active{display:block}
-  .grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;margin-bottom:12px}
-  .grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin-bottom:12px}
-  .grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin-bottom:12px}
-  .card{background:#fff;border:0.5px solid #e0dfd8;border-radius:12px;padding:1rem 1.25rem}
-  .card-sm{background:#f8f8f6;border-radius:8px;padding:.75rem 1rem;border:0.5px solid #e0dfd8}
-  .section-label{font-size:11px;font-weight:500;color:#888780;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem}
-  .med-num{font-size:24px;font-weight:500;line-height:1}
-  .sm-label{font-size:11px;color:#888780;margin-top:3px}
-  .green{color:#3B6D11}.amber{color:#854F0B}.red{color:#A32D2D}.blue{color:#185FA5}
-  .badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:6px;font-weight:500}
-  .badge-g{background:#EAF3DE;color:#27500A}
-  .badge-a{background:#FAEEDA;color:#633806}
-  .badge-r{background:#FCEBEB;color:#791F1F}
-  .badge-b{background:#E6F1FB;color:#0C447C}
-  .badge-gray{background:#F1EFE8;color:#444441}
-  .ring-wrap{position:relative;width:90px;height:90px;flex-shrink:0}
-  .ring-wrap canvas{position:absolute;top:0;left:0}
-  .ring-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
-  .ring-pct{font-size:18px;font-weight:500;line-height:1}
-  .conf-card{display:flex;align-items:flex-start;gap:14px;padding:.875rem 1rem;border-radius:10px;border:0.5px solid #e0dfd8;background:#fff;margin-bottom:8px;flex-direction:column}
-  .conf-card-top{display:flex;align-items:center;gap:14px;width:100%}
-  .conf-info{flex:1;min-width:0}
-  .conf-title{font-size:13px;font-weight:500;margin-bottom:2px}
-  .conf-note{font-size:11px;color:#888780}
-  .explain-btn{font-size:11px;color:#888780;background:none;border:0.5px solid #d3d1c7;border-radius:6px;padding:3px 8px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:4px;margin-top:6px}
-  .explain-btn:hover{background:#f1efe8;color:#1a1a18}
-  .explain-panel{display:none;width:100%;background:#f8f8f6;border-radius:8px;padding:.75rem 1rem;margin-top:4px}
-  .explain-panel.open{display:block}
-  .explain-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:0.5px solid #e0dfd8;font-size:12px}
-  .explain-row:last-child{border-bottom:none}
-  .explain-label{color:#5f5e5a}
-  .explain-val{font-weight:500;text-align:right}
-  .bar-track{background:#f1efe8;border-radius:4px;height:6px;margin-top:8px;overflow:hidden}
-  .bar-fill{height:6px;border-radius:4px}
-  .bar-g{background:#639922}.bar-a{background:#BA7517}.bar-r{background:#E24B4A}
-  .streak-dots{display:flex;gap:5px;flex-wrap:wrap;margin-top:8px}
-  .dot{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff;flex-shrink:0;cursor:default}
-  .dot-w{background:#639922}.dot-l{background:#E24B4A}
-  table{width:100%;border-collapse:collapse;font-size:12px}
-  th{text-align:left;padding:8px 10px;color:#888780;font-weight:500;font-size:11px;border-bottom:0.5px solid #e0dfd8}
-  td{padding:8px 10px;border-bottom:0.5px solid #f1efe8;vertical-align:middle}
-  tr:last-child td{border-bottom:none}
-  .form-label{font-size:11px;color:#888780;margin-bottom:4px;font-weight:500;display:block}
-  input,select,textarea{width:100%;padding:8px 10px;border:0.5px solid #d3d1c7;border-radius:8px;font-size:13px;font-family:inherit;background:#fff;color:#1a1a18;outline:none}
-  input:focus,select:focus,textarea:focus{border-color:#888780}
-  textarea{resize:vertical;min-height:70px}
-  .btn{padding:8px 18px;border:0.5px solid #d3d1c7;border-radius:8px;cursor:pointer;font-size:13px;font-family:inherit;background:#fff;color:#1a1a18;display:inline-flex;align-items:center;gap:5px}
-  .btn:hover{background:#f1efe8}
-  .btn-primary{background:#1a1a18;color:#fff;border-color:#1a1a18}
-  .btn-primary:hover{background:#2c2c2a}
-  .btn-danger{color:#A32D2D;border-color:#F7C1C1}
-  .msg-ok{color:#3B6D11;font-size:12px}
-  .msg-err{color:#A32D2D;font-size:12px}
-  .empty-state{text-align:center;padding:3rem 1rem;color:#888780;font-size:13px}
-  .empty-icon{font-size:36px;color:#d3d1c7;display:block;margin-bottom:.75rem}
-  .divider{height:0.5px;background:#e0dfd8;margin:1.25rem 0}
-  .today-banner{border-radius:10px;padding:.875rem 1rem;margin-bottom:1rem}
-  .banner-green{background:#EAF3DE;border:0.5px solid #C0DD97}
-  .banner-green h3{color:#27500A;font-size:13px;font-weight:500;margin-bottom:.5rem;display:flex;align-items:center;gap:5px}
-  .banner-blue{background:#E6F1FB;border:0.5px solid #B5D4F4}
-  .banner-blue h3{color:#0C447C;font-size:13px;font-weight:500;display:flex;align-items:center;gap:5px}
-  .today-row{display:flex;gap:6px;flex-wrap:wrap}
-  pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;padding:10px;border-radius:8px;overflow-x:auto;margin:.5rem 0 1rem}
-  .filter-row{display:flex;gap:8px;margin-bottom:.75rem;flex-wrap:wrap}
-  .filter-row select{width:auto;padding:7px 10px}
-  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
-  .form-group{margin-bottom:10px}
-  @media(max-width:480px){.form-row{grid-template-columns:1fr}.header{flex-direction:column}.nav{width:100%}.nav-btn{flex:1;justify-content:center}}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f8f6;color:#1a1a18;font-size:14px;min-height:100vh}
+.app{max-width:960px;margin:0 auto;padding:1.5rem 1.25rem}
+.header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:1.5rem;padding-bottom:1rem;border-bottom:0.5px solid #e0dfd8;flex-wrap:wrap;gap:12px}
+.header-left h1{font-size:20px;font-weight:500;letter-spacing:-0.3px}
+.header-left p{font-size:12px;color:#888780;margin-top:2px}
+.nav{display:flex;gap:6px;flex-wrap:wrap}
+.nav-btn{padding:7px 14px;border:0.5px solid #d3d1c7;border-radius:8px;cursor:pointer;font-size:12px;background:#fff;color:#5f5e5a;font-family:inherit;display:inline-flex;align-items:center;gap:5px}
+.nav-btn:hover{background:#f1efe8}
+.nav-btn.active{background:#1a1a18;color:#fff;border-color:#1a1a18}
+.page{display:none}.page.active{display:block}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px;margin-bottom:12px}
+.grid4{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:12px}
+.card{background:#fff;border:0.5px solid #e0dfd8;border-radius:12px;padding:1rem 1.25rem}
+.card-sm{background:#f8f8f6;border-radius:8px;padding:.75rem 1rem;border:0.5px solid #e0dfd8}
+.section-label{font-size:11px;font-weight:500;color:#888780;text-transform:uppercase;letter-spacing:.06em;margin-bottom:.75rem}
+.med-num{font-size:22px;font-weight:500;line-height:1}
+.sm-label{font-size:11px;color:#888780;margin-top:3px}
+.green{color:#3B6D11}.amber{color:#854F0B}.red{color:#A32D2D}.blue{color:#185FA5}
+.badge{display:inline-block;font-size:10px;padding:2px 8px;border-radius:6px;font-weight:500}
+.badge-g{background:#EAF3DE;color:#27500A}
+.badge-a{background:#FAEEDA;color:#633806}
+.badge-r{background:#FCEBEB;color:#791F1F}
+.badge-b{background:#E6F1FB;color:#0C447C}
+.badge-gray{background:#F1EFE8;color:#444441}
+.badge-purple{background:#F0EAFA;color:#5B21B6}
+/* System colour accents */
+.sys-a-accent{border-left:3px solid #639922}
+.sys-b-accent{border-left:3px solid #185FA5}
+.sys-group-label{font-size:12px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.sys-a-label{color:#3B6D11}
+.sys-b-label{color:#185FA5}
+/* Conf cards */
+.conf-card{display:flex;align-items:flex-start;gap:14px;padding:.875rem 1rem;border-radius:10px;border:0.5px solid #e0dfd8;background:#fff;margin-bottom:8px;flex-direction:column}
+.conf-card-top{display:flex;align-items:center;gap:14px;width:100%}
+.conf-info{flex:1;min-width:0}
+.conf-title{font-size:13px;font-weight:500;margin-bottom:2px}
+.conf-note{font-size:11px;color:#888780}
+.last3-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
+.last3-pill{font-size:10px;padding:3px 8px;border-radius:6px;background:#f1efe8;color:#5f5e5a;display:flex;align-items:center;gap:4px}
+.explain-btn{font-size:11px;color:#888780;background:none;border:0.5px solid #d3d1c7;border-radius:6px;padding:3px 8px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:4px;margin-top:6px}
+.explain-btn:hover{background:#f1efe8;color:#1a1a18}
+.explain-panel{display:none;width:100%;background:#f8f8f6;border-radius:8px;padding:.75rem 1rem;margin-top:6px}
+.explain-panel.open{display:block}
+.explain-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:0.5px solid #e0dfd8;font-size:12px}
+.explain-row:last-child{border-bottom:none}
+.explain-label{color:#5f5e5a}
+.explain-val{font-weight:500;text-align:right;max-width:55%}
+/* Rings */
+.ring-wrap{position:relative;width:80px;height:80px;flex-shrink:0}
+.ring-wrap canvas{position:absolute;top:0;left:0}
+.ring-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
+.ring-pct{font-size:16px;font-weight:500;line-height:1}
+/* Bars */
+.bar-track{background:#f1efe8;border-radius:4px;height:6px;margin-top:8px;overflow:hidden}
+.bar-fill{height:6px;border-radius:4px}
+.bar-g{background:#639922}.bar-a{background:#BA7517}.bar-r{background:#E24B4A}.bar-b{background:#185FA5}
+/* Dots */
+.streak-dots{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
+.dot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff;flex-shrink:0;cursor:default}
+.dot-w{background:#639922}.dot-l{background:#E24B4A}
+/* Tables */
+table{width:100%;border-collapse:collapse;font-size:12px}
+th{text-align:left;padding:7px 10px;color:#888780;font-weight:500;font-size:11px;border-bottom:0.5px solid #e0dfd8}
+td{padding:7px 10px;border-bottom:0.5px solid #f1efe8;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+/* Forms */
+.form-label{font-size:11px;color:#888780;margin-bottom:4px;font-weight:500;display:block}
+input,select,textarea{width:100%;padding:7px 10px;border:0.5px solid #d3d1c7;border-radius:8px;font-size:13px;font-family:inherit;background:#fff;color:#1a1a18;outline:none}
+input:focus,select:focus,textarea:focus{border-color:#888780}
+textarea{resize:vertical;min-height:70px}
+.btn{padding:7px 16px;border:0.5px solid #d3d1c7;border-radius:8px;cursor:pointer;font-size:12px;font-family:inherit;background:#fff;color:#1a1a18;display:inline-flex;align-items:center;gap:5px}
+.btn:hover{background:#f1efe8}
+.btn-primary{background:#1a1a18;color:#fff;border-color:#1a1a18}
+.btn-primary:hover{background:#2c2c2a}
+.btn-danger{color:#A32D2D;border-color:#F7C1C1}
+.btn-sm{padding:4px 10px;font-size:11px;border-radius:6px}
+/* Misc */
+.msg-ok{color:#3B6D11;font-size:12px}
+.msg-err{color:#A32D2D;font-size:12px}
+.empty-state{text-align:center;padding:2.5rem 1rem;color:#888780;font-size:13px}
+.empty-icon{font-size:32px;color:#d3d1c7;display:block;margin-bottom:.75rem}
+.divider{height:0.5px;background:#e0dfd8;margin:1.25rem 0}
+.banner{border-radius:10px;padding:.875rem 1rem;margin-bottom:1rem}
+.banner-green{background:#EAF3DE;border:0.5px solid #C0DD97}
+.banner-blue{background:#E6F1FB;border:0.5px solid #B5D4F4}
+.banner-amber{background:#FAEEDA;border:0.5px solid #F0C97A}
+.banner h3{font-size:13px;font-weight:500;display:flex;align-items:center;gap:5px;margin-bottom:.4rem}
+.banner-green h3{color:#27500A}
+.banner-blue h3{color:#0C447C}
+.banner-amber h3{color:#633806}
+.toggle-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.75rem}
+.toggle-btn{padding:4px 12px;border:0.5px solid #d3d1c7;border-radius:20px;cursor:pointer;font-size:11px;background:#fff;color:#5f5e5a;font-family:inherit}
+.toggle-btn.active{background:#1a1a18;color:#fff;border-color:#1a1a18}
+pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;padding:10px;border-radius:8px;overflow-x:auto;margin:.5rem 0 1rem}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
+.form-group{margin-bottom:10px}
+.filter-row{display:flex;gap:8px;margin-bottom:.75rem;flex-wrap:wrap}
+.filter-row select{width:auto;padding:6px 10px}
+.action-row{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:8px;background:#f8f8f6;border:0.5px solid #e0dfd8;margin-bottom:6px}
+.action-rank{font-size:18px;font-weight:500;color:#d3d1c7;min-width:28px}
+.action-info{flex:1;padding:0 10px}
+.action-title{font-size:13px;font-weight:500}
+.action-sub{font-size:11px;color:#888780}
+.pnl-toggle{font-size:11px;color:#888780;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+@media(max-width:480px){.form-row{grid-template-columns:1fr}.header{flex-direction:column}.nav{width:100%}}
 </style>
 </head>
 <body>
@@ -97,12 +123,12 @@
       <p id="trade-count-header">No trades logged yet</p>
     </div>
     <div class="nav">
-      <button class="nav-btn active" onclick="showPage('dashboard')"><i class="ti ti-chart-bar"></i> Dashboard</button>
-      <button class="nav-btn" onclick="showPage('log')"><i class="ti ti-plus"></i> Log trade</button>
+      <button class="nav-btn active" onclick="showPage('dashboard')"><i class="ti ti-layout-dashboard"></i> Dashboard</button>
+      <button class="nav-btn" onclick="showPage('log')"><i class="ti ti-plus"></i> Log</button>
       <button class="nav-btn" onclick="showPage('import')"><i class="ti ti-upload"></i> Import</button>
       <button class="nav-btn" onclick="showPage('history')"><i class="ti ti-clock"></i> History</button>
       <button class="nav-btn" onclick="showPage('passing')"><i class="ti ti-trophy"></i> Passing</button>
-      <button class="nav-btn" onclick="exportCSV()" title="Export all trades as CSV"><i class="ti ti-download"></i> Export</button>
+      <button class="nav-btn" onclick="exportCSV()"><i class="ti ti-download"></i> Export</button>
     </div>
   </div>
 
@@ -110,72 +136,91 @@
   <div id="page-dashboard" class="page active">
     <div id="empty-dashboard" class="empty-state">
       <i class="ti ti-chart-bar empty-icon"></i>
-      Import historical trades or log your first trade to see your predictor dashboard.
+      Import historical trades or log your first trade to get started.
     </div>
     <div id="dashboard-content" style="display:none">
-      <div id="today-banner"></div>
-      <div class="section-label">Overall performance</div>
-      <div class="grid4" id="overview-metrics"></div>
+
+      <!-- Finance summary -->
+      <div class="section-label">Financial overview</div>
+      <div class="grid4" id="fin-overview" style="margin-bottom:8px"></div>
+      <div style="margin-bottom:1rem">
+        <span class="pnl-toggle" onclick="togglePnl()">Show/hide imported P&amp;L (backtest data)</span>
+        <div id="pnl-panel" style="display:none;margin-top:8px">
+          <div class="grid4" id="pnl-metrics"></div>
+          <p style="font-size:11px;color:#888780;margin-top:4px">Note: P&amp;L from imported backtest data — may not reflect live trading results.</p>
+        </div>
+      </div>
+
       <div class="divider"></div>
 
-      <!-- SECTION 1: CONFIDENCE SCORE -->
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
-        <div class="section-label" style="margin-bottom:0">Confidence score — tomorrow</div>
-        <span style="font-size:11px;color:#888780">Historical win rate + streak adjustments only</span>
-      </div>
-      <p style="font-size:12px;color:#888780;margin-bottom:.875rem">Pure mechanical score. Recency is excluded — your setup is rules-based so older trades are equally valid. Streak patterns adjust the baseline up or down.</p>
-      <div id="confidence-list"></div>
+      <!-- Tomorrow's actions -->
+      <div class="section-label">Tomorrow's recommended actions — funded accounts</div>
+      <p style="font-size:12px;color:#888780;margin-bottom:.875rem">All setups ranked by confidence score. You decide what to take.</p>
+      <div id="actions-funded"></div>
+
       <div class="divider"></div>
 
-      <!-- SECTION 2: RECENCY STRATEGY -->
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
-        <div class="section-label" style="margin-bottom:0">Recency strategy — last 20 trades weighted 2×</div>
-        <span style="font-size:11px;color:#888780">Separate view — compare vs confidence score</span>
-      </div>
-      <p style="font-size:12px;color:#888780;margin-bottom:.875rem">If this diverges significantly from the confidence score above, it's a signal your recent performance is shifting from your long-term baseline — worth paying attention to.</p>
-      <div id="recency-list"></div>
+      <div class="section-label">Tomorrow's recommendation — passing accounts</div>
+      <div id="actions-passing"></div>
+
       <div class="divider"></div>
 
-      <!-- SECTION 3: SETUP COMPARISON -->
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
-        <div class="section-label" style="margin-bottom:0">Setup comparison — ranked by tomorrow's confidence</div>
-        <span style="font-size:11px;color:#888780">All logged setups side by side</span>
-      </div>
-      <p style="font-size:12px;color:#888780;margin-bottom:.875rem">When you have multiple timeframes loaded, use this to decide which setup has the strongest case for tomorrow.</p>
+      <!-- Confidence by system -->
+      <div class="section-label" style="margin-bottom:4px">Confidence score — System A</div>
+      <p style="font-size:12px;color:#888780;margin-bottom:.75rem">Historical win rate + streak adjustments · last 3 trades shown per setup</p>
+      <div id="conf-list-a"></div>
+
+      <div style="margin-top:1rem;margin-bottom:4px" class="section-label">Confidence score — System B</div>
+      <p style="font-size:12px;color:#888780;margin-bottom:.75rem">Historical win rate + streak adjustments · last 3 trades shown per setup</p>
+      <div id="conf-list-b"></div>
+
+      <div class="divider"></div>
+
+      <!-- Recency -->
+      <div class="section-label">Recency strategy — last 20 trades weighted 2× (separate view)</div>
+      <p style="font-size:12px;color:#888780;margin-bottom:.875rem">If diverging from confidence score, recent performance is shifting from your baseline.</p>
+      <div id="recency-list-a"></div>
+      <div id="recency-list-b" style="margin-top:8px"></div>
+
+      <div class="divider"></div>
+
+      <!-- Setup comparison -->
+      <div class="section-label">Setup comparison — all setups ranked</div>
       <div id="comparison-table"></div>
+
       <div class="divider"></div>
 
-      <!-- CHARTS + STREAK TABLE -->
+      <!-- Charts -->
       <div class="grid2">
-        <div>
-          <div class="section-label">Win rate by timeframe</div>
-          <div style="position:relative;height:200px"><canvas id="chart-tf" role="img" aria-label="Win rate by timeframe">Win rate per timeframe.</canvas></div>
-        </div>
-        <div>
-          <div class="section-label">Win rate by system</div>
-          <div style="position:relative;height:200px"><canvas id="chart-sys" role="img" aria-label="Win rate by system">Win rate per system.</canvas></div>
-        </div>
+        <div><div class="section-label">Win rate by timeframe</div><div style="position:relative;height:180px"><canvas id="chart-tf"></canvas></div></div>
+        <div><div class="section-label">Win rate by system</div><div style="position:relative;height:180px"><canvas id="chart-sys"></canvas></div></div>
       </div>
+
       <div class="divider"></div>
+
+      <!-- Streak table -->
       <div class="section-label">Streak analysis — after a loss, next trade wins...</div>
-      <div class="card" style="padding:0;overflow:hidden">
-        <table>
-          <thead><tr><th>Setup</th><th>After-loss win %</th><th>Samples</th><th>Max losing streak</th><th>Total trades</th></tr></thead>
-          <tbody id="streak-tbody"></tbody>
-        </table>
+      <div class="card" style="padding:0;overflow:hidden;margin-bottom:1rem">
+        <table><thead><tr><th>Setup</th><th>After-loss win %</th><th>Samples</th><th>Max losing streak</th><th>Total</th></tr></thead>
+        <tbody id="streak-tbody"></tbody></table>
       </div>
+
       <div class="divider"></div>
-      <div class="section-label">Recent 30 trades</div>
+
+      <!-- Recent 30 with toggle -->
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+        <div class="section-label" style="margin-bottom:0">Recent 30 trades</div>
+      </div>
+      <div class="toggle-row" id="dots-toggle"></div>
       <div class="streak-dots" id="recent-dots"></div>
-      <p style="font-size:11px;color:#888780;margin-top:6px">
-        Oldest → newest &nbsp;·&nbsp;
-        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#639922;vertical-align:middle"></span> Win &nbsp;
-        <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#E24B4A;vertical-align:middle"></span> Loss
+      <p style="font-size:11px;color:#888780;margin-top:6px">Oldest → newest &nbsp;·&nbsp;
+        <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#639922;vertical-align:middle"></span> Win &nbsp;
+        <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#E24B4A;vertical-align:middle"></span> Loss
       </p>
     </div>
   </div>
 
-  <!-- LOG TRADE -->
+  <!-- LOG -->
   <div id="page-log" class="page">
     <div class="card" style="max-width:520px">
       <div class="section-label" style="margin-bottom:1rem">Log a trade</div>
@@ -191,12 +236,12 @@
           <select id="l-res"><option value="W">Win</option><option value="L">Loss</option></select></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label class="form-label">P&L ($)</label><input type="number" id="l-pnl" placeholder="e.g. 800 or -2000"></div>
+        <div class="form-group"><label class="form-label">P&amp;L ($)</label><input type="number" id="l-pnl" placeholder="e.g. 200 or -2000"></div>
         <div class="form-group"><label class="form-label">Contracts</label>
-          <select id="l-contracts"><option value="1">1 contract</option><option value="2">2 contracts</option></select></div>
+          <select id="l-contracts"><option value="1">1</option><option value="2">2</option></select></div>
       </div>
       <div class="form-group"><label class="form-label">Notes</label><textarea id="l-notes" placeholder="Optional..."></textarea></div>
-      <div style="display:flex;align-items:center;gap:10px;margin-top:6px">
+      <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
         <button class="btn btn-primary" onclick="logTrade()"><i class="ti ti-plus"></i> Add trade</button>
         <span id="log-msg"></span>
       </div>
@@ -206,67 +251,40 @@
   <!-- IMPORT -->
   <div id="page-import" class="page">
     <div style="max-width:680px">
-      <!-- sub tabs -->
       <div style="display:flex;gap:6px;margin-bottom:1rem">
-        <button class="nav-btn active" id="itab-tv" onclick="showImportTab('tv')" style="font-size:12px;padding:6px 14px"><i class="ti ti-brand-tradingview"></i> TradingView paste</button>
-        <button class="nav-btn" id="itab-csv" onclick="showImportTab('csv')" style="font-size:12px;padding:6px 14px"><i class="ti ti-file-text"></i> CSV import</button>
+        <button class="nav-btn active" id="itab-tv" onclick="showImportTab('tv')" style="font-size:12px;padding:6px 14px"><i class="ti ti-brand-tradingview"></i> TradingView</button>
+        <button class="nav-btn" id="itab-csv" onclick="showImportTab('csv')" style="font-size:12px;padding:6px 14px"><i class="ti ti-file-text"></i> CSV</button>
       </div>
-
-      <!-- TradingView converter -->
       <div id="import-tv">
         <div class="card">
-          <div class="section-label" style="margin-bottom:.75rem">TradingView trade list → predictor</div>
-          <div class="card-sm" style="margin-bottom:1rem;font-size:12px;color:#5f5e5a">
-            Paste the raw trade list from TradingView (with the header row). Select the system and timeframe for this batch — P&L will be recalculated automatically.
+          <div class="section-label" style="margin-bottom:.75rem">TradingView paste</div>
+          <div class="card-sm" style="margin-bottom:1rem;font-size:12px;color:#5f5e5a">Paste the raw TradingView trade list. Select system and timeframe — P&amp;L recalculated automatically (Sys A: $200W/$2000L · Sys B: $400W/$2000L).</div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">System</label>
+              <select id="tv-sys"><option value="A">System A — $200W / $2,000L</option><option value="B">System B — $400W / $2,000L</option></select></div>
+            <div class="form-group"><label class="form-label">Timeframe</label>
+              <select id="tv-tf"><option value="15min">15min</option><option value="1min">1min</option><option value="3min">3min</option></select></div>
           </div>
-          <div class="form-row" style="margin-bottom:10px">
-            <div class="form-group">
-              <label class="form-label">System</label>
-              <select id="tv-sys">
-                <option value="A">System A — $200 win / $2,000 loss</option>
-                <option value="B">System B — $400 win / $2,000 loss</option>
-              </select>
-            </div>
-            <div class="form-group">
-              <label class="form-label">Timeframe</label>
-              <select id="tv-tf">
-                <option value="15min">15min</option>
-                <option value="1min">1min</option>
-                <option value="3min">3min</option>
-              </select>
-            </div>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Paste TradingView data</label>
-            <textarea id="tv-in" style="min-height:160px;font-family:monospace;font-size:11px" placeholder="Trade number&#9;Type&#9;Date and time&#9;Signal&#9;Price USD&#9;Size (qty)&#9;Size (value)&#9;Net PnL USD&#10;1&#9;Exit long&#9;2025-06-16 14:32&#9;Long Exit&#9;22089.5&#9;1&#9;441590&#9;200&#10;1&#9;Entry long&#9;2025-06-16 14:32&#9;Long&#9;22079.5&#9;1&#9;441590&#9;200&#10;..."></textarea>
-          </div>
+          <div class="form-group"><label class="form-label">Paste data</label>
+            <textarea id="tv-in" style="min-height:140px;font-family:monospace;font-size:11px" placeholder="Trade number&#9;Type&#9;Date and time..."></textarea></div>
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
             <button class="btn btn-primary" onclick="convertTV()"><i class="ti ti-refresh"></i> Convert &amp; import</button>
-            <button class="btn btn-danger" onclick="clearAll()"><i class="ti ti-trash"></i> Clear all data</button>
+            <button class="btn btn-danger" onclick="clearAll()"><i class="ti ti-trash"></i> Clear all</button>
             <span id="tv-msg"></span>
           </div>
         </div>
       </div>
-
-      <!-- Standard CSV import -->
       <div id="import-csv" style="display:none">
         <div class="card">
-          <div class="section-label" style="margin-bottom:.75rem">Bulk CSV import</div>
-          <div class="card-sm" style="margin-bottom:.75rem">
-            <div style="font-size:12px;font-weight:500;margin-bottom:3px">Required columns (any order):</div>
-            <div style="font-size:12px;color:#5f5e5a">date, system, timeframe, result, pnl</div>
-            <div style="font-size:11px;color:#888780;margin-top:4px">Optional: contracts, notes</div>
-            <div style="font-size:11px;color:#888780;margin-top:3px">date: YYYY-MM-DD &nbsp;·&nbsp; system: A or B &nbsp;·&nbsp; timeframe: 1min / 3min / 15min &nbsp;·&nbsp; result: W or L &nbsp;·&nbsp; pnl: negative for loss</div>
-          </div>
-          <div style="font-size:11px;font-weight:500;color:#5f5e5a;margin-bottom:3px">Example:</div>
+          <div class="section-label" style="margin-bottom:.75rem">CSV import</div>
+          <div class="card-sm" style="margin-bottom:.75rem;font-size:12px;color:#5f5e5a">Required: date, system, timeframe, result, pnl · Optional: contracts, notes<br>date: YYYY-MM-DD · system: A/B · timeframe: 1min/3min/15min · result: W/L</div>
           <pre>date,system,timeframe,result,pnl,contracts,notes
 2025-01-06,A,15min,W,200,1,Clean break
-2025-01-07,A,15min,L,-2000,1,Fakeout
-2025-01-07,B,1min,W,400,2,</pre>
-          <div class="form-group"><textarea id="csv-in" style="min-height:140px;font-family:monospace;font-size:12px" placeholder="Paste CSV here..."></textarea></div>
+2025-01-07,A,15min,L,-2000,1,</pre>
+          <div class="form-group"><textarea id="csv-in" style="min-height:120px;font-family:monospace;font-size:12px" placeholder="Paste CSV here..."></textarea></div>
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
             <button class="btn btn-primary" onclick="importCSV()"><i class="ti ti-upload"></i> Import</button>
-            <button class="btn btn-danger" onclick="clearAll()"><i class="ti ti-trash"></i> Clear all data</button>
+            <button class="btn btn-danger" onclick="clearAll()"><i class="ti ti-trash"></i> Clear all</button>
             <span id="import-msg"></span>
           </div>
         </div>
@@ -277,66 +295,47 @@
   <!-- HISTORY -->
   <div id="page-history" class="page">
     <div class="filter-row">
-      <select id="f-sys" onchange="renderHistory()" style="width:150px">
-        <option value="">All systems</option><option value="A">System A</option><option value="B">System B</option>
-      </select>
-      <select id="f-tf" onchange="renderHistory()" style="width:150px">
-        <option value="">All timeframes</option><option value="15min">15min</option><option value="1min">1min</option><option value="3min">3min</option>
-      </select>
+      <select id="f-sys" onchange="renderHistory()" style="width:140px"><option value="">All systems</option><option value="A">System A</option><option value="B">System B</option></select>
+      <select id="f-tf" onchange="renderHistory()" style="width:140px"><option value="">All timeframes</option><option value="15min">15min</option><option value="1min">1min</option><option value="3min">3min</option></select>
     </div>
     <div class="card" style="padding:0;overflow:hidden;overflow-x:auto">
-      <table>
-        <thead><tr>
-          <th style="min-width:90px">Date</th>
-          <th style="min-width:70px">System</th>
-          <th style="min-width:60px">TF</th>
-          <th style="min-width:55px">Result</th>
-          <th style="min-width:80px">P&L</th>
-          <th style="min-width:70px">Contracts</th>
-          <th>Notes</th>
-          <th style="min-width:40px"></th>
-        </tr></thead>
-        <tbody id="hist-body"></tbody>
-      </table>
+      <table><thead><tr>
+        <th>Date</th><th>Sys</th><th>TF</th><th>Result</th><th>P&amp;L</th><th>Contracts</th><th>Notes</th><th></th>
+      </tr></thead><tbody id="hist-body"></tbody></table>
       <div id="hist-empty" class="empty-state">No trades yet.</div>
     </div>
   </div>
+
   <!-- PASSING -->
   <div id="page-passing" class="page">
-    <div id="pass-empty" class="empty-state" style="display:none">
-      <i class="ti ti-trophy empty-icon"></i>
-      Log your first passing attempt to see analysis.
-    </div>
-
-    <!-- sub nav -->
     <div style="display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap">
       <button class="nav-btn active" id="ptab-overview" onclick="showPassTab('overview')" style="font-size:12px;padding:6px 14px"><i class="ti ti-chart-bar"></i> Overview</button>
       <button class="nav-btn" id="ptab-log" onclick="showPassTab('log')" style="font-size:12px;padding:6px 14px"><i class="ti ti-plus"></i> Log attempt</button>
       <button class="nav-btn" id="ptab-import" onclick="showPassTab('import')" style="font-size:12px;padding:6px 14px"><i class="ti ti-upload"></i> Import</button>
+      <button class="nav-btn" id="ptab-sim" onclick="showPassTab('sim')" style="font-size:12px;padding:6px 14px"><i class="ti ti-calculator"></i> Strategy sim</button>
       <button class="nav-btn" id="ptab-finance" onclick="showPassTab('finance')" style="font-size:12px;padding:6px 14px"><i class="ti ti-coin"></i> Finance</button>
       <button class="nav-btn" id="ptab-history" onclick="showPassTab('history')" style="font-size:12px;padding:6px 14px"><i class="ti ti-clock"></i> History</button>
     </div>
 
-    <!-- OVERVIEW -->
     <div id="pass-overview">
       <div class="section-label">Passing performance</div>
       <div class="grid4" id="pass-metrics" style="margin-bottom:1rem"></div>
       <div class="divider"></div>
-      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
-        <div class="section-label" style="margin-bottom:0">Next attempt prediction</div>
-      </div>
-      <p style="font-size:12px;color:#888780;margin-bottom:.875rem">Based on your historical pass rate, streak, and after-fail recovery rate.</p>
+      <div class="section-label">Next attempt prediction</div>
+      <p style="font-size:12px;color:#888780;margin-bottom:.875rem">Based on historical pass rate, current streak, and after-fail recovery rate.</p>
       <div id="pass-prediction"></div>
       <div class="divider"></div>
       <div class="section-label">Recent attempts</div>
       <div class="streak-dots" id="pass-dots"></div>
-      <p style="font-size:11px;color:#888780;margin-top:6px">Oldest → newest &nbsp;·&nbsp; <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#639922;vertical-align:middle"></span> Pass &nbsp;<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#E24B4A;vertical-align:middle"></span> Fail</span></p>
+      <p style="font-size:11px;color:#888780;margin-top:6px">
+        <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#639922;vertical-align:middle"></span> Pass &nbsp;
+        <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#E24B4A;vertical-align:middle"></span> Fail
+      </p>
     </div>
 
-    <!-- LOG ATTEMPT -->
     <div id="pass-log" style="display:none">
       <div class="card" style="max-width:520px">
-        <div class="section-label" style="margin-bottom:1rem">Log an attempt</div>
+        <div class="section-label" style="margin-bottom:.5rem">Log an attempt</div>
         <p style="font-size:12px;color:#888780;margin-bottom:1rem">Rules: $1,500 TP · $2,000 SL · 2 wins to pass · 1 loss = instant fail · $95/account</p>
         <div class="form-row">
           <div class="form-group"><label class="form-label">Date</label><input type="date" id="pa-date"></div>
@@ -349,27 +348,19 @@
           </div>
         </div>
         <div class="form-group"><label class="form-label">Notes</label><textarea id="pa-notes" placeholder="Optional..."></textarea></div>
-        <div style="display:flex;align-items:center;gap:10px;margin-top:6px">
+        <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
           <button class="btn btn-primary" onclick="logAttempt()"><i class="ti ti-plus"></i> Add attempt</button>
           <span id="pa-msg"></span>
         </div>
       </div>
     </div>
 
-    <!-- IMPORT -->
     <div id="pass-import" style="display:none">
       <div class="card" style="max-width:640px">
-        <div class="section-label" style="margin-bottom:.75rem">Import passing attempts</div>
-        <div class="card-sm" style="margin-bottom:.75rem">
-          <div style="font-size:12px;font-weight:500;margin-bottom:3px">Paste from TradingView or CSV</div>
-          <div style="font-size:12px;color:#5f5e5a">The importer reads pairs of trades per attempt. Each attempt is two trades max — a loss on trade 1 ends it immediately.</div>
-          <div style="font-size:11px;color:#888780;margin-top:6px">Same TradingView format as main import. Select the date range for your passing attempts and it will group them into attempts automatically (2 trades per attempt, or 1 if first trade was a loss).</div>
-        </div>
-        <div class="form-group" style="margin-bottom:10px">
-          <label class="form-label">Attempt cost per account ($)</label>
-          <input type="number" id="pi-cost" value="95" style="max-width:120px">
-        </div>
-        <div class="form-group"><textarea id="pi-in" style="min-height:140px;font-family:monospace;font-size:11px" placeholder="Paste TradingView trade list here — same format as main import..."></textarea></div>
+        <div class="section-label" style="margin-bottom:.75rem">Import passing attempts from TradingView</div>
+        <div class="card-sm" style="margin-bottom:.75rem;font-size:12px;color:#5f5e5a">Paste TradingView trade list. The importer groups exit trades into attempts (2 trades per attempt, or 1 if trade 1 was a loss).</div>
+        <div class="form-group" style="margin-bottom:10px"><label class="form-label">Account cost ($)</label><input type="number" id="pi-cost" value="95" style="max-width:100px"></div>
+        <div class="form-group"><textarea id="pi-in" style="min-height:140px;font-family:monospace;font-size:11px" placeholder="Paste TradingView data here..."></textarea></div>
         <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
           <button class="btn btn-primary" onclick="importAttempts()"><i class="ti ti-upload"></i> Import</button>
           <button class="btn btn-danger" onclick="clearAttempts()"><i class="ti ti-trash"></i> Clear all attempts</button>
@@ -378,7 +369,28 @@
       </div>
     </div>
 
-    <!-- FINANCE -->
+    <div id="pass-sim" style="display:none">
+      <div class="card" style="max-width:640px">
+        <div class="section-label" style="margin-bottom:.75rem">Strategy simulator</div>
+        <p style="font-size:12px;color:#888780;margin-bottom:1rem">Enter different passing rules to compare expected cost and efficiency. Uses your actual historical trade win rate as the base probability.</p>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Win probability per trade (%)</label><input type="number" id="sim-wr" placeholder="e.g. 93" value="93"></div>
+          <div class="form-group"><label class="form-label">Wins needed to pass</label><input type="number" id="sim-wins" placeholder="e.g. 2" value="2"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Account cost ($)</label><input type="number" id="sim-cost" placeholder="e.g. 95" value="95"></div>
+          <div class="form-group"><label class="form-label">Loss = instant fail?</label>
+            <select id="sim-fail"><option value="yes">Yes — 1 loss ends attempt</option><option value="no">No — can recover from a loss</option></select></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">TP per win ($)</label><input type="number" id="sim-tp" value="1500"></div>
+          <div class="form-group"><label class="form-label">SL per loss ($)</label><input type="number" id="sim-sl" value="2000"></div>
+        </div>
+        <button class="btn btn-primary" onclick="runSim()" style="margin-bottom:1rem"><i class="ti ti-calculator"></i> Run simulation</button>
+        <div id="sim-results"></div>
+      </div>
+    </div>
+
     <div id="pass-finance" style="display:none">
       <div class="grid2" style="margin-bottom:1rem">
         <div class="card">
@@ -386,82 +398,98 @@
           <div class="form-group"><label class="form-label">Date</label><input type="date" id="fin-date"></div>
           <div class="form-row">
             <div class="form-group"><label class="form-label">Type</label>
-              <select id="fin-type">
-                <option value="spend">Spend (account purchase / fee)</option>
-                <option value="payout">Payout received</option>
-              </select>
-            </div>
+              <select id="fin-type"><option value="spend">Spend</option><option value="payout">Payout received</option></select></div>
             <div class="form-group"><label class="form-label">Amount ($)</label><input type="number" id="fin-amount" placeholder="e.g. 95"></div>
           </div>
           <div class="form-group"><label class="form-label">Notes</label><input type="text" id="fin-notes" placeholder="e.g. Account #3 purchase"></div>
-          <div style="display:flex;align-items:center;gap:10px;margin-top:6px">
-            <button class="btn btn-primary" onclick="logFinance()"><i class="ti ti-plus"></i> Add entry</button>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
+            <button class="btn btn-primary" onclick="logFinance()"><i class="ti ti-plus"></i> Add</button>
             <span id="fin-msg"></span>
           </div>
         </div>
         <div>
           <div class="section-label">Net position</div>
-          <div class="grid2" style="gap:8px" id="fin-metrics"></div>
+          <div id="fin-net" class="grid2" style="gap:8px"></div>
         </div>
       </div>
       <div class="section-label">Finance history</div>
       <div class="card" style="padding:0;overflow:hidden">
-        <table>
-          <thead><tr><th>Date</th><th>Type</th><th>Amount</th><th>Notes</th><th></th></tr></thead>
-          <tbody id="fin-body"></tbody>
-        </table>
+        <table><thead><tr><th>Date</th><th>Type</th><th>Amount</th><th>Notes</th><th></th></tr></thead>
+        <tbody id="fin-body"></tbody></table>
         <div id="fin-empty" class="empty-state">No entries yet.</div>
       </div>
     </div>
 
-    <!-- ATTEMPT HISTORY -->
     <div id="pass-history" style="display:none">
       <div class="card" style="padding:0;overflow:hidden">
-        <table>
-          <thead><tr><th>Date</th><th>Outcome</th><th>Trade 1</th><th>Trade 2</th><th>Notes</th><th></th></tr></thead>
-          <tbody id="att-body"></tbody>
-        </table>
+        <table><thead><tr><th>Date</th><th>Outcome</th><th>Trade 1</th><th>Trade 2</th><th>Notes</th><th></th></tr></thead>
+        <tbody id="att-body"></tbody></table>
         <div id="att-empty" class="empty-state">No attempts logged yet.</div>
       </div>
     </div>
   </div>
 
 </div>
-
 <script>
-const SK='nq_orb_predictor_v1';
-let trades=[];
-let tfChart=null,sysChart=null;
+// ── STORAGE KEYS ────────────────────────────────────────────────
+const SK='nq_orb_v3';
+const PSK='nq_orb_passing_v2';
+const FSK='nq_orb_finance_v2';
+let trades=[], attempts=[], finances=[];
+let tfChart=null, sysChart=null;
+let dotsFilter='all';
 
 function loadData(){
   try{const r=localStorage.getItem(SK);if(r)trades=JSON.parse(r);}catch(e){trades=[];}
+  try{const r=localStorage.getItem(PSK);if(r)attempts=JSON.parse(r);}catch(e){attempts=[];}
+  try{const r=localStorage.getItem(FSK);if(r)finances=JSON.parse(r);}catch(e){finances=[];}
 }
-function saveData(){
-  try{localStorage.setItem(SK,JSON.stringify(trades));}catch(e){}
+function saveData(){try{localStorage.setItem(SK,JSON.stringify(trades));}catch(e){}}
+function savePassData(){
+  try{localStorage.setItem(PSK,JSON.stringify(attempts));}catch(e){}
+  try{localStorage.setItem(FSK,JSON.stringify(finances));}catch(e){}
 }
 
+// ── NAVIGATION ──────────────────────────────────────────────────
 function showPage(p){
   document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
-  document.querySelectorAll('.nav-btn').forEach(el=>el.classList.remove('active'));
+  document.querySelectorAll('.nav > .nav-btn').forEach(el=>el.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active');
   const idx={dashboard:0,log:1,import:2,history:3,passing:4}[p];
-  document.querySelectorAll('.nav-btn')[idx].classList.add('active');
+  document.querySelectorAll('.nav > .nav-btn')[idx].classList.add('active');
   if(p==='import')showImportTab('tv');
   if(p==='dashboard')renderDashboard();
   if(p==='history')renderHistory();
   if(p==='passing'){showPassTab('overview');renderPassOverview();renderFinance();}
 }
 
+function showImportTab(t){
+  document.getElementById('import-tv').style.display=t==='tv'?'block':'none';
+  document.getElementById('import-csv').style.display=t==='csv'?'block':'none';
+  document.getElementById('itab-tv').classList.toggle('active',t==='tv');
+  document.getElementById('itab-csv').classList.toggle('active',t==='csv');
+}
+
+function showPassTab(t){
+  ['overview','log','import','sim','finance','history'].forEach(id=>{
+    document.getElementById('pass-'+id).style.display=id===t?'block':'none';
+    document.getElementById('ptab-'+id).classList.toggle('active',id===t);
+  });
+  if(t==='overview')renderPassOverview();
+  if(t==='finance')renderFinance();
+  if(t==='history')renderAttHistory();
+}
+
+// ── HELPERS ─────────────────────────────────────────────────────
 function pctCol(wr){return wr>=.65?'green':wr>=.45?'amber':'red';}
 function barCls(wr){return wr>=.65?'bar-g':wr>=.45?'bar-a':'bar-r';}
 function badgeCls(wr){return wr>=.65?'badge-g':wr>=.45?'badge-a':'badge-r';}
-function ringColor(wr){return wr>=.65?'#639922':wr>=.45?'#BA7517':'#E24B4A';}
+function ringCol(wr){return wr>=.65?'#639922':wr>=.45?'#BA7517':'#E24B4A';}
 
 function calcStats(arr){
   if(!arr.length)return null;
   const w=arr.filter(t=>t.result==='W').length;
-  const pnl=arr.reduce((s,t)=>s+t.pnl,0);
-  return{total:arr.length,wins:w,losses:arr.length-w,wr:w/arr.length,pnl};
+  return{total:arr.length,wins:w,losses:arr.length-w,wr:w/arr.length,pnl:arr.reduce((s,t)=>s+t.pnl,0)};
 }
 
 function calcStreak(arr){
@@ -473,112 +501,141 @@ function calcStreak(arr){
   return{maxL,alwr:alt?alw/alt:null,alt};
 }
 
-const SETUPS=[
-  {key:'15min-A',label:'15min · Sys A',tf:'15min',sys:'A'},
-  {key:'15min-B',label:'15min · Sys B',tf:'15min',sys:'B'},
-  {key:'1min-A',label:'1min · Sys A',tf:'1min',sys:'A'},
-  {key:'1min-B',label:'1min · Sys B',tf:'1min',sys:'B'},
-  {key:'3min-A',label:'3min · Sys A',tf:'3min',sys:'A'},
-  {key:'3min-B',label:'3min · Sys B',tf:'3min',sys:'B'},
-];
-
-function drawRing(canvasId,pct,color){
-  const c=document.getElementById(canvasId);
-  if(!c)return;
-  const ctx=c.getContext('2d');
-  c.width=90;c.height=90;
-  ctx.clearRect(0,0,90,90);
-  ctx.beginPath();ctx.arc(45,45,34,0,Math.PI*2);
-  ctx.strokeStyle='#f1efe8';ctx.lineWidth=8;ctx.stroke();
-  ctx.beginPath();ctx.arc(45,45,34,-Math.PI/2,Math.PI*2*pct-Math.PI/2);
-  ctx.strokeStyle=color;ctx.lineWidth=8;ctx.lineCap='round';ctx.stroke();
+function getCurrentStreak(arr){
+  let streak=0,streakType=null;
+  for(let i=arr.length-1;i>=0;i--){
+    if(streakType===null)streakType=arr[i].result;
+    if(arr[i].result===streakType)streak++;
+    else break;
+  }
+  return{streak,streakType};
 }
 
-function buildConfCard(setup, sub, prefix, i, useRecency){
+function calcStreakSpecificWR(arr,streakType,streakLen){
+  let wins=0,total=0;
+  for(let i=streakLen;i<arr.length;i++){
+    let match=true;
+    for(let j=0;j<streakLen;j++){if(arr[i-1-j].result!==streakType){match=false;break;}}
+    if(match){total++;if(arr[i].result==='W')wins++;}
+  }
+  return total>=3?{wr:wins/total,samples:total}:null;
+}
+
+function calcConfScore(arr,useRecency){
+  if(!arr.length)return 0;
+  const baseWR=arr.filter(t=>t.result==='W').length/arr.length;
+  const recent=arr.slice(-20),older=arr.slice(0,-20);
+  const rWins=recent.filter(t=>t.result==='W').length*2+older.filter(t=>t.result==='W').length;
+  const rTotal=recent.length*2+older.length;
+  const recencyWR=rTotal>0?rWins/rTotal:baseWR;
+  const base=useRecency?recencyWR:baseWR;
+  const{streak,streakType}=getCurrentStreak(arr);
+  const sk=calcStreak(arr);
+  const alwr=sk.alwr!==null?sk.alwr:base;
+  let conf=base;
+  if(streakType==='L'){const boost=Math.min(streak*0.08,0.25);conf=base+(alwr-base)*0.6+boost;}
+  else if(streakType==='W'&&streak>=5){conf=base-Math.min((streak-4)*0.015,0.08);}
+  return Math.max(0.05,Math.min(0.99,conf));
+}
+
+function drawRing(id,pct,color){
+  const c=document.getElementById(id);if(!c)return;
+  const ctx=c.getContext('2d');c.width=80;c.height=80;
+  ctx.clearRect(0,0,80,80);
+  ctx.beginPath();ctx.arc(40,40,30,0,Math.PI*2);ctx.strokeStyle='#f1efe8';ctx.lineWidth=7;ctx.stroke();
+  ctx.beginPath();ctx.arc(40,40,30,-Math.PI/2,Math.PI*2*pct-Math.PI/2);ctx.strokeStyle=color;ctx.lineWidth=7;ctx.lineCap='round';ctx.stroke();
+}
+
+function toggleExplain(id,btn){
+  const p=document.getElementById(id);const open=p.classList.toggle('open');
+  btn.innerHTML=`<i class="ti ti-info-circle" style="font-size:11px"></i>${open?'Hide':'Explain'}`;
+}
+function togglePnl(){
+  const p=document.getElementById('pnl-panel');
+  p.style.display=p.style.display==='none'?'block':'none';
+}
+
+// ── SETUPS ───────────────────────────────────────────────────────
+const SETUPS_A=[
+  {key:'1min-A',label:'1min · Sys A',tf:'1min',sys:'A'},
+  {key:'3min-A',label:'3min · Sys A',tf:'3min',sys:'A'},
+  {key:'15min-A',label:'15min · Sys A',tf:'15min',sys:'A'},
+];
+const SETUPS_B=[
+  {key:'1min-B',label:'1min · Sys B',tf:'1min',sys:'B'},
+  {key:'3min-B',label:'3min · Sys B',tf:'3min',sys:'B'},
+  {key:'15min-B',label:'15min · Sys B',tf:'15min',sys:'B'},
+];
+const ALL_SETUPS=[...SETUPS_A,...SETUPS_B];
+
+// ── BUILD CONF CARD ──────────────────────────────────────────────
+function buildConfCard(setup,sub,prefix,i,useRecency){
   if(!sub.length)return'';
   const st=calcStats(sub);
   const sk=calcStreak(sub);
-
-  // base score: historical win rate + streak adjustments
-  let streak=0; let streakType=null;
-  for(let j=sub.length-1;j>=0;j--){
-    if(streakType===null)streakType=sub[j].result;
-    if(sub[j].result===streakType)streak++;
-    else break;
-  }
-  const afterLossWR=sk.alwr!==null?sk.alwr:st.wr;
-
-  // recency weighted rate
-  const recent=sub.slice(-20);
-  const older=sub.slice(0,-20);
-  const rWins=recent.filter(t=>t.result==='W').length*2+older.filter(t=>t.result==='W').length;
-  const rTotal=recent.length*2+older.length;
+  const{streak,streakType}=getCurrentStreak(sub);
+  const recent20=sub.slice(-20),older=sub.slice(0,-20);
+  const rWins=recent20.filter(t=>t.result==='W').length*2+older.filter(t=>t.result==='W').length;
+  const rTotal=recent20.length*2+older.length;
   const recencyWR=rTotal>0?rWins/rTotal:st.wr;
-
-  const baseRate=useRecency?recencyWR:st.wr;
-  let conf=baseRate;
-
-  if(streakType==='L'){
-    const boost=Math.min(streak*0.08,0.25);
-    conf=baseRate+(afterLossWR-baseRate)*0.6+boost;
-  } else if(streakType==='W'&&streak>=5){
-    const drag=Math.min((streak-4)*0.015,0.08);
-    conf=baseRate-drag;
-  }
+  const base=useRecency?recencyWR:st.wr;
+  const alwr=sk.alwr!==null?sk.alwr:base;
+  let conf=base;
+  if(streakType==='L'){const boost=Math.min(streak*0.08,0.25);conf=base+(alwr-base)*0.6+boost;}
+  else if(streakType==='W'&&streak>=5){conf=base-Math.min((streak-4)*0.015,0.08);}
   conf=Math.max(0.05,Math.min(0.99,conf));
+  const ss=calcStreakSpecificWR(sub,streakType,streak);
+  const isSysB=setup.sys==='B';
+  const accentCls=isSysB?'sys-b-accent':'sys-a-accent';
+  const barColor=isSysB?'bar-b':'bar-g';
 
-  const streakSpecific=calcStreakSpecificWR(sub,streakType,streak);
+  // last 3 trades
+  const last3=sub.slice(-3);
+  const last3HTML=last3.map(t=>`<span class="last3-pill"><span style="width:7px;height:7px;border-radius:50%;background:${t.result==='W'?'#639922':'#E24B4A'};display:inline-block"></span>${t.date.slice(5)} ${t.result==='W'?'W':'L'} $${t.pnl>=0?'+':''}${t.pnl}</span>`).join('');
 
-  let streakNote='';
-  if(streakType==='L') streakNote=`<span class="badge badge-a">${streak}L streak → boosted</span>`;
-  else if(streakType==='W'&&streak>=5) streakNote=`<span class="badge badge-gray">${streak}W streak → slight drag</span>`;
-  else if(streakType==='W') streakNote=`<span class="badge badge-g">${streak}W streak</span>`;
+  let streakBadge='';
+  if(streakType==='L')streakBadge=`<span class="badge badge-a">${streak}L → boosted</span>`;
+  else if(streakType==='W'&&streak>=5)streakBadge=`<span class="badge badge-gray">${streak}W → slight drag</span>`;
+  else if(streakType==='W')streakBadge=`<span class="badge badge-g">${streak}W streak</span>`;
 
-  const streakSpecificNote=streakSpecific
-    ?`After ${streak} consecutive ${streakType==='W'?'wins':'losses'}, next trade won ${Math.round(streakSpecific.wr*100)}% (${streakSpecific.samples} samples)`
-    :`After ${streak} consecutive ${streakType==='W'?'wins':'losses'} — need 3+ samples`;
+  let streakEffect='No adjustment';
+  if(streakType==='L'){const b=Math.min(streak*0.08,0.25);streakEffect=`+${Math.round(b*100)}pp boost`;}
+  else if(streakType==='W'&&streak>=5){const d=Math.min((streak-4)*0.015,0.08);streakEffect=`−${Math.round(d*100)}pp drag`;}
 
-  let streakEffect='No adjustment (streak under 5 wins)';
-  if(streakType==='L'){
-    const boost=Math.min(streak*0.08,0.25);
-    streakEffect=`+${Math.round(boost*100)}pp boost (${streak}L streak → after-loss rate)`;
-  } else if(streakType==='W'&&streak>=5){
-    const drag=Math.min((streak-4)*0.015,0.08);
-    streakEffect=`−${Math.round(drag*100)}pp drag (${streak}W streak, regression to mean)`;
-  }
+  const eid=`${prefix}-exp-${i}`;
+  const rid=`${prefix}-ring-${i}`;
 
-  const explainId=`${prefix}-explain-${i}`;
-  const ringId=`${prefix}-ring-${i}`;
-
-  return `<div class="conf-card">
+  return`<div class="conf-card ${accentCls}">
     <div class="conf-card-top">
-      <div class="ring-wrap"><canvas id="${ringId}"></canvas>
+      <div class="ring-wrap"><canvas id="${rid}"></canvas>
         <div class="ring-label"><div class="ring-pct ${pctCol(conf)}">${Math.round(conf*100)}%</div></div>
       </div>
       <div class="conf-info">
         <div class="conf-title">${setup.label}</div>
-        <div class="conf-note">${useRecency?'Recency-weighted':'Historical'} baseline: ${Math.round(baseRate*100)}% · ${st.total} trades · ${streak} consecutive ${streakType==='W'?'W':'L'}</div>
-        <div class="bar-track"><div class="bar-fill ${barCls(conf)}" style="width:${Math.round(conf*100)}%"></div></div>
+        <div class="conf-note">${useRecency?'Recency':'Historical'} base: ${Math.round(base*100)}% · ${st.total} trades · ${streak}× ${streakType==='W'?'W':'L'} streak</div>
+        <div class="bar-track"><div class="bar-fill ${conf>=.65?barColor:'bar-r'}" style="width:${Math.round(conf*100)}%"></div></div>
         <div style="margin-top:6px;display:flex;gap:5px;flex-wrap:wrap;align-items:center">
-          <span class="badge ${badgeCls(conf)}">${conf>=.75?'High':conf>=.5?'Moderate':'Low'} confidence</span>
-          ${streakNote}
-          <button class="explain-btn" onclick="toggleExplain('${explainId}',this)"><i class="ti ti-info-circle" style="font-size:11px"></i> Explain</button>
+          <span class="badge ${badgeCls(conf)}">${conf>=.75?'High':conf>=.5?'Moderate':'Low'}</span>
+          ${streakBadge}
+          <button class="explain-btn" onclick="toggleExplain('${eid}',this)"><i class="ti ti-info-circle" style="font-size:11px"></i>Explain</button>
         </div>
+        <div style="margin-top:6px"><span style="font-size:10px;color:#888780;font-weight:500;display:block;margin-bottom:3px">LAST 3 TRADES</span>${last3HTML||'<span style="font-size:11px;color:#d3d1c7">None yet</span>'}</div>
       </div>
     </div>
-    <div class="explain-panel" id="${explainId}">
-      <div class="explain-row"><span class="explain-label">Baseline win rate${useRecency?' (recency-weighted)':' (all-time)'}</span><span class="explain-val">${Math.round(baseRate*100)}% (${st.total} trades)</span></div>
+    <div class="explain-panel" id="${eid}">
+      <div class="explain-row"><span class="explain-label">Baseline${useRecency?' (recency-weighted)':' (all-time)'}</span><span class="explain-val">${Math.round(base*100)}% (${st.total} trades)</span></div>
       ${useRecency?`<div class="explain-row"><span class="explain-label">Raw all-time win rate</span><span class="explain-val">${Math.round(st.wr*100)}%</span></div>`:''}
-      ${useRecency?`<div class="explain-row"><span class="explain-label">Last 20 trades win rate</span><span class="explain-val">${recent.length?Math.round(recent.filter(t=>t.result==='W').length/recent.length*100)+'%':'—'}</span></div>`:''}
-      <div class="explain-row"><span class="explain-label">Current streak</span><span class="explain-val">${streak} consecutive ${streakType==='W'?'wins':'losses'}</span></div>
-      <div class="explain-row"><span class="explain-label">After-loss win rate (all samples)</span><span class="explain-val">${sk.alwr!==null?Math.round(sk.alwr*100)+'% ('+sk.alt+' samples)':'Not enough data'}</span></div>
-      <div class="explain-row"><span class="explain-label">Streak-specific stat</span><span class="explain-val" style="max-width:55%;text-align:right">${streakSpecificNote}</span></div>
-      <div class="explain-row"><span class="explain-label">Streak adjustment</span><span class="explain-val" style="max-width:55%;text-align:right">${streakEffect}</span></div>
+      ${useRecency?`<div class="explain-row"><span class="explain-label">Last 20 trades win rate</span><span class="explain-val">${recent20.length?Math.round(recent20.filter(t=>t.result==='W').length/recent20.length*100)+'%':'—'}</span></div>`:''}
+      <div class="explain-row"><span class="explain-label">Current streak</span><span class="explain-val">${streak}× consecutive ${streakType==='W'?'wins':'losses'}</span></div>
+      <div class="explain-row"><span class="explain-label">After-loss win rate</span><span class="explain-val">${sk.alwr!==null?Math.round(sk.alwr*100)+'% ('+sk.alt+' samples)':'Not enough data'}</span></div>
+      <div class="explain-row"><span class="explain-label">Streak-specific stat</span><span class="explain-val">${ss?`After ${streak}× ${streakType==='W'?'W':'L'}, next won ${Math.round(ss.wr*100)}% (${ss.samples} samples)`:'Need 3+ samples'}</span></div>
+      <div class="explain-row"><span class="explain-label">Streak adjustment</span><span class="explain-val">${streakEffect}</span></div>
       <div class="explain-row" style="padding-top:8px;border-top:0.5px solid #d3d1c7"><span class="explain-label" style="font-weight:500">Final score</span><span class="explain-val ${pctCol(conf)}" style="font-size:14px">${Math.round(conf*100)}%</span></div>
     </div>
   </div>`;
 }
 
+// ── RENDER DASHBOARD ─────────────────────────────────────────────
 function renderDashboard(){
   if(!trades.length){
     document.getElementById('empty-dashboard').style.display='block';
@@ -588,171 +645,177 @@ function renderDashboard(){
   }
   document.getElementById('empty-dashboard').style.display='none';
   document.getElementById('dashboard-content').style.display='block';
-
   const s=calcStats(trades);
-  document.getElementById('trade-count-header').textContent=`${trades.length} trades logged · ${Math.round(s.wr*100)}% overall win rate`;
+  document.getElementById('trade-count-header').textContent=`${trades.length} trades · ${Math.round(s.wr*100)}% overall win rate`;
 
-  const lastDate=trades[trades.length-1].date;
-  const lastTrades=trades.filter(t=>t.date===lastDate);
-
-  const reentries=SETUPS.filter(setup=>{
-    const lt=lastTrades.find(t=>t.tf===setup.tf&&t.system===setup.sys);
-    return lt&&lt.result==='L'&&(setup.tf==='1min'||setup.tf==='3min');
-  });
-
-  const bannerEl=document.getElementById('today-banner');
-  if(reentries.length){
-    bannerEl.innerHTML=`<div class="today-banner banner-green"><h3><i class="ti ti-refresh"></i>Re-entry recommended tomorrow</h3><div class="today-row">${reentries.map(r=>`<span class="badge badge-a">${r.label}</span>`).join('')}</div></div>`;
-  } else {
-    bannerEl.innerHTML=`<div class="today-banner banner-blue"><h3><i class="ti ti-check"></i>No re-entries flagged for tomorrow</h3></div>`;
-  }
-
-  document.getElementById('overview-metrics').innerHTML=`
+  // Finance overview
+  const totalSpend=finances.filter(f=>f.type==='spend').reduce((a,f)=>a+f.amount,0);
+  const totalPayout=finances.filter(f=>f.type==='payout').reduce((a,f)=>a+f.amount,0);
+  const net=totalPayout-totalSpend;
+  document.getElementById('fin-overview').innerHTML=`
+    <div class="card-sm"><div class="sm-label">Total spent</div><div class="med-num red">${totalSpend?'-$'+totalSpend.toLocaleString():'—'}</div></div>
+    <div class="card-sm"><div class="sm-label">Total payouts</div><div class="med-num green">${totalPayout?'+$'+totalPayout.toLocaleString():'—'}</div></div>
+    <div class="card-sm" style="border-color:${net>=0?'#C0DD97':'#F7C1C1'};background:${net>=0?'#EAF3DE':'#FCEBEB'}">
+      <div class="sm-label">Net position</div>
+      <div class="med-num ${net>=0?'green':'red'}">${net>=0?'+':''}$${net.toLocaleString()}</div>
+    </div>
+    <div class="card-sm"><div class="sm-label">Passing attempts</div><div class="med-num">${attempts.length}</div><div class="sm-label">${attempts.filter(a=>a.passed).length} passed</div></div>
+  `;
+  document.getElementById('pnl-metrics').innerHTML=`
+    <div class="card-sm"><div class="sm-label">Imported P&amp;L</div><div class="med-num ${s.pnl>=0?'green':'red'}">${s.pnl>=0?'+':''}$${Math.round(s.pnl).toLocaleString()}</div></div>
     <div class="card-sm"><div class="sm-label">Total trades</div><div class="med-num">${s.total}</div><div class="sm-label">${s.wins}W / ${s.losses}L</div></div>
-    <div class="card-sm"><div class="sm-label">Overall win rate</div><div class="med-num ${pctCol(s.wr)}">${Math.round(s.wr*100)}%</div><div class="bar-track"><div class="bar-fill ${barCls(s.wr)}" style="width:${Math.round(s.wr*100)}%"></div></div></div>
-    <div class="card-sm"><div class="sm-label">Total P&L</div><div class="med-num ${s.pnl>=0?'green':'red'}">${s.pnl>=0?'+':''}$${Math.round(s.pnl).toLocaleString()}</div></div>
-    <div class="card-sm"><div class="sm-label">Last session</div><div class="med-num" style="font-size:16px">${lastDate}</div><div class="sm-label">${lastTrades.length} trade${lastTrades.length!==1?'s':''}</div></div>
   `;
 
-  // SECTION 1 — confidence (no recency)
-  let confHTML='', recencyHTML='';
-  SETUPS.forEach((setup,i)=>{
-    const sub=trades.filter(t=>t.tf===setup.tf&&t.system===setup.sys);
-    confHTML+=buildConfCard(setup,sub,'conf',i,false);
-    recencyHTML+=buildConfCard(setup,sub,'rec',i,true);
-  });
-  document.getElementById('confidence-list').innerHTML=confHTML||'<p style="color:#888780;font-size:13px">No data yet.</p>';
-  document.getElementById('recency-list').innerHTML=recencyHTML||'<p style="color:#888780;font-size:13px">No data yet.</p>';
-
-  // draw rings for both sections
-  SETUPS.forEach((setup,i)=>{
-    const sub=trades.filter(t=>t.tf===setup.tf&&t.system===setup.sys);
-    if(!sub.length)return;
-    const c=calcConfidence(sub,false);
-    drawRing(`conf-ring-${i}`,c,ringColor(c));
-    const cr=calcConfidence(sub,true);
-    drawRing(`rec-ring-${i}`,cr,ringColor(cr));
-  });
-
-  // SECTION 3 — setup comparison table ranked by confidence
-  const setupScores=SETUPS.map(setup=>{
+  // Tomorrow's actions — funded
+  const scores=ALL_SETUPS.map(setup=>{
     const sub=trades.filter(t=>t.tf===setup.tf&&t.system===setup.sys);
     if(!sub.length)return null;
-    const st=calcStats(sub);
-    const conf=calcConfidence(sub,false);
-    const recConf=calcConfidence(sub,true);
-    return{label:setup.label,conf,recConf,wr:st.wr,total:st.total,wins:st.wins,losses:st.losses};
+    const conf=calcConfScore(sub,false);
+    const{streak,streakType}=getCurrentStreak(sub);
+    const last=sub[sub.length-1];
+    return{setup,conf,streak,streakType,last,total:sub.length};
   }).filter(Boolean).sort((a,b)=>b.conf-a.conf);
 
-  if(setupScores.length){
-    let compHTML=`<div class="card" style="padding:0;overflow:hidden;overflow-x:auto"><table>
-      <thead><tr>
-        <th>Setup</th>
-        <th>Confidence score</th>
-        <th>Recency score</th>
-        <th>Divergence</th>
-        <th>Historical win rate</th>
-        <th>Trades</th>
-      </tr></thead><tbody>`;
-    setupScores.forEach(r=>{
-      const div=Math.round(r.recConf*100)-Math.round(r.conf*100);
-      const divStr=div===0?'—':(div>0?`<span class="green">+${div}pp</span>`:`<span class="red">${div}pp</span>`);
-      compHTML+=`<tr>
-        <td><span class="badge badge-gray">${r.label}</span></td>
+  if(scores.length){
+    let actHTML='';
+    scores.forEach((r,idx)=>{
+      const reentry=(r.setup.tf==='1min'||r.setup.tf==='3min')&&r.last?.result==='L';
+      const isSysB=r.setup.sys==='B';
+      actHTML+=`<div class="action-row">
+        <div class="action-rank">#${idx+1}</div>
+        <div class="action-info">
+          <div class="action-title">${r.setup.label}</div>
+          <div class="action-sub">${Math.round(r.conf*100)}% confidence · ${r.streak}× ${r.streakType==='W'?'W':'L'} streak${reentry?' · re-entry recommended':''}</div>
+        </div>
+        <div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap">
+          <span class="badge ${badgeCls(r.conf)}">${Math.round(r.conf*100)}%</span>
+          ${reentry?'<span class="badge badge-a">Re-entry</span>':''}
+          <span class="badge ${isSysB?'badge-b':'badge-g'}">Sys ${r.setup.sys}</span>
+        </div>
+      </div>`;
+    });
+    document.getElementById('actions-funded').innerHTML=actHTML;
+  } else {
+    document.getElementById('actions-funded').innerHTML='<p style="color:#888780;font-size:13px">No setup data yet.</p>';
+  }
+
+  // Tomorrow's actions — passing
+  if(attempts.length){
+    const passes=attempts.filter(a=>a.passed).length;
+    const passRate=passes/attempts.length;
+    const{streak,streakType}=getCurrentStreak(attempts.map(a=>({result:a.passed?'W':'L'})));
+    let conf=passRate;
+    let afwNote='';
+    let afwRate=null;
+    let afwTotal=0;let afwWins=0;
+    for(let i=1;i<attempts.length;i++){if(!attempts[i-1].passed){afwTotal++;if(attempts[i].passed)afwWins++;}}
+    if(afwTotal>=2){afwRate=afwWins/afwTotal;}
+    if(streakType==='L'){const b=Math.min(streak*0.1,0.3);conf=passRate+(afwRate!==null?afwRate-passRate:0)*0.6+b;afwNote=`After ${streak} consecutive fails, recovery rate is ${afwRate!==null?Math.round(afwRate*100)+'%':'unknown'}.`;}
+    else if(streakType==='W'&&streak>=3){conf=passRate-Math.min((streak-2)*0.02,0.08);}
+    conf=Math.max(0.05,Math.min(0.99,conf));
+    const rec=conf>=0.6?'Conditions look good — consider taking a passing attempt tomorrow.':conf>=0.4?'Moderate conditions — proceed with caution.':'Conditions are unfavourable — consider waiting.';
+    document.getElementById('actions-passing').innerHTML=`
+      <div class="banner ${conf>=0.6?'banner-green':conf>=0.4?'banner-amber':'banner-blue'}">
+        <h3><i class="ti ti-trophy"></i>Passing account recommendation</h3>
+        <p style="font-size:13px;margin-bottom:4px">${rec}</p>
+        <p style="font-size:12px;color:#5f5e5a">Pass rate: ${Math.round(passRate*100)}% · Current streak: ${streak}× ${streakType==='W'?'passes':'fails'} · Confidence: ${Math.round(conf*100)}%${afwNote?' · '+afwNote:''}</p>
+      </div>`;
+  } else {
+    document.getElementById('actions-passing').innerHTML='<p style="color:#888780;font-size:13px">Log passing attempts to see a recommendation.</p>';
+  }
+
+  // Conf cards — System A
+  let confA='',confB='',recA='',recB='';
+  SETUPS_A.forEach((s,i)=>{
+    const sub=trades.filter(t=>t.tf===s.tf&&t.system===s.sys);
+    confA+=buildConfCard(s,sub,'ca',i,false);
+    recA+=buildConfCard(s,sub,'ra',i,true);
+  });
+  SETUPS_B.forEach((s,i)=>{
+    const sub=trades.filter(t=>t.tf===s.tf&&t.system===s.sys);
+    confB+=buildConfCard(s,sub,'cb',i,false);
+    recB+=buildConfCard(s,sub,'rb',i,true);
+  });
+  document.getElementById('conf-list-a').innerHTML=confA||'<p style="color:#888780;font-size:13px">No System A data yet.</p>';
+  document.getElementById('conf-list-b').innerHTML=confB||'<p style="color:#888780;font-size:13px">No System B data yet.</p>';
+  document.getElementById('recency-list-a').innerHTML=recA?`<div style="margin-bottom:4px" class="sys-group-label sys-a-label"><i class="ti ti-circle-filled" style="font-size:8px"></i> System A</div>${recA}`:'';
+  document.getElementById('recency-list-b').innerHTML=recB?`<div style="margin-bottom:4px" class="sys-group-label sys-b-label"><i class="ti ti-circle-filled" style="font-size:8px"></i> System B</div>${recB}`:'';
+
+  // Draw rings
+  setTimeout(()=>{
+    SETUPS_A.forEach((s,i)=>{
+      const sub=trades.filter(t=>t.tf===s.tf&&t.system===s.sys);if(!sub.length)return;
+      drawRing(`ca-ring-${i}`,calcConfScore(sub,false),sub[0].system==='B'?'#185FA5':ringCol(calcConfScore(sub,false)));
+      drawRing(`ra-ring-${i}`,calcConfScore(sub,true),ringCol(calcConfScore(sub,true)));
+    });
+    SETUPS_B.forEach((s,i)=>{
+      const sub=trades.filter(t=>t.tf===s.tf&&t.system===s.sys);if(!sub.length)return;
+      drawRing(`cb-ring-${i}`,calcConfScore(sub,false),'#185FA5');
+      drawRing(`rb-ring-${i}`,calcConfScore(sub,true),'#185FA5');
+    });
+  },50);
+
+  // Setup comparison
+  const allScores=ALL_SETUPS.map(s=>{
+    const sub=trades.filter(t=>t.tf===s.tf&&t.system===s.sys);if(!sub.length)return null;
+    const st=calcStats(sub);
+    return{label:s.label,sys:s.sys,conf:calcConfScore(sub,false),rec:calcConfScore(sub,true),wr:st.wr,total:st.total,wins:st.wins,losses:st.losses};
+  }).filter(Boolean).sort((a,b)=>b.conf-a.conf);
+  if(allScores.length){
+    let cHTML=`<div class="card" style="padding:0;overflow:hidden;overflow-x:auto"><table><thead><tr><th>#</th><th>Setup</th><th>Confidence</th><th>Recency</th><th>Divergence</th><th>Win rate</th><th>Trades</th></tr></thead><tbody>`;
+    allScores.forEach((r,idx)=>{
+      const div=Math.round(r.rec*100)-Math.round(r.conf*100);
+      cHTML+=`<tr>
+        <td style="color:#d3d1c7;font-weight:500">#${idx+1}</td>
+        <td><span class="badge ${r.sys==='B'?'badge-b':'badge-g'}">${r.label}</span></td>
         <td><span style="font-weight:500" class="${pctCol(r.conf)}">${Math.round(r.conf*100)}%</span></td>
-        <td><span style="font-weight:500" class="${pctCol(r.recConf)}">${Math.round(r.recConf*100)}%</span></td>
-        <td>${divStr}</td>
+        <td><span style="font-weight:500" class="${pctCol(r.rec)}">${Math.round(r.rec*100)}%</span></td>
+        <td>${div===0?'<span style="color:#d3d1c7">—</span>':div>0?`<span class="green">+${div}pp</span>`:`<span class="red">${div}pp</span>`}</td>
         <td>${Math.round(r.wr*100)}%</td>
         <td style="color:#888780">${r.total} (${r.wins}W/${r.losses}L)</td>
       </tr>`;
     });
-    compHTML+='</tbody></table></div>';
-    document.getElementById('comparison-table').innerHTML=compHTML;
+    cHTML+='</tbody></table></div>';
+    document.getElementById('comparison-table').innerHTML=cHTML;
   } else {
-    document.getElementById('comparison-table').innerHTML='<p style="color:#888780;font-size:13px">Import trades across multiple setups to see the comparison.</p>';
+    document.getElementById('comparison-table').innerHTML='<p style="color:#888780;font-size:13px">No data yet.</p>';
   }
 
-  // CHARTS
+  // Charts
   const tfs=['15min','1min','3min'];
   const tfWR=tfs.map(tf=>{const sub=trades.filter(t=>t.tf===tf);return sub.length?Math.round(calcStats(sub).wr*100):0;});
   if(tfChart)tfChart.destroy();
-  tfChart=new Chart(document.getElementById('chart-tf'),{
-    type:'bar',
-    data:{labels:tfs,datasets:[{label:'Win %',data:tfWR,backgroundColor:tfWR.map(v=>v>=65?'#639922':v>=45?'#BA7517':'#E24B4A'),borderRadius:6,borderSkipped:false}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'#f1efe8'}},x:{ticks:{font:{size:11}},grid:{display:false}}}}
-  });
-
+  tfChart=new Chart(document.getElementById('chart-tf'),{type:'bar',data:{labels:tfs,datasets:[{label:'Win %',data:tfWR,backgroundColor:tfWR.map(v=>v>=65?'#639922':v>=45?'#BA7517':'#E24B4A'),borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{size:10}},grid:{color:'#f1efe8'}},x:{ticks:{font:{size:10}},grid:{display:false}}}}});
   const sysWR=['A','B'].map(sys=>{const sub=trades.filter(t=>t.system===sys);return sub.length?Math.round(calcStats(sub).wr*100):0;});
   if(sysChart)sysChart.destroy();
-  sysChart=new Chart(document.getElementById('chart-sys'),{
-    type:'bar',
-    data:{labels:['System A','System B'],datasets:[{label:'Win %',data:sysWR,backgroundColor:sysWR.map(v=>v>=65?'#639922':v>=45?'#BA7517':'#E24B4A'),borderRadius:6,borderSkipped:false}]},
-    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{size:11}},grid:{color:'#f1efe8'}},x:{ticks:{font:{size:11}},grid:{display:false}}}}
-  });
+  sysChart=new Chart(document.getElementById('chart-sys'),{type:'bar',data:{labels:['System A','System B'],datasets:[{label:'Win %',data:sysWR,backgroundColor:['#639922','#185FA5'],borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{size:10}},grid:{color:'#f1efe8'}},x:{ticks:{font:{size:10}},grid:{display:false}}}}});
 
-  // STREAK TABLE
+  // Streak table
   let stHTML='';
-  SETUPS.forEach(setup=>{
-    const sub=trades.filter(t=>t.tf===setup.tf&&t.system===setup.sys);
-    if(!sub.length)return;
+  ALL_SETUPS.forEach(s=>{
+    const sub=trades.filter(t=>t.tf===s.tf&&t.system===s.sys);if(!sub.length)return;
     const sk=calcStreak(sub);const st=calcStats(sub);
-    stHTML+=`<tr>
-      <td><span class="badge badge-gray">${setup.label}</span></td>
-      <td>${sk.alwr!==null?`<span style="font-weight:500" class="${pctCol(sk.alwr)}">${Math.round(sk.alwr*100)}%</span>`:'<span style="color:#d3d1c7">—</span>'}</td>
-      <td style="color:#888780">${sk.alt}</td>
-      <td style="color:#888780">${sk.maxL}</td>
-      <td style="color:#888780">${st.total}</td>
-    </tr>`;
+    stHTML+=`<tr><td><span class="badge ${s.sys==='B'?'badge-b':'badge-gray'}">${s.label}</span></td>
+      <td>${sk.alwr!==null?`<span class="${pctCol(sk.alwr)}" style="font-weight:500">${Math.round(sk.alwr*100)}%</span>`:'<span style="color:#d3d1c7">—</span>'}</td>
+      <td style="color:#888780">${sk.alt}</td><td style="color:#888780">${sk.maxL}</td><td style="color:#888780">${st.total}</td></tr>`;
   });
-  document.getElementById('streak-tbody').innerHTML=stHTML||'<tr><td colspan="5" style="color:#888780;text-align:center;padding:1rem">No data yet</td></tr>';
+  document.getElementById('streak-tbody').innerHTML=stHTML||'<tr><td colspan="5" style="color:#888780;text-align:center;padding:1rem">No data</td></tr>';
 
-  const recent=trades.slice(-30);
+  // Dots toggle
+  const toggleOptions=[{key:'all',label:'All'}, ...ALL_SETUPS.filter(s=>trades.some(t=>t.tf===s.tf&&t.system===s.sys)).map(s=>({key:s.key,label:s.label}))];
+  document.getElementById('dots-toggle').innerHTML=toggleOptions.map(o=>`<button class="toggle-btn${o.key===dotsFilter?' active':''}" onclick="setDotsFilter('${o.key}')">${o.label}</button>`).join('');
+  renderDots();
+}
+
+function setDotsFilter(k){dotsFilter=k;document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.toggle('active',b.textContent.trim()===(k==='all'?'All':ALL_SETUPS.find(s=>s.key===k)?.label)));renderDots();}
+function renderDots(){
+  let arr=trades;
+  if(dotsFilter!=='all'){const s=ALL_SETUPS.find(x=>x.key===dotsFilter);if(s)arr=trades.filter(t=>t.tf===s.tf&&t.system===s.sys);}
+  const recent=arr.slice(-30);
   document.getElementById('recent-dots').innerHTML=recent.map(t=>`<div class="dot ${t.result==='W'?'dot-w':'dot-l'}" title="${t.date} · ${t.tf} Sys${t.system} · ${t.result==='W'?'Win':'Loss'} · $${t.pnl}">${t.result}</div>`).join('');
 }
 
-function calcStreakSpecificWR(arr, streakType, streakLen){
-  // After exactly N consecutive streakType results, what % of next trades win?
-  let wins=0,total=0;
-  for(let i=0;i<arr.length-1;i++){
-    if(i<streakLen-1)continue;
-    // check if previous streakLen trades are all streakType
-    let match=true;
-    for(let j=0;j<streakLen;j++){
-      if(arr[i-j].result!==streakType){match=false;break;}
-    }
-    if(match){total++;if(arr[i+1].result==='W')wins++;}
-  }
-  return total>=3?{wr:wins/total,samples:total}:null;
-}
-
-function calcConfidence(arr, useRecency){
-  if(!arr.length)return 0;
-  const baseWR=arr.filter(t=>t.result==='W').length/arr.length;
-  const recent=arr.slice(-20);
-  const older=arr.slice(0,-20);
-  const rWins=recent.filter(t=>t.result==='W').length*2+older.filter(t=>t.result==='W').length;
-  const rTotal=recent.length*2+older.length;
-  const recencyWR=rTotal>0?rWins/rTotal:baseWR;
-  const baseRate=useRecency?recencyWR:baseWR;
-  let streak=0;let streakType=null;
-  for(let i=arr.length-1;i>=0;i--){
-    if(streakType===null)streakType=arr[i].result;
-    if(arr[i].result===streakType)streak++;
-    else break;
-  }
-  const sk=calcStreak(arr);
-  const afterLossWR=sk.alwr!==null?sk.alwr:baseRate;
-  let conf=baseRate;
-  if(streakType==='L'){
-    const boost=Math.min(streak*0.08,0.25);
-    conf=baseRate+(afterLossWR-baseRate)*0.6+boost;
-  } else if(streakType==='W'&&streak>=5){
-    const drag=Math.min((streak-4)*0.015,0.08);
-    conf=baseRate-drag;
-  }
-  return Math.max(0.05,Math.min(0.99,conf));
-}
-
+// ── LOG TRADE ────────────────────────────────────────────────────
 function logTrade(){
   const date=document.getElementById('l-date').value;
   const sys=document.getElementById('l-sys').value;
@@ -767,10 +830,38 @@ function logTrade(){
   trades.push({id:Date.now(),date,system:sys,tf,result:res,pnl,contracts,notes});
   trades.sort((a,b)=>a.date.localeCompare(b.date));
   saveData();
-  msg.className='msg-ok';msg.textContent='Trade added.';
-  document.getElementById('l-pnl').value='';
-  document.getElementById('l-notes').value='';
+  msg.className='msg-ok';msg.textContent='Added.';
+  document.getElementById('l-pnl').value='';document.getElementById('l-notes').value='';
   setTimeout(()=>msg.textContent='',2500);
+}
+
+// ── IMPORT ───────────────────────────────────────────────────────
+function convertTV(){
+  const raw=document.getElementById('tv-in').value.trim();
+  const sys=document.getElementById('tv-sys').value;
+  const tf=document.getElementById('tv-tf').value;
+  const msg=document.getElementById('tv-msg');
+  if(!raw){msg.className='msg-err';msg.textContent='Nothing to import.';return;}
+  const winPnl=sys==='B'?400:200;const lossPnl=-2000;const contracts=sys==='B'?2:1;
+  const lines=raw.split('\n').map(l=>l.trim()).filter(Boolean);
+  const hi=lines.findIndex(l=>l.toLowerCase().includes('trade number')||l.toLowerCase().includes('type'));
+  if(hi===-1){msg.className='msg-err';msg.textContent='No header row found.';return;}
+  const exits=lines.slice(hi+1).filter(l=>l.toLowerCase().includes('exit'));
+  let added=0,skipped=0;
+  exits.forEach((line,i)=>{
+    const cols=line.split('\t').map(c=>c.trim());if(cols.length<8){skipped++;return;}
+    const dateRaw=cols[2];const rawPnl=parseFloat(cols[7]);
+    if(!dateRaw||isNaN(rawPnl)){skipped++;return;}
+    const date=dateRaw.split(' ')[0];
+    if(!date.match(/^\d{4}-\d{2}-\d{2}$/)){skipped++;return;}
+    trades.push({id:Date.now()+i,date,system:sys,tf,result:rawPnl>0?'W':'L',pnl:rawPnl>0?winPnl:lossPnl,contracts,notes:''});
+    added++;
+  });
+  trades.sort((a,b)=>a.date.localeCompare(b.date));
+  saveData();
+  msg.className='msg-ok';msg.textContent=`Imported ${added}${skipped?' ('+skipped+' skipped)':''}`;
+  document.getElementById('tv-in').value='';
+  renderDashboard();setTimeout(()=>msg.textContent='',4000);
 }
 
 function importCSV(){
@@ -778,10 +869,10 @@ function importCSV(){
   const msg=document.getElementById('import-msg');
   if(!raw){msg.className='msg-err';msg.textContent='Nothing to import.';return;}
   const lines=raw.split('\n').map(l=>l.trim()).filter(Boolean);
-  if(lines.length<2){msg.className='msg-err';msg.textContent='Need header + at least one row.';return;}
+  if(lines.length<2){msg.className='msg-err';msg.textContent='Need header + data.';return;}
   const headers=lines[0].split(',').map(h=>h.trim().toLowerCase());
   const missing=['date','system','timeframe','result','pnl'].filter(n=>!headers.includes(n));
-  if(missing.length){msg.className='msg-err';msg.textContent='Missing columns: '+missing.join(', ');return;}
+  if(missing.length){msg.className='msg-err';msg.textContent='Missing: '+missing.join(', ');return;}
   let added=0,skipped=0;
   for(let i=1;i<lines.length;i++){
     const cols=lines[i].split(',').map(c=>c.trim());
@@ -796,25 +887,14 @@ function importCSV(){
   }
   trades.sort((a,b)=>a.date.localeCompare(b.date));
   saveData();
-  msg.className='msg-ok';
-  msg.textContent=`Imported ${added} trade${added!==1?'s':''}${skipped?' ('+skipped+' row'+(skipped!==1?'s':'')+' skipped)':''}`;
+  msg.className='msg-ok';msg.textContent=`Imported ${added}${skipped?' ('+skipped+' skipped)':''}`;
   document.getElementById('csv-in').value='';
-  renderDashboard();
-  setTimeout(()=>msg.textContent='',4000);
+  renderDashboard();setTimeout(()=>msg.textContent='',4000);
 }
 
-function clearAll(){
-  if(!confirm('Delete all trade data? This cannot be undone.'))return;
-  trades=[];saveData();
-  document.getElementById('trade-count-header').textContent='No trades logged yet';
-  renderDashboard();renderHistory();
-}
+function clearAll(){if(!confirm('Delete all trade data?'))return;trades=[];saveData();renderDashboard();}
 
-function deleteTrade(id){
-  trades=trades.filter(t=>t.id!==id);
-  saveData();renderHistory();renderDashboard();
-}
-
+// ── HISTORY ──────────────────────────────────────────────────────
 function renderHistory(){
   const sys=document.getElementById('f-sys').value;
   const tf=document.getElementById('f-tf').value;
@@ -824,120 +904,28 @@ function renderHistory(){
   if(!filtered.length){body.innerHTML='';empty.style.display='block';return;}
   empty.style.display='none';
   body.innerHTML=filtered.map(t=>`<tr>
-    <td style="font-size:12px;white-space:nowrap">${t.date}</td>
-    <td><span class="badge badge-gray">Sys ${t.system}</span></td>
-    <td><span class="badge badge-b">${t.tf}</span></td>
+    <td style="font-size:11px;white-space:nowrap">${t.date}</td>
+    <td><span class="badge ${t.system==='B'?'badge-b':'badge-gray'}">Sys ${t.system}</span></td>
+    <td><span class="badge badge-gray">${t.tf}</span></td>
     <td><span class="badge ${t.result==='W'?'badge-g':'badge-r'}">${t.result==='W'?'Win':'Loss'}</span></td>
-    <td style="font-weight:500;color:${t.pnl>=0?'#3B6D11':'#A32D2D'};white-space:nowrap">${t.pnl>=0?'+':''}$${Math.round(t.pnl).toLocaleString()}</td>
+    <td style="font-weight:500;color:${t.pnl>=0?'#3B6D11':'#A32D2D'}">${t.pnl>=0?'+':''}$${Math.round(t.pnl).toLocaleString()}</td>
     <td style="color:#888780">${t.contracts||1}</td>
-    <td style="color:#888780;max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.notes||'—'}</td>
-    <td><button class="btn btn-danger" style="padding:3px 8px;font-size:11px;border-radius:6px" onclick="deleteTrade(${t.id})" title="Delete"><i class="ti ti-trash"></i></button></td>
+    <td style="color:#888780;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.notes||'—'}</td>
+    <td><button class="btn btn-danger btn-sm" onclick="deleteTrade(${t.id})"><i class="ti ti-trash"></i></button></td>
   </tr>`).join('');
 }
+function deleteTrade(id){trades=trades.filter(t=>t.id!==id);saveData();renderHistory();renderDashboard();}
 
-function toggleExplain(id,btn){
-  const panel=document.getElementById(id);
-  const open=panel.classList.toggle('open');
-  btn.innerHTML=`<i class="ti ti-info-circle" style="font-size:11px"></i> ${open?'Hide explanation':'Explain score'}`;
-}
-
-function showImportTab(t){
-  document.getElementById('import-tv').style.display=t==='tv'?'block':'none';
-  document.getElementById('import-csv').style.display=t==='csv'?'block':'none';
-  document.getElementById('itab-tv').classList.toggle('active',t==='tv');
-  document.getElementById('itab-csv').classList.toggle('active',t==='csv');
-}
-
-function convertTV(){
-  const raw=document.getElementById('tv-in').value.trim();
-  const sys=document.getElementById('tv-sys').value;
-  const tf=document.getElementById('tv-tf').value;
-  const msg=document.getElementById('tv-msg');
-  if(!raw){msg.className='msg-err';msg.textContent='Nothing to convert.';return;}
-
-  const winPnl=sys==='B'?400:200;
-  const lossPnl=-2000;
-  const contracts=sys==='B'?2:1;
-
-  const lines=raw.split('\n').map(l=>l.trim()).filter(Boolean);
-  // find header line
-  const headerIdx=lines.findIndex(l=>l.toLowerCase().includes('trade number')||l.toLowerCase().includes('type'));
-  if(headerIdx===-1){msg.className='msg-err';msg.textContent='Could not find header row.';return;}
-
-  // collect exit rows only (they have the Net PnL)
-  const exits=lines.slice(headerIdx+1).filter(l=>{
-    const lower=l.toLowerCase();
-    return lower.includes('exit');
-  });
-
-  if(!exits.length){msg.className='msg-err';msg.textContent='No exit rows found.';return;}
-
-  let added=0,skipped=0;
-  exits.forEach((line,i)=>{
-    const cols=line.split('\t').map(c=>c.trim());
-    if(cols.length<8){skipped++;return;}
-    // columns: Trade number, Type, Date and time, Signal, Price USD, Size, Size value, Net PnL USD
-    const dateRaw=cols[2];
-    const rawPnl=parseFloat(cols[7]);
-    if(!dateRaw||isNaN(rawPnl)){skipped++;return;}
-    const date=dateRaw.split(' ')[0]; // YYYY-MM-DD
-    if(!date.match(/^\d{4}-\d{2}-\d{2}$/)){skipped++;return;}
-    const isWin=rawPnl>0;
-    const result=isWin?'W':'L';
-    const pnl=isWin?winPnl:lossPnl;
-    trades.push({id:Date.now()+i,date,system:sys,tf,result,pnl,contracts,notes:''});
-    added++;
-  });
-
-  trades.sort((a,b)=>a.date.localeCompare(b.date));
-  saveData();
-  msg.className='msg-ok';
-  msg.textContent=`Converted & imported ${added} trade${added!==1?'s':''}${skipped?' ('+skipped+' skipped)':''}`;
-  document.getElementById('tv-in').value='';
-  renderDashboard();
-  setTimeout(()=>msg.textContent='',4000);
-}
-
+// ── EXPORT ───────────────────────────────────────────────────────
 function exportCSV(){
   if(!trades.length){alert('No trades to export.');return;}
-  const headers='date,system,timeframe,result,pnl,contracts,notes';
   const rows=trades.map(t=>[t.date,t.system,t.tf,t.result,t.pnl,t.contracts||1,(t.notes||'').replace(/,/g,';')].join(','));
-  const csv=[headers,...rows].join('\n');
-  const blob=new Blob([csv],{type:'text/csv'});
-  const url=URL.createObjectURL(blob);
-  const a=document.createElement('a');
-  a.href=url;
-  const d=new Date().toISOString().split('T')[0];
-  a.download=`nq-orb-trades-${d}.csv`;
-  a.click();
-  URL.revokeObjectURL(url);
+  const csv=['date,system,timeframe,result,pnl,contracts,notes',...rows].join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download=`nq-orb-trades-${new Date().toISOString().split('T')[0]}.csv`;a.click();
 }
 
-// ── PASSING STRATEGY ────────────────────────────────────────────
-const PSK='nq_orb_passing_v1';
-const FSK='nq_orb_finance_v1';
-let attempts=[];
-let finances=[];
-
-function loadPassData(){
-  try{const r=localStorage.getItem(PSK);if(r)attempts=JSON.parse(r);}catch(e){attempts=[];}
-  try{const r=localStorage.getItem(FSK);if(r)finances=JSON.parse(r);}catch(e){finances=[];}
-}
-function savePassData(){
-  try{localStorage.setItem(PSK,JSON.stringify(attempts));}catch(e){}
-  try{localStorage.setItem(FSK,JSON.stringify(finances));}catch(e){}
-}
-
-function showPassTab(t){
-  ['overview','log','import','finance','history'].forEach(id=>{
-    document.getElementById('pass-'+id).style.display=id===t?'block':'none';
-    document.getElementById('ptab-'+id).classList.toggle('active',id===t);
-  });
-  if(t==='overview')renderPassOverview();
-  if(t==='finance')renderFinance();
-  if(t==='history')renderAttHistory();
-}
-
+// ── PASSING ──────────────────────────────────────────────────────
 function logAttempt(){
   const date=document.getElementById('pa-date').value;
   const outcome=document.getElementById('pa-outcome').value;
@@ -949,11 +937,9 @@ function logAttempt(){
   const t2=outcome==='pass'?'W':outcome==='fail-wl'?'L':null;
   attempts.push({id:Date.now(),date,passed,t1,t2,notes,cost:95});
   attempts.sort((a,b)=>a.date.localeCompare(b.date));
-  savePassData();
-  msg.className='msg-ok';msg.textContent='Attempt logged.';
+  savePassData();msg.className='msg-ok';msg.textContent='Logged.';
   document.getElementById('pa-notes').value='';
-  setTimeout(()=>msg.textContent='',2500);
-  renderPassOverview();
+  setTimeout(()=>msg.textContent='',2500);renderPassOverview();
 }
 
 function importAttempts(){
@@ -962,116 +948,58 @@ function importAttempts(){
   const msg=document.getElementById('pi-msg');
   if(!raw){msg.className='msg-err';msg.textContent='Nothing to import.';return;}
   const lines=raw.split('\n').map(l=>l.trim()).filter(Boolean);
-  const headerIdx=lines.findIndex(l=>l.toLowerCase().includes('trade number')||l.toLowerCase().includes('type'));
-  if(headerIdx===-1){msg.className='msg-err';msg.textContent='Could not find header row.';return;}
-  const exits=lines.slice(headerIdx+1).filter(l=>l.toLowerCase().includes('exit'));
-  if(!exits.length){msg.className='msg-err';msg.textContent='No exit rows found.';return;}
-
-  // group by trade number pairs — every 2 exits = 1 attempt
+  const hi=lines.findIndex(l=>l.toLowerCase().includes('trade number')||l.toLowerCase().includes('type'));
+  if(hi===-1){msg.className='msg-err';msg.textContent='No header found.';return;}
+  const exits=lines.slice(hi+1).filter(l=>l.toLowerCase().includes('exit'));
   let added=0;
   for(let i=0;i<exits.length;i++){
-    const cols=exits[i].split('\t').map(c=>c.trim());
-    if(cols.length<8)continue;
+    const cols=exits[i].split('\t').map(c=>c.trim());if(cols.length<8)continue;
     const dateRaw=cols[2];const rawPnl=parseFloat(cols[7]);
     if(!dateRaw||isNaN(rawPnl))continue;
-    const date=dateRaw.split(' ')[0];
-    const t1=rawPnl>0?'W':'L';
-    // check if next exit is same day (trade 2)
+    const date=dateRaw.split(' ')[0];const t1=rawPnl>0?'W':'L';
     let t2=null;
     if(t1==='W'&&i+1<exits.length){
-      const cols2=exits[i+1].split('\t').map(c=>c.trim());
-      const date2=(cols2[2]||'').split(' ')[0];
-      const pnl2=parseFloat(cols2[7]);
-      if(date2===date&&!isNaN(pnl2)){
-        t2=pnl2>0?'W':'L';
-        i++; // consume second trade
-      }
+      const c2=exits[i+1].split('\t').map(c=>c.trim());
+      const d2=(c2[2]||'').split(' ')[0];const p2=parseFloat(c2[7]);
+      if(d2===date&&!isNaN(p2)){t2=p2>0?'W':'L';i++;}
     }
-    const passed=t1==='W'&&t2==='W';
-    attempts.push({id:Date.now()+i,date,passed,t1,t2,notes:'',cost});
-    added++;
+    attempts.push({id:Date.now()+i,date,passed:t1==='W'&&t2==='W',t1,t2,notes:'',cost});added++;
   }
   attempts.sort((a,b)=>a.date.localeCompare(b.date));
-  savePassData();
-  msg.className='msg-ok';msg.textContent=`Imported ${added} attempt${added!==1?'s':''}`;
-  document.getElementById('pi-in').value='';
-  renderPassOverview();
-  setTimeout(()=>msg.textContent='',4000);
+  savePassData();msg.className='msg-ok';msg.textContent=`Imported ${added} attempt${added!==1?'s':''}`;
+  document.getElementById('pi-in').value='';renderPassOverview();setTimeout(()=>msg.textContent='',4000);
 }
 
-function clearAttempts(){
-  if(!confirm('Clear all passing attempts?'))return;
-  attempts=[];savePassData();renderPassOverview();renderAttHistory();
-}
-
-function deleteAttempt(id){
-  attempts=attempts.filter(a=>a.id!==id);
-  savePassData();renderAttHistory();renderPassOverview();
-}
+function clearAttempts(){if(!confirm('Clear all passing attempts?'))return;attempts=[];savePassData();renderPassOverview();renderAttHistory();}
+function deleteAttempt(id){attempts=attempts.filter(a=>a.id!==id);savePassData();renderAttHistory();renderPassOverview();}
 
 function renderPassOverview(){
   if(!attempts.length){
     document.getElementById('pass-metrics').innerHTML='<p style="color:#888780;font-size:13px">No attempts logged yet.</p>';
-    document.getElementById('pass-prediction').innerHTML='<p style="color:#888780;font-size:13px">Log attempts to see predictions.</p>';
-    document.getElementById('pass-dots').innerHTML='';
-    return;
+    document.getElementById('pass-prediction').innerHTML='<p style="color:#888780;font-size:13px">Log attempts to see prediction.</p>';
+    document.getElementById('pass-dots').innerHTML='';return;
   }
   const passes=attempts.filter(a=>a.passed).length;
   const fails=attempts.length-passes;
   const passRate=passes/attempts.length;
   const totalCost=attempts.reduce((s,a)=>s+a.cost,0);
   const costPerPass=passes>0?totalCost/passes:0;
-  // expected attempts to next pass (geometric distribution)
-  const expectedAttempts=passRate>0?Math.round(1/passRate*10)/10:null;
-
   document.getElementById('pass-metrics').innerHTML=`
-    <div class="card-sm"><div class="sm-label">Total attempts</div><div class="med-num">${attempts.length}</div><div class="sm-label">${passes} passed / ${fails} failed</div></div>
+    <div class="card-sm"><div class="sm-label">Attempts</div><div class="med-num">${attempts.length}</div><div class="sm-label">${passes}P / ${fails}F</div></div>
     <div class="card-sm"><div class="sm-label">Pass rate</div><div class="med-num ${pctCol(passRate)}">${Math.round(passRate*100)}%</div><div class="bar-track"><div class="bar-fill ${barCls(passRate)}" style="width:${Math.round(passRate*100)}%"></div></div></div>
-    <div class="card-sm"><div class="sm-label">Cost per pass</div><div class="med-num ${costPerPass>200?'red':'green'}">$${Math.round(costPerPass)}</div><div class="sm-label">$${totalCost} total spent on attempts</div></div>
-    <div class="card-sm"><div class="sm-label">Avg attempts to pass</div><div class="med-num">${expectedAttempts||'—'}</div><div class="sm-label">Based on ${Math.round(passRate*100)}% pass rate</div></div>
+    <div class="card-sm"><div class="sm-label">Cost per pass</div><div class="med-num ${costPerPass>200?'red':'green'}">$${Math.round(costPerPass)||'—'}</div><div class="sm-label">$${totalCost} total</div></div>
+    <div class="card-sm"><div class="sm-label">Exp. attempts to pass</div><div class="med-num">${passRate>0?Math.round(1/passRate*10)/10:'—'}</div></div>
   `;
-
-  // streak
-  let streak=0;let streakType=null;
-  for(let i=attempts.length-1;i>=0;i--){
-    const r=attempts[i].passed?'P':'F';
-    if(streakType===null)streakType=r;
-    if(r===streakType)streak++;
-    else break;
-  }
-
-  // after-fail recovery rate
-  let afWins=0,afTotal=0;
-  for(let i=1;i<attempts.length;i++){
-    if(!attempts[i-1].passed){afTotal++;if(attempts[i].passed)afWins++;}
-  }
-  const afRate=afTotal>=2?afWins/afTotal:null;
-
-  // streak-specific
-  let ssWins=0,ssTotal=0;
-  const sType=streakType==='P'?true:false;
-  for(let i=streak;i<attempts.length;i++){
-    let match=true;
-    for(let j=1;j<=streak;j++){if(attempts[i-j]?.passed!==sType){match=false;break;}}
-    if(match){ssTotal++;if(attempts[i].passed)ssWins++;}
-  }
-  const ssRate=ssTotal>=3?ssWins/ssTotal:null;
-
-  // confidence
+  const arr=attempts.map(a=>({result:a.passed?'W':'L'}));
+  const{streak,streakType}=getCurrentStreak(arr);
+  let afwWins=0,afwTotal=0;
+  for(let i=1;i<attempts.length;i++){if(!attempts[i-1].passed){afwTotal++;if(attempts[i].passed)afwWins++;}}
+  const afwRate=afwTotal>=2?afwWins/afwTotal:null;
   let conf=passRate;
-  if(streakType==='F'){
-    const boost=Math.min(streak*0.1,0.3);
-    conf=passRate+(afRate!==null?afRate-passRate:0)*0.6+boost;
-  } else if(streakType==='P'&&streak>=3){
-    conf=passRate-Math.min((streak-2)*0.02,0.08);
-  }
+  if(streakType==='L'){const b=Math.min(streak*0.1,0.3);conf=passRate+(afwRate!==null?afwRate-passRate:0)*0.6+b;}
+  else if(streakType==='W'&&streak>=3)conf=passRate-Math.min((streak-2)*0.02,0.08);
   conf=Math.max(0.05,Math.min(0.99,conf));
-
-  const streakNote=streakType==='F'
-    ?`<span class="badge badge-a">${streak} fail streak → confidence boosted</span>`
-    :streak>=3?`<span class="badge badge-gray">${streak} pass streak → slight drag</span>`
-    :`<span class="badge badge-g">${streak} pass streak</span>`;
-
+  const ss=calcStreakSpecificWR(attempts.map(a=>({result:a.passed?'W':'L'})),streakType,streak);
   document.getElementById('pass-prediction').innerHTML=`
     <div class="conf-card">
       <div class="conf-card-top">
@@ -1080,44 +1008,86 @@ function renderPassOverview(){
         </div>
         <div class="conf-info">
           <div class="conf-title">Probability of passing next attempt</div>
-          <div class="conf-note">Historical pass rate: ${Math.round(passRate*100)}% · Current streak: ${streak} consecutive ${streakType==='P'?'passes':'fails'}</div>
+          <div class="conf-note">Base rate ${Math.round(passRate*100)}% · ${streak}× consecutive ${streakType==='W'?'passes':'fails'}</div>
           <div class="bar-track"><div class="bar-fill ${barCls(conf)}" style="width:${Math.round(conf*100)}%"></div></div>
           <div style="margin-top:6px;display:flex;gap:5px;flex-wrap:wrap;align-items:center">
             <span class="badge ${badgeCls(conf)}">${conf>=.65?'High':conf>=.4?'Moderate':'Low'} confidence</span>
-            ${streakNote}
-            <button class="explain-btn" onclick="toggleExplain('pass-explain',this)"><i class="ti ti-info-circle" style="font-size:11px"></i> Explain</button>
+            ${streakType==='L'?`<span class="badge badge-a">${streak}F streak → boosted</span>`:streak>=3?`<span class="badge badge-gray">${streak}P streak → drag`:''}
+            <button class="explain-btn" onclick="toggleExplain('pass-exp',this)"><i class="ti ti-info-circle" style="font-size:11px"></i>Explain</button>
           </div>
         </div>
       </div>
-      <div class="explain-panel" id="pass-explain">
+      <div class="explain-panel" id="pass-exp">
         <div class="explain-row"><span class="explain-label">Historical pass rate</span><span class="explain-val">${Math.round(passRate*100)}% (${attempts.length} attempts)</span></div>
-        <div class="explain-row"><span class="explain-label">Current streak</span><span class="explain-val">${streak} consecutive ${streakType==='P'?'passes':'fails'}</span></div>
-        <div class="explain-row"><span class="explain-label">After-fail recovery rate</span><span class="explain-val">${afRate!==null?Math.round(afRate*100)+'% ('+afTotal+' samples)':'Need 2+ samples'}</span></div>
-        <div class="explain-row"><span class="explain-label">Streak-specific rate</span><span class="explain-val">${ssRate!==null?`After ${streak} ${streakType==='P'?'passes':'fails'}, next attempt passed ${Math.round(ssRate*100)}% (${ssTotal} samples)`:'Need 3+ samples'}</span></div>
-        <div class="explain-row"><span class="explain-label">Streak adjustment</span><span class="explain-val">${streakType==='F'?`+${Math.round(Math.min(streak*0.1,0.3)*100)}pp boost`:streak>=3?`−${Math.round(Math.min((streak-2)*0.02,0.08)*100)}pp drag`:'No adjustment'}</span></div>
+        <div class="explain-row"><span class="explain-label">Current streak</span><span class="explain-val">${streak}× ${streakType==='W'?'passes':'fails'}</span></div>
+        <div class="explain-row"><span class="explain-label">After-fail recovery rate</span><span class="explain-val">${afwRate!==null?Math.round(afwRate*100)+'% ('+afwTotal+' samples)':'Need 2+ samples'}</span></div>
+        <div class="explain-row"><span class="explain-label">Streak-specific stat</span><span class="explain-val">${ss?`After ${streak}× ${streakType==='W'?'P':'F'}, next passed ${Math.round(ss.wr*100)}% (${ss.samples} samples)`:'Need 3+ samples'}</span></div>
         <div class="explain-row"><span class="explain-label">Expected cost to next pass</span><span class="explain-val">~$${Math.round((1/conf)*95)}</span></div>
         <div class="explain-row" style="padding-top:8px;border-top:0.5px solid #d3d1c7"><span class="explain-label" style="font-weight:500">Confidence score</span><span class="explain-val ${pctCol(conf)}" style="font-size:14px">${Math.round(conf*100)}%</span></div>
       </div>
     </div>`;
-  setTimeout(()=>drawRing('pass-ring',conf,ringColor(conf)),50);
-
-  const recent=attempts.slice(-30);
-  document.getElementById('pass-dots').innerHTML=recent.map(a=>`<div class="dot ${a.passed?'dot-w':'dot-l'}" title="${a.date} · ${a.passed?'Pass':'Fail'}">${a.passed?'P':'F'}</div>`).join('');
+  setTimeout(()=>drawRing('pass-ring',conf,ringCol(conf)),50);
+  document.getElementById('pass-dots').innerHTML=[...attempts].slice(-30).map(a=>`<div class="dot ${a.passed?'dot-w':'dot-l'}" title="${a.date} · ${a.passed?'Pass':'Fail'}">${a.passed?'P':'F'}</div>`).join('');
 }
 
 function renderAttHistory(){
-  const body=document.getElementById('att-body');
-  const empty=document.getElementById('att-empty');
+  const body=document.getElementById('att-body');const empty=document.getElementById('att-empty');
   if(!attempts.length){body.innerHTML='';empty.style.display='block';return;}
   empty.style.display='none';
   body.innerHTML=[...attempts].reverse().map(a=>`<tr>
-    <td style="font-size:12px;white-space:nowrap">${a.date}</td>
+    <td style="font-size:11px">${a.date}</td>
     <td><span class="badge ${a.passed?'badge-g':'badge-r'}">${a.passed?'Pass':'Fail'}</span></td>
     <td><span class="badge ${a.t1==='W'?'badge-g':'badge-r'}">${a.t1==='W'?'Win':'Loss'}</span></td>
     <td>${a.t2?`<span class="badge ${a.t2==='W'?'badge-g':'badge-r'}">${a.t2==='W'?'Win':'Loss'}</span>`:'<span style="color:#d3d1c7">—</span>'}</td>
-    <td style="color:#888780;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${a.notes||'—'}</td>
-    <td><button class="btn btn-danger" style="padding:3px 8px;font-size:11px;border-radius:6px" onclick="deleteAttempt(${a.id})"><i class="ti ti-trash"></i></button></td>
+    <td style="color:#888780;font-size:11px">${a.notes||'—'}</td>
+    <td><button class="btn btn-danger btn-sm" onclick="deleteAttempt(${a.id})"><i class="ti ti-trash"></i></button></td>
   </tr>`).join('');
+}
+
+// ── STRATEGY SIMULATOR ──────────────────────────────────────────
+function runSim(){
+  const wr=parseFloat(document.getElementById('sim-wr').value)/100;
+  const wins=parseInt(document.getElementById('sim-wins').value);
+  const cost=parseFloat(document.getElementById('sim-cost').value);
+  const instantFail=document.getElementById('sim-fail').value==='yes';
+  const tp=parseFloat(document.getElementById('sim-tp').value);
+  const sl=parseFloat(document.getElementById('sim-sl').value);
+  if(isNaN(wr)||isNaN(wins)||isNaN(cost)||isNaN(tp)||isNaN(sl)){
+    document.getElementById('sim-results').innerHTML='<p class="msg-err">Fill in all fields.</p>';return;
+  }
+  let passProb;
+  if(instantFail){
+    // P(pass) = P(all wins in sequence) = wr^wins
+    passProb=Math.pow(wr,wins);
+  } else {
+    // P(pass) = P(at least 'wins' wins before any loss ends it — simplified: wr^wins since loss ends it anyway)
+    passProb=Math.pow(wr,wins);
+  }
+  const expectedAttempts=1/passProb;
+  const expectedCost=expectedAttempts*cost;
+  const passProfit=wins*tp;
+  const roiPerPass=passProfit-expectedCost;
+  const breakEvenAttempts=passProfit/cost;
+
+  document.getElementById('sim-results').innerHTML=`
+    <div class="divider"></div>
+    <div class="section-label">Simulation results</div>
+    <div class="grid4" style="margin-bottom:1rem">
+      <div class="card-sm"><div class="sm-label">Pass probability</div><div class="med-num ${pctCol(passProb)}">${Math.round(passProb*100)}%</div></div>
+      <div class="card-sm"><div class="sm-label">Expected attempts</div><div class="med-num">${Math.round(expectedAttempts*10)/10}</div></div>
+      <div class="card-sm"><div class="sm-label">Expected cost to pass</div><div class="med-num red">$${Math.round(expectedCost)}</div></div>
+      <div class="card-sm"><div class="sm-label">Pass profit</div><div class="med-num green">$${Math.round(passProfit)}</div></div>
+    </div>
+    <div class="grid2">
+      <div class="card-sm"><div class="sm-label">Net ROI per pass (profit − avg cost)</div><div class="med-num ${roiPerPass>=0?'green':'red'}">${roiPerPass>=0?'+':''}$${Math.round(roiPerPass)}</div></div>
+      <div class="card-sm"><div class="sm-label">Break-even attempts</div><div class="med-num">${Math.round(breakEvenAttempts*10)/10} <span style="font-size:13px;font-weight:400;color:#888780">passes needed to cover costs at this rate</span></div></div>
+    </div>
+    <div class="card-sm" style="margin-top:10px;font-size:12px;color:#5f5e5a">
+      At ${Math.round(wr*100)}% win rate with ${wins} wins needed and instant-fail on loss: you pass ${Math.round(passProb*100)}% of attempts. 
+      Every ${Math.round(expectedAttempts*10)/10} attempts on average costs $${Math.round(expectedCost)} to secure one pass worth $${Math.round(passProfit)}.
+      ${roiPerPass>=0?`Net positive — each pass returns roughly $${Math.round(roiPerPass)} after expected costs.`:`Currently net negative per pass cycle — consider reducing cost per attempt or increasing TP.`}
+    </div>
+  `;
 }
 
 // ── FINANCE ──────────────────────────────────────────────────────
@@ -1131,50 +1101,41 @@ function logFinance(){
   if(isNaN(amount)||amount<=0){msg.className='msg-err';msg.textContent='Enter a valid amount.';return;}
   finances.push({id:Date.now(),date,type,amount,notes});
   finances.sort((a,b)=>a.date.localeCompare(b.date));
-  savePassData();
-  msg.className='msg-ok';msg.textContent='Entry added.';
-  document.getElementById('fin-amount').value='';
-  document.getElementById('fin-notes').value='';
-  setTimeout(()=>msg.textContent='',2500);
-  renderFinance();
+  savePassData();msg.className='msg-ok';msg.textContent='Added.';
+  document.getElementById('fin-amount').value='';document.getElementById('fin-notes').value='';
+  setTimeout(()=>msg.textContent='',2500);renderFinance();
 }
-
-function deleteFinance(id){
-  finances=finances.filter(f=>f.id!==id);
-  savePassData();renderFinance();
-}
-
+function deleteFinance(id){finances=finances.filter(f=>f.id!==id);savePassData();renderFinance();}
 function renderFinance(){
-  const totalSpend=finances.filter(f=>f.type==='spend').reduce((s,f)=>s+f.amount,0);
-  const totalPayout=finances.filter(f=>f.type==='payout').reduce((s,f)=>s+f.amount,0);
-  const net=totalPayout-totalSpend;
-  document.getElementById('fin-metrics').innerHTML=`
-    <div class="card-sm"><div class="sm-label">Total spent</div><div class="med-num red">-$${totalSpend.toLocaleString()}</div></div>
-    <div class="card-sm"><div class="sm-label">Total payouts</div><div class="med-num green">+$${totalPayout.toLocaleString()}</div></div>
-    <div class="card-sm" style="grid-column:1/-1;border:0.5px solid ${net>=0?'#C0DD97':'#F7C1C1'};background:${net>=0?'#EAF3DE':'#FCEBEB'}">
+  const ts=finances.filter(f=>f.type==='spend').reduce((s,f)=>s+f.amount,0);
+  const tp=finances.filter(f=>f.type==='payout').reduce((s,f)=>s+f.amount,0);
+  const net=tp-ts;
+  document.getElementById('fin-net').innerHTML=`
+    <div class="card-sm"><div class="sm-label">Total spent</div><div class="med-num red">${ts?'-$'+ts.toLocaleString():'$0'}</div></div>
+    <div class="card-sm"><div class="sm-label">Total payouts</div><div class="med-num green">${tp?'+$'+tp.toLocaleString():'$0'}</div></div>
+    <div class="card-sm" style="grid-column:1/-1;border-color:${net>=0?'#C0DD97':'#F7C1C1'};background:${net>=0?'#EAF3DE':'#FCEBEB'}">
       <div class="sm-label">Net position</div>
-      <div class="med-num ${net>=0?'green':'red'}">${net>=0?'+':''  }$${net.toLocaleString()}</div>
+      <div class="med-num ${net>=0?'green':'red'}">${net>=0?'+':''}$${net.toLocaleString()}</div>
       <div class="sm-label">${net>=0?'You are in profit overall':'You are in deficit — keep going'}</div>
-    </div>
-  `;
-  const body=document.getElementById('fin-body');
-  const empty=document.getElementById('fin-empty');
+    </div>`;
+  const body=document.getElementById('fin-body');const empty=document.getElementById('fin-empty');
   if(!finances.length){body.innerHTML='';empty.style.display='block';return;}
   empty.style.display='none';
   body.innerHTML=[...finances].reverse().map(f=>`<tr>
-    <td style="font-size:12px;white-space:nowrap">${f.date}</td>
+    <td style="font-size:11px">${f.date}</td>
     <td><span class="badge ${f.type==='payout'?'badge-g':'badge-r'}">${f.type==='payout'?'Payout':'Spend'}</span></td>
     <td style="font-weight:500;color:${f.type==='payout'?'#3B6D11':'#A32D2D'}">${f.type==='payout'?'+':'-'}$${f.amount.toLocaleString()}</td>
     <td style="color:#888780">${f.notes||'—'}</td>
-    <td><button class="btn btn-danger" style="padding:3px 8px;font-size:11px;border-radius:6px" onclick="deleteFinance(${f.id})"><i class="ti ti-trash"></i></button></td>
+    <td><button class="btn btn-danger btn-sm" onclick="deleteFinance(${f.id})"><i class="ti ti-trash"></i></button></td>
   </tr>`).join('');
 }
 
+// ── INIT ─────────────────────────────────────────────────────────
 loadData();
-loadPassData();
-document.getElementById('l-date').value=new Date().toISOString().split('T')[0];
-document.getElementById('pa-date').value=new Date().toISOString().split('T')[0];
-document.getElementById('fin-date').value=new Date().toISOString().split('T')[0];
+const today=new Date().toISOString().split('T')[0];
+document.getElementById('l-date').value=today;
+document.getElementById('pa-date').value=today;
+document.getElementById('fin-date').value=today;
 renderDashboard();
 </script>
 </body>
