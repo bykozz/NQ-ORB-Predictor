@@ -101,6 +101,7 @@
       <button class="nav-btn" onclick="showPage('log')"><i class="ti ti-plus"></i> Log trade</button>
       <button class="nav-btn" onclick="showPage('import')"><i class="ti ti-upload"></i> Import</button>
       <button class="nav-btn" onclick="showPage('history')"><i class="ti ti-clock"></i> History</button>
+      <button class="nav-btn" onclick="showPage('passing')"><i class="ti ti-trophy"></i> Passing</button>
       <button class="nav-btn" onclick="exportCSV()" title="Export all trades as CSV"><i class="ti ti-download"></i> Export</button>
     </div>
   </div>
@@ -300,6 +301,131 @@
       <div id="hist-empty" class="empty-state">No trades yet.</div>
     </div>
   </div>
+  <!-- PASSING -->
+  <div id="page-passing" class="page">
+    <div id="pass-empty" class="empty-state" style="display:none">
+      <i class="ti ti-trophy empty-icon"></i>
+      Log your first passing attempt to see analysis.
+    </div>
+
+    <!-- sub nav -->
+    <div style="display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap">
+      <button class="nav-btn active" id="ptab-overview" onclick="showPassTab('overview')" style="font-size:12px;padding:6px 14px"><i class="ti ti-chart-bar"></i> Overview</button>
+      <button class="nav-btn" id="ptab-log" onclick="showPassTab('log')" style="font-size:12px;padding:6px 14px"><i class="ti ti-plus"></i> Log attempt</button>
+      <button class="nav-btn" id="ptab-import" onclick="showPassTab('import')" style="font-size:12px;padding:6px 14px"><i class="ti ti-upload"></i> Import</button>
+      <button class="nav-btn" id="ptab-finance" onclick="showPassTab('finance')" style="font-size:12px;padding:6px 14px"><i class="ti ti-coin"></i> Finance</button>
+      <button class="nav-btn" id="ptab-history" onclick="showPassTab('history')" style="font-size:12px;padding:6px 14px"><i class="ti ti-clock"></i> History</button>
+    </div>
+
+    <!-- OVERVIEW -->
+    <div id="pass-overview">
+      <div class="section-label">Passing performance</div>
+      <div class="grid4" id="pass-metrics" style="margin-bottom:1rem"></div>
+      <div class="divider"></div>
+      <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px">
+        <div class="section-label" style="margin-bottom:0">Next attempt prediction</div>
+      </div>
+      <p style="font-size:12px;color:#888780;margin-bottom:.875rem">Based on your historical pass rate, streak, and after-fail recovery rate.</p>
+      <div id="pass-prediction"></div>
+      <div class="divider"></div>
+      <div class="section-label">Recent attempts</div>
+      <div class="streak-dots" id="pass-dots"></div>
+      <p style="font-size:11px;color:#888780;margin-top:6px">Oldest → newest &nbsp;·&nbsp; <span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#639922;vertical-align:middle"></span> Pass &nbsp;<span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#E24B4A;vertical-align:middle"></span> Fail</span></p>
+    </div>
+
+    <!-- LOG ATTEMPT -->
+    <div id="pass-log" style="display:none">
+      <div class="card" style="max-width:520px">
+        <div class="section-label" style="margin-bottom:1rem">Log an attempt</div>
+        <p style="font-size:12px;color:#888780;margin-bottom:1rem">Rules: $1,500 TP · $2,000 SL · 2 wins to pass · 1 loss = instant fail · $95/account</p>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Date</label><input type="date" id="pa-date"></div>
+          <div class="form-group"><label class="form-label">Outcome</label>
+            <select id="pa-outcome">
+              <option value="pass">Pass (W + W)</option>
+              <option value="fail-l">Fail — Loss on trade 1</option>
+              <option value="fail-wl">Fail — Win then Loss</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group"><label class="form-label">Notes</label><textarea id="pa-notes" placeholder="Optional..."></textarea></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:6px">
+          <button class="btn btn-primary" onclick="logAttempt()"><i class="ti ti-plus"></i> Add attempt</button>
+          <span id="pa-msg"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- IMPORT -->
+    <div id="pass-import" style="display:none">
+      <div class="card" style="max-width:640px">
+        <div class="section-label" style="margin-bottom:.75rem">Import passing attempts</div>
+        <div class="card-sm" style="margin-bottom:.75rem">
+          <div style="font-size:12px;font-weight:500;margin-bottom:3px">Paste from TradingView or CSV</div>
+          <div style="font-size:12px;color:#5f5e5a">The importer reads pairs of trades per attempt. Each attempt is two trades max — a loss on trade 1 ends it immediately.</div>
+          <div style="font-size:11px;color:#888780;margin-top:6px">Same TradingView format as main import. Select the date range for your passing attempts and it will group them into attempts automatically (2 trades per attempt, or 1 if first trade was a loss).</div>
+        </div>
+        <div class="form-group" style="margin-bottom:10px">
+          <label class="form-label">Attempt cost per account ($)</label>
+          <input type="number" id="pi-cost" value="95" style="max-width:120px">
+        </div>
+        <div class="form-group"><textarea id="pi-in" style="min-height:140px;font-family:monospace;font-size:11px" placeholder="Paste TradingView trade list here — same format as main import..."></textarea></div>
+        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+          <button class="btn btn-primary" onclick="importAttempts()"><i class="ti ti-upload"></i> Import</button>
+          <button class="btn btn-danger" onclick="clearAttempts()"><i class="ti ti-trash"></i> Clear all attempts</button>
+          <span id="pi-msg"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- FINANCE -->
+    <div id="pass-finance" style="display:none">
+      <div class="grid2" style="margin-bottom:1rem">
+        <div class="card">
+          <div class="section-label">Log spend or payout</div>
+          <div class="form-group"><label class="form-label">Date</label><input type="date" id="fin-date"></div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Type</label>
+              <select id="fin-type">
+                <option value="spend">Spend (account purchase / fee)</option>
+                <option value="payout">Payout received</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">Amount ($)</label><input type="number" id="fin-amount" placeholder="e.g. 95"></div>
+          </div>
+          <div class="form-group"><label class="form-label">Notes</label><input type="text" id="fin-notes" placeholder="e.g. Account #3 purchase"></div>
+          <div style="display:flex;align-items:center;gap:10px;margin-top:6px">
+            <button class="btn btn-primary" onclick="logFinance()"><i class="ti ti-plus"></i> Add entry</button>
+            <span id="fin-msg"></span>
+          </div>
+        </div>
+        <div>
+          <div class="section-label">Net position</div>
+          <div class="grid2" style="gap:8px" id="fin-metrics"></div>
+        </div>
+      </div>
+      <div class="section-label">Finance history</div>
+      <div class="card" style="padding:0;overflow:hidden">
+        <table>
+          <thead><tr><th>Date</th><th>Type</th><th>Amount</th><th>Notes</th><th></th></tr></thead>
+          <tbody id="fin-body"></tbody>
+        </table>
+        <div id="fin-empty" class="empty-state">No entries yet.</div>
+      </div>
+    </div>
+
+    <!-- ATTEMPT HISTORY -->
+    <div id="pass-history" style="display:none">
+      <div class="card" style="padding:0;overflow:hidden">
+        <table>
+          <thead><tr><th>Date</th><th>Outcome</th><th>Trade 1</th><th>Trade 2</th><th>Notes</th><th></th></tr></thead>
+          <tbody id="att-body"></tbody>
+        </table>
+        <div id="att-empty" class="empty-state">No attempts logged yet.</div>
+      </div>
+    </div>
+  </div>
+
 </div>
 
 <script>
@@ -318,11 +444,12 @@ function showPage(p){
   document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('.nav-btn').forEach(el=>el.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active');
-  const idx={dashboard:0,log:1,import:2,history:3}[p];
+  const idx={dashboard:0,log:1,import:2,history:3,passing:4}[p];
   document.querySelectorAll('.nav-btn')[idx].classList.add('active');
   if(p==='import')showImportTab('tv');
   if(p==='dashboard')renderDashboard();
   if(p==='history')renderHistory();
+  if(p==='passing'){showPassTab('overview');renderPassOverview();renderFinance();}
 }
 
 function pctCol(wr){return wr>=.65?'green':wr>=.45?'amber':'red';}
@@ -582,6 +709,8 @@ function renderDashboard(){
   const recent=trades.slice(-30);
   document.getElementById('recent-dots').innerHTML=recent.map(t=>`<div class="dot ${t.result==='W'?'dot-w':'dot-l'}" title="${t.date} · ${t.tf} Sys${t.system} · ${t.result==='W'?'Win':'Loss'} · $${t.pnl}">${t.result}</div>`).join('');
 }
+
+function calcStreakSpecificWR(arr, streakType, streakLen){
   // After exactly N consecutive streakType results, what % of next trades win?
   let wins=0,total=0;
   for(let i=0;i<arr.length-1;i++){
@@ -784,8 +913,268 @@ function exportCSV(){
   URL.revokeObjectURL(url);
 }
 
+// ── PASSING STRATEGY ────────────────────────────────────────────
+const PSK='nq_orb_passing_v1';
+const FSK='nq_orb_finance_v1';
+let attempts=[];
+let finances=[];
+
+function loadPassData(){
+  try{const r=localStorage.getItem(PSK);if(r)attempts=JSON.parse(r);}catch(e){attempts=[];}
+  try{const r=localStorage.getItem(FSK);if(r)finances=JSON.parse(r);}catch(e){finances=[];}
+}
+function savePassData(){
+  try{localStorage.setItem(PSK,JSON.stringify(attempts));}catch(e){}
+  try{localStorage.setItem(FSK,JSON.stringify(finances));}catch(e){}
+}
+
+function showPassTab(t){
+  ['overview','log','import','finance','history'].forEach(id=>{
+    document.getElementById('pass-'+id).style.display=id===t?'block':'none';
+    document.getElementById('ptab-'+id).classList.toggle('active',id===t);
+  });
+  if(t==='overview')renderPassOverview();
+  if(t==='finance')renderFinance();
+  if(t==='history')renderAttHistory();
+}
+
+function logAttempt(){
+  const date=document.getElementById('pa-date').value;
+  const outcome=document.getElementById('pa-outcome').value;
+  const notes=document.getElementById('pa-notes').value.trim();
+  const msg=document.getElementById('pa-msg');
+  if(!date){msg.className='msg-err';msg.textContent='Enter a date.';return;}
+  const passed=outcome==='pass';
+  const t1=outcome==='fail-l'?'L':'W';
+  const t2=outcome==='pass'?'W':outcome==='fail-wl'?'L':null;
+  attempts.push({id:Date.now(),date,passed,t1,t2,notes,cost:95});
+  attempts.sort((a,b)=>a.date.localeCompare(b.date));
+  savePassData();
+  msg.className='msg-ok';msg.textContent='Attempt logged.';
+  document.getElementById('pa-notes').value='';
+  setTimeout(()=>msg.textContent='',2500);
+  renderPassOverview();
+}
+
+function importAttempts(){
+  const raw=document.getElementById('pi-in').value.trim();
+  const cost=parseFloat(document.getElementById('pi-cost').value)||95;
+  const msg=document.getElementById('pi-msg');
+  if(!raw){msg.className='msg-err';msg.textContent='Nothing to import.';return;}
+  const lines=raw.split('\n').map(l=>l.trim()).filter(Boolean);
+  const headerIdx=lines.findIndex(l=>l.toLowerCase().includes('trade number')||l.toLowerCase().includes('type'));
+  if(headerIdx===-1){msg.className='msg-err';msg.textContent='Could not find header row.';return;}
+  const exits=lines.slice(headerIdx+1).filter(l=>l.toLowerCase().includes('exit'));
+  if(!exits.length){msg.className='msg-err';msg.textContent='No exit rows found.';return;}
+
+  // group by trade number pairs — every 2 exits = 1 attempt
+  let added=0;
+  for(let i=0;i<exits.length;i++){
+    const cols=exits[i].split('\t').map(c=>c.trim());
+    if(cols.length<8)continue;
+    const dateRaw=cols[2];const rawPnl=parseFloat(cols[7]);
+    if(!dateRaw||isNaN(rawPnl))continue;
+    const date=dateRaw.split(' ')[0];
+    const t1=rawPnl>0?'W':'L';
+    // check if next exit is same day (trade 2)
+    let t2=null;
+    if(t1==='W'&&i+1<exits.length){
+      const cols2=exits[i+1].split('\t').map(c=>c.trim());
+      const date2=(cols2[2]||'').split(' ')[0];
+      const pnl2=parseFloat(cols2[7]);
+      if(date2===date&&!isNaN(pnl2)){
+        t2=pnl2>0?'W':'L';
+        i++; // consume second trade
+      }
+    }
+    const passed=t1==='W'&&t2==='W';
+    attempts.push({id:Date.now()+i,date,passed,t1,t2,notes:'',cost});
+    added++;
+  }
+  attempts.sort((a,b)=>a.date.localeCompare(b.date));
+  savePassData();
+  msg.className='msg-ok';msg.textContent=`Imported ${added} attempt${added!==1?'s':''}`;
+  document.getElementById('pi-in').value='';
+  renderPassOverview();
+  setTimeout(()=>msg.textContent='',4000);
+}
+
+function clearAttempts(){
+  if(!confirm('Clear all passing attempts?'))return;
+  attempts=[];savePassData();renderPassOverview();renderAttHistory();
+}
+
+function deleteAttempt(id){
+  attempts=attempts.filter(a=>a.id!==id);
+  savePassData();renderAttHistory();renderPassOverview();
+}
+
+function renderPassOverview(){
+  if(!attempts.length){
+    document.getElementById('pass-metrics').innerHTML='<p style="color:#888780;font-size:13px">No attempts logged yet.</p>';
+    document.getElementById('pass-prediction').innerHTML='<p style="color:#888780;font-size:13px">Log attempts to see predictions.</p>';
+    document.getElementById('pass-dots').innerHTML='';
+    return;
+  }
+  const passes=attempts.filter(a=>a.passed).length;
+  const fails=attempts.length-passes;
+  const passRate=passes/attempts.length;
+  const totalCost=attempts.reduce((s,a)=>s+a.cost,0);
+  const costPerPass=passes>0?totalCost/passes:0;
+  // expected attempts to next pass (geometric distribution)
+  const expectedAttempts=passRate>0?Math.round(1/passRate*10)/10:null;
+
+  document.getElementById('pass-metrics').innerHTML=`
+    <div class="card-sm"><div class="sm-label">Total attempts</div><div class="med-num">${attempts.length}</div><div class="sm-label">${passes} passed / ${fails} failed</div></div>
+    <div class="card-sm"><div class="sm-label">Pass rate</div><div class="med-num ${pctCol(passRate)}">${Math.round(passRate*100)}%</div><div class="bar-track"><div class="bar-fill ${barCls(passRate)}" style="width:${Math.round(passRate*100)}%"></div></div></div>
+    <div class="card-sm"><div class="sm-label">Cost per pass</div><div class="med-num ${costPerPass>200?'red':'green'}">$${Math.round(costPerPass)}</div><div class="sm-label">$${totalCost} total spent on attempts</div></div>
+    <div class="card-sm"><div class="sm-label">Avg attempts to pass</div><div class="med-num">${expectedAttempts||'—'}</div><div class="sm-label">Based on ${Math.round(passRate*100)}% pass rate</div></div>
+  `;
+
+  // streak
+  let streak=0;let streakType=null;
+  for(let i=attempts.length-1;i>=0;i--){
+    const r=attempts[i].passed?'P':'F';
+    if(streakType===null)streakType=r;
+    if(r===streakType)streak++;
+    else break;
+  }
+
+  // after-fail recovery rate
+  let afWins=0,afTotal=0;
+  for(let i=1;i<attempts.length;i++){
+    if(!attempts[i-1].passed){afTotal++;if(attempts[i].passed)afWins++;}
+  }
+  const afRate=afTotal>=2?afWins/afTotal:null;
+
+  // streak-specific
+  let ssWins=0,ssTotal=0;
+  const sType=streakType==='P'?true:false;
+  for(let i=streak;i<attempts.length;i++){
+    let match=true;
+    for(let j=1;j<=streak;j++){if(attempts[i-j]?.passed!==sType){match=false;break;}}
+    if(match){ssTotal++;if(attempts[i].passed)ssWins++;}
+  }
+  const ssRate=ssTotal>=3?ssWins/ssTotal:null;
+
+  // confidence
+  let conf=passRate;
+  if(streakType==='F'){
+    const boost=Math.min(streak*0.1,0.3);
+    conf=passRate+(afRate!==null?afRate-passRate:0)*0.6+boost;
+  } else if(streakType==='P'&&streak>=3){
+    conf=passRate-Math.min((streak-2)*0.02,0.08);
+  }
+  conf=Math.max(0.05,Math.min(0.99,conf));
+
+  const streakNote=streakType==='F'
+    ?`<span class="badge badge-a">${streak} fail streak → confidence boosted</span>`
+    :streak>=3?`<span class="badge badge-gray">${streak} pass streak → slight drag</span>`
+    :`<span class="badge badge-g">${streak} pass streak</span>`;
+
+  document.getElementById('pass-prediction').innerHTML=`
+    <div class="conf-card">
+      <div class="conf-card-top">
+        <div class="ring-wrap"><canvas id="pass-ring"></canvas>
+          <div class="ring-label"><div class="ring-pct ${pctCol(conf)}">${Math.round(conf*100)}%</div></div>
+        </div>
+        <div class="conf-info">
+          <div class="conf-title">Probability of passing next attempt</div>
+          <div class="conf-note">Historical pass rate: ${Math.round(passRate*100)}% · Current streak: ${streak} consecutive ${streakType==='P'?'passes':'fails'}</div>
+          <div class="bar-track"><div class="bar-fill ${barCls(conf)}" style="width:${Math.round(conf*100)}%"></div></div>
+          <div style="margin-top:6px;display:flex;gap:5px;flex-wrap:wrap;align-items:center">
+            <span class="badge ${badgeCls(conf)}">${conf>=.65?'High':conf>=.4?'Moderate':'Low'} confidence</span>
+            ${streakNote}
+            <button class="explain-btn" onclick="toggleExplain('pass-explain',this)"><i class="ti ti-info-circle" style="font-size:11px"></i> Explain</button>
+          </div>
+        </div>
+      </div>
+      <div class="explain-panel" id="pass-explain">
+        <div class="explain-row"><span class="explain-label">Historical pass rate</span><span class="explain-val">${Math.round(passRate*100)}% (${attempts.length} attempts)</span></div>
+        <div class="explain-row"><span class="explain-label">Current streak</span><span class="explain-val">${streak} consecutive ${streakType==='P'?'passes':'fails'}</span></div>
+        <div class="explain-row"><span class="explain-label">After-fail recovery rate</span><span class="explain-val">${afRate!==null?Math.round(afRate*100)+'% ('+afTotal+' samples)':'Need 2+ samples'}</span></div>
+        <div class="explain-row"><span class="explain-label">Streak-specific rate</span><span class="explain-val">${ssRate!==null?`After ${streak} ${streakType==='P'?'passes':'fails'}, next attempt passed ${Math.round(ssRate*100)}% (${ssTotal} samples)`:'Need 3+ samples'}</span></div>
+        <div class="explain-row"><span class="explain-label">Streak adjustment</span><span class="explain-val">${streakType==='F'?`+${Math.round(Math.min(streak*0.1,0.3)*100)}pp boost`:streak>=3?`−${Math.round(Math.min((streak-2)*0.02,0.08)*100)}pp drag`:'No adjustment'}</span></div>
+        <div class="explain-row"><span class="explain-label">Expected cost to next pass</span><span class="explain-val">~$${Math.round((1/conf)*95)}</span></div>
+        <div class="explain-row" style="padding-top:8px;border-top:0.5px solid #d3d1c7"><span class="explain-label" style="font-weight:500">Confidence score</span><span class="explain-val ${pctCol(conf)}" style="font-size:14px">${Math.round(conf*100)}%</span></div>
+      </div>
+    </div>`;
+  setTimeout(()=>drawRing('pass-ring',conf,ringColor(conf)),50);
+
+  const recent=attempts.slice(-30);
+  document.getElementById('pass-dots').innerHTML=recent.map(a=>`<div class="dot ${a.passed?'dot-w':'dot-l'}" title="${a.date} · ${a.passed?'Pass':'Fail'}">${a.passed?'P':'F'}</div>`).join('');
+}
+
+function renderAttHistory(){
+  const body=document.getElementById('att-body');
+  const empty=document.getElementById('att-empty');
+  if(!attempts.length){body.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  body.innerHTML=[...attempts].reverse().map(a=>`<tr>
+    <td style="font-size:12px;white-space:nowrap">${a.date}</td>
+    <td><span class="badge ${a.passed?'badge-g':'badge-r'}">${a.passed?'Pass':'Fail'}</span></td>
+    <td><span class="badge ${a.t1==='W'?'badge-g':'badge-r'}">${a.t1==='W'?'Win':'Loss'}</span></td>
+    <td>${a.t2?`<span class="badge ${a.t2==='W'?'badge-g':'badge-r'}">${a.t2==='W'?'Win':'Loss'}</span>`:'<span style="color:#d3d1c7">—</span>'}</td>
+    <td style="color:#888780;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${a.notes||'—'}</td>
+    <td><button class="btn btn-danger" style="padding:3px 8px;font-size:11px;border-radius:6px" onclick="deleteAttempt(${a.id})"><i class="ti ti-trash"></i></button></td>
+  </tr>`).join('');
+}
+
+// ── FINANCE ──────────────────────────────────────────────────────
+function logFinance(){
+  const date=document.getElementById('fin-date').value;
+  const type=document.getElementById('fin-type').value;
+  const amount=parseFloat(document.getElementById('fin-amount').value);
+  const notes=document.getElementById('fin-notes').value.trim();
+  const msg=document.getElementById('fin-msg');
+  if(!date){msg.className='msg-err';msg.textContent='Enter a date.';return;}
+  if(isNaN(amount)||amount<=0){msg.className='msg-err';msg.textContent='Enter a valid amount.';return;}
+  finances.push({id:Date.now(),date,type,amount,notes});
+  finances.sort((a,b)=>a.date.localeCompare(b.date));
+  savePassData();
+  msg.className='msg-ok';msg.textContent='Entry added.';
+  document.getElementById('fin-amount').value='';
+  document.getElementById('fin-notes').value='';
+  setTimeout(()=>msg.textContent='',2500);
+  renderFinance();
+}
+
+function deleteFinance(id){
+  finances=finances.filter(f=>f.id!==id);
+  savePassData();renderFinance();
+}
+
+function renderFinance(){
+  const totalSpend=finances.filter(f=>f.type==='spend').reduce((s,f)=>s+f.amount,0);
+  const totalPayout=finances.filter(f=>f.type==='payout').reduce((s,f)=>s+f.amount,0);
+  const net=totalPayout-totalSpend;
+  document.getElementById('fin-metrics').innerHTML=`
+    <div class="card-sm"><div class="sm-label">Total spent</div><div class="med-num red">-$${totalSpend.toLocaleString()}</div></div>
+    <div class="card-sm"><div class="sm-label">Total payouts</div><div class="med-num green">+$${totalPayout.toLocaleString()}</div></div>
+    <div class="card-sm" style="grid-column:1/-1;border:0.5px solid ${net>=0?'#C0DD97':'#F7C1C1'};background:${net>=0?'#EAF3DE':'#FCEBEB'}">
+      <div class="sm-label">Net position</div>
+      <div class="med-num ${net>=0?'green':'red'}">${net>=0?'+':''  }$${net.toLocaleString()}</div>
+      <div class="sm-label">${net>=0?'You are in profit overall':'You are in deficit — keep going'}</div>
+    </div>
+  `;
+  const body=document.getElementById('fin-body');
+  const empty=document.getElementById('fin-empty');
+  if(!finances.length){body.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  body.innerHTML=[...finances].reverse().map(f=>`<tr>
+    <td style="font-size:12px;white-space:nowrap">${f.date}</td>
+    <td><span class="badge ${f.type==='payout'?'badge-g':'badge-r'}">${f.type==='payout'?'Payout':'Spend'}</span></td>
+    <td style="font-weight:500;color:${f.type==='payout'?'#3B6D11':'#A32D2D'}">${f.type==='payout'?'+':'-'}$${f.amount.toLocaleString()}</td>
+    <td style="color:#888780">${f.notes||'—'}</td>
+    <td><button class="btn btn-danger" style="padding:3px 8px;font-size:11px;border-radius:6px" onclick="deleteFinance(${f.id})"><i class="ti ti-trash"></i></button></td>
+  </tr>`).join('');
+}
+
 loadData();
+loadPassData();
 document.getElementById('l-date').value=new Date().toISOString().split('T')[0];
+document.getElementById('pa-date').value=new Date().toISOString().split('T')[0];
+document.getElementById('fin-date').value=new Date().toISOString().split('T')[0];
 renderDashboard();
 </script>
 </body>
