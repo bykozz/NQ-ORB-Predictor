@@ -870,12 +870,14 @@ function importCSV(){
   if(!raw){msg.className='msg-err';msg.textContent='Nothing to import.';return;}
   const lines=raw.split('\n').map(l=>l.trim()).filter(Boolean);
   if(lines.length<2){msg.className='msg-err';msg.textContent='Need header + data.';return;}
-  const headers=lines[0].split(',').map(h=>h.trim().toLowerCase());
+  // auto-detect delimiter — tab or comma
+  const delim=lines[0].includes('\t')?'\t':',';
+  const headers=lines[0].split(delim).map(h=>h.trim().toLowerCase());
   const missing=['date','system','timeframe','result','pnl'].filter(n=>!headers.includes(n));
   if(missing.length){msg.className='msg-err';msg.textContent='Missing: '+missing.join(', ');return;}
   let added=0,skipped=0;
   for(let i=1;i<lines.length;i++){
-    const cols=lines[i].split(',').map(c=>c.trim());
+    const cols=lines[i].split(delim).map(c=>c.trim());
     const get=k=>{const idx=headers.indexOf(k);return idx>=0?cols[idx]||'':''};
     const pnl=parseFloat(get('pnl'));
     const tf=(get('timeframe')||'').toLowerCase().replace(/\s/g,'');
@@ -919,7 +921,7 @@ function deleteTrade(id){trades=trades.filter(t=>t.id!==id);saveData();renderHis
 // ── EXPORT ───────────────────────────────────────────────────────
 function exportCSV(){
   if(!trades.length){alert('No trades to export.');return;}
-  const rows=trades.map(t=>[t.date,t.system,t.tf,t.result,t.pnl,t.contracts||1,(t.notes||'').replace(/,/g,';')].join(','));
+  const rows=trades.map(t=>[t.date,t.system,t.tf,t.result,t.pnl,t.contracts||1,(t.notes||'').replace(/,/g,';').replace(/\t/g,' ')].join(','));
   const csv=['date,system,timeframe,result,pnl,contracts,notes',...rows].join('\n');
   const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
   a.download=`nq-orb-trades-${new Date().toISOString().split('T')[0]}.csv`;a.click();
