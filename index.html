@@ -33,47 +33,38 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;backgrou
 .badge-b{background:#E6F1FB;color:#0C447C}
 .badge-gray{background:#F1EFE8;color:#444441}
 .badge-purple{background:#F0EAFA;color:#5B21B6}
-/* System colour accents */
 .sys-a-accent{border-left:3px solid #639922}
 .sys-b-accent{border-left:3px solid #185FA5}
 .sys-group-label{font-size:12px;font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px}
-.sys-a-label{color:#3B6D11}
-.sys-b-label{color:#185FA5}
-/* Conf cards */
+.sys-a-label{color:#3B6D11}.sys-b-label{color:#185FA5}
 .conf-card{display:flex;align-items:flex-start;gap:14px;padding:.875rem 1rem;border-radius:10px;border:0.5px solid #e0dfd8;background:#fff;margin-bottom:8px;flex-direction:column}
 .conf-card-top{display:flex;align-items:center;gap:14px;width:100%}
 .conf-info{flex:1;min-width:0}
 .conf-title{font-size:13px;font-weight:500;margin-bottom:2px}
 .conf-note{font-size:11px;color:#888780}
-.last3-row{display:flex;gap:6px;margin-top:8px;flex-wrap:wrap}
-.last3-pill{font-size:10px;padding:3px 8px;border-radius:6px;background:#f1efe8;color:#5f5e5a;display:flex;align-items:center;gap:4px}
+.last3-pill{font-size:10px;padding:3px 8px;border-radius:6px;background:#f1efe8;color:#5f5e5a;display:inline-flex;align-items:center;gap:4px;margin-right:4px;margin-top:3px}
 .explain-btn{font-size:11px;color:#888780;background:none;border:0.5px solid #d3d1c7;border-radius:6px;padding:3px 8px;cursor:pointer;font-family:inherit;display:inline-flex;align-items:center;gap:4px;margin-top:6px}
 .explain-btn:hover{background:#f1efe8;color:#1a1a18}
 .explain-panel{display:none;width:100%;background:#f8f8f6;border-radius:8px;padding:.75rem 1rem;margin-top:6px}
 .explain-panel.open{display:block}
-.explain-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:0.5px solid #e0dfd8;font-size:12px}
+.explain-row{display:flex;justify-content:space-between;align-items:flex-start;padding:5px 0;border-bottom:0.5px solid #e0dfd8;font-size:12px}
 .explain-row:last-child{border-bottom:none}
-.explain-label{color:#5f5e5a}
-.explain-val{font-weight:500;text-align:right;max-width:55%}
-/* Rings */
+.explain-label{color:#5f5e5a;flex:1}
+.explain-val{font-weight:500;text-align:right;flex:1}
 .ring-wrap{position:relative;width:80px;height:80px;flex-shrink:0}
 .ring-wrap canvas{position:absolute;top:0;left:0}
 .ring-label{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;pointer-events:none}
 .ring-pct{font-size:16px;font-weight:500;line-height:1}
-/* Bars */
 .bar-track{background:#f1efe8;border-radius:4px;height:6px;margin-top:8px;overflow:hidden}
 .bar-fill{height:6px;border-radius:4px}
 .bar-g{background:#639922}.bar-a{background:#BA7517}.bar-r{background:#E24B4A}.bar-b{background:#185FA5}
-/* Dots */
 .streak-dots{display:flex;gap:5px;flex-wrap:wrap;margin-top:6px}
 .dot{width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:500;color:#fff;flex-shrink:0;cursor:default}
 .dot-w{background:#639922}.dot-l{background:#E24B4A}
-/* Tables */
 table{width:100%;border-collapse:collapse;font-size:12px}
 th{text-align:left;padding:7px 10px;color:#888780;font-weight:500;font-size:11px;border-bottom:0.5px solid #e0dfd8}
 td{padding:7px 10px;border-bottom:0.5px solid #f1efe8;vertical-align:middle}
 tr:last-child td{border-bottom:none}
-/* Forms */
 .form-label{font-size:11px;color:#888780;margin-bottom:4px;font-weight:500;display:block}
 input,select,textarea{width:100%;padding:7px 10px;border:0.5px solid #d3d1c7;border-radius:8px;font-size:13px;font-family:inherit;background:#fff;color:#1a1a18;outline:none}
 input:focus,select:focus,textarea:focus{border-color:#888780}
@@ -84,9 +75,7 @@ textarea{resize:vertical;min-height:70px}
 .btn-primary:hover{background:#2c2c2a}
 .btn-danger{color:#A32D2D;border-color:#F7C1C1}
 .btn-sm{padding:4px 10px;font-size:11px;border-radius:6px}
-/* Misc */
-.msg-ok{color:#3B6D11;font-size:12px}
-.msg-err{color:#A32D2D;font-size:12px}
+.msg-ok{color:#3B6D11;font-size:12px}.msg-err{color:#A32D2D;font-size:12px}
 .empty-state{text-align:center;padding:2.5rem 1rem;color:#888780;font-size:13px}
 .empty-icon{font-size:32px;color:#d3d1c7;display:block;margin-bottom:.75rem}
 .divider{height:0.5px;background:#e0dfd8;margin:1.25rem 0}
@@ -95,23 +84,25 @@ textarea{resize:vertical;min-height:70px}
 .banner-blue{background:#E6F1FB;border:0.5px solid #B5D4F4}
 .banner-amber{background:#FAEEDA;border:0.5px solid #F0C97A}
 .banner h3{font-size:13px;font-weight:500;display:flex;align-items:center;gap:5px;margin-bottom:.4rem}
-.banner-green h3{color:#27500A}
-.banner-blue h3{color:#0C447C}
-.banner-amber h3{color:#633806}
+.banner-green h3{color:#27500A}.banner-blue h3{color:#0C447C}.banner-amber h3{color:#633806}
 .toggle-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:.75rem}
 .toggle-btn{padding:4px 12px;border:0.5px solid #d3d1c7;border-radius:20px;cursor:pointer;font-size:11px;background:#fff;color:#5f5e5a;font-family:inherit}
 .toggle-btn.active{background:#1a1a18;color:#fff;border-color:#1a1a18}
+.action-row{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:8px;background:#f8f8f6;border:0.5px solid #e0dfd8;margin-bottom:6px;gap:8px;flex-wrap:wrap}
+.action-rank{font-size:18px;font-weight:500;color:#d3d1c7;min-width:28px}
+.action-info{flex:1;min-width:120px}
+.action-title{font-size:13px;font-weight:500}
+.action-sub{font-size:11px;color:#888780}
+.pnl-toggle{font-size:11px;color:#888780;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
+.confluence-card{border-radius:8px;padding:.75rem 1rem;margin-bottom:6px;border:0.5px solid #e0dfd8;background:#fff}
+.confluence-clip{background:#FAEEDA;border-color:#F0C97A}
+.confluence-agree-win{background:#EAF3DE;border-color:#C0DD97}
+.confluence-agree-loss{background:#FCEBEB;border-color:#F7C1C1}
 pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;padding:10px;border-radius:8px;overflow-x:auto;margin:.5rem 0 1rem}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:10px}
 .form-group{margin-bottom:10px}
 .filter-row{display:flex;gap:8px;margin-bottom:.75rem;flex-wrap:wrap}
 .filter-row select{width:auto;padding:6px 10px}
-.action-row{display:flex;align-items:center;justify-content:space-between;padding:8px 12px;border-radius:8px;background:#f8f8f6;border:0.5px solid #e0dfd8;margin-bottom:6px}
-.action-rank{font-size:18px;font-weight:500;color:#d3d1c7;min-width:28px}
-.action-info{flex:1;padding:0 10px}
-.action-title{font-size:13px;font-weight:500}
-.action-sub{font-size:11px;color:#888780}
-.pnl-toggle{font-size:11px;color:#888780;cursor:pointer;text-decoration:underline;text-underline-offset:2px}
 @media(max-width:480px){.form-row{grid-template-columns:1fr}.header{flex-direction:column}.nav{width:100%}}
 </style>
 </head>
@@ -136,78 +127,52 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
   <div id="page-dashboard" class="page active">
     <div id="empty-dashboard" class="empty-state">
       <i class="ti ti-chart-bar empty-icon"></i>
-      Import historical trades or log your first trade to get started.
+      Import trades or log your first trade to get started.
     </div>
     <div id="dashboard-content" style="display:none">
-
-      <!-- Finance summary -->
       <div class="section-label">Financial overview</div>
       <div class="grid4" id="fin-overview" style="margin-bottom:8px"></div>
-      <div style="margin-bottom:1rem">
-        <span class="pnl-toggle" onclick="togglePnl()">Show/hide imported P&amp;L (backtest data)</span>
-        <div id="pnl-panel" style="display:none;margin-top:8px">
-          <div class="grid4" id="pnl-metrics"></div>
-          <p style="font-size:11px;color:#888780;margin-top:4px">Note: P&amp;L from imported backtest data — may not reflect live trading results.</p>
-        </div>
+      <div style="margin-bottom:1rem"><span class="pnl-toggle" onclick="togglePnl()">Show / hide imported P&amp;L</span>
+        <div id="pnl-panel" style="display:none;margin-top:8px"><div class="grid4" id="pnl-metrics"></div>
+        <p style="font-size:11px;color:#888780;margin-top:4px">Backtest data — may not reflect live results.</p></div>
       </div>
-
       <div class="divider"></div>
-
-      <!-- Tomorrow's actions -->
-      <div class="section-label">Tomorrow's recommended actions — funded accounts</div>
-      <p style="font-size:12px;color:#888780;margin-bottom:.875rem">All setups ranked by confidence score. You decide what to take.</p>
+      <div class="section-label">Tomorrow's actions — funded accounts</div>
+      <p style="font-size:12px;color:#888780;margin-bottom:.875rem">All setups ranked by confidence. You decide what to take.</p>
       <div id="actions-funded"></div>
-
       <div class="divider"></div>
-
       <div class="section-label">Tomorrow's recommendation — passing accounts</div>
       <div id="actions-passing"></div>
-
       <div class="divider"></div>
-
-      <!-- Confidence by system -->
-      <div class="section-label" style="margin-bottom:4px">Confidence score — System A</div>
-      <p style="font-size:12px;color:#888780;margin-bottom:.75rem">Historical win rate + streak adjustments · last 3 trades shown per setup</p>
+      <div class="section-label" style="margin-bottom:4px">Confidence score — System A <span style="font-size:10px;font-weight:400;color:#888780;text-transform:none;letter-spacing:0">(green accent)</span></div>
+      <p style="font-size:12px;color:#888780;margin-bottom:.75rem">Historical win rate + streak adjustments · last 3 trades shown</p>
       <div id="conf-list-a"></div>
-
-      <div style="margin-top:1rem;margin-bottom:4px" class="section-label">Confidence score — System B</div>
-      <p style="font-size:12px;color:#888780;margin-bottom:.75rem">Historical win rate + streak adjustments · last 3 trades shown per setup</p>
+      <div style="margin-top:1rem;margin-bottom:4px" class="section-label">Confidence score — System B <span style="font-size:10px;font-weight:400;color:#888780;text-transform:none;letter-spacing:0">(blue accent)</span></div>
+      <p style="font-size:12px;color:#888780;margin-bottom:.75rem">Historical win rate + streak adjustments · last 3 trades shown</p>
       <div id="conf-list-b"></div>
-
       <div class="divider"></div>
-
-      <!-- Recency -->
-      <div class="section-label">Recency strategy — last 20 trades weighted 2× (separate view)</div>
-      <p style="font-size:12px;color:#888780;margin-bottom:.875rem">If diverging from confidence score, recent performance is shifting from your baseline.</p>
-      <div id="recency-list-a"></div>
-      <div id="recency-list-b" style="margin-top:8px"></div>
-
+      <div class="section-label">Cross-system confluence — A vs B same timeframe</div>
+      <p style="font-size:12px;color:#888780;margin-bottom:.875rem">When A and B disagree on the same timeframe, it's likely a SL clip on B — not a direction failure. Use this as additional confluence for tomorrow.</p>
+      <div id="confluence-section"></div>
       <div class="divider"></div>
-
-      <!-- Setup comparison -->
+      <div class="section-label">Recency strategy — last 20 trades weighted 2×</div>
+      <p style="font-size:12px;color:#888780;margin-bottom:.875rem">Separate view — if diverging from confidence score, recent performance is shifting.</p>
+      <div id="recency-list-a"></div><div id="recency-list-b" style="margin-top:8px"></div>
+      <div class="divider"></div>
       <div class="section-label">Setup comparison — all setups ranked</div>
       <div id="comparison-table"></div>
-
       <div class="divider"></div>
-
-      <!-- Charts -->
       <div class="grid2">
         <div><div class="section-label">Win rate by timeframe</div><div style="position:relative;height:180px"><canvas id="chart-tf"></canvas></div></div>
         <div><div class="section-label">Win rate by system</div><div style="position:relative;height:180px"><canvas id="chart-sys"></canvas></div></div>
       </div>
-
       <div class="divider"></div>
-
-      <!-- Streak table -->
-      <div class="section-label">Streak analysis — after a loss, next trade wins...</div>
+      <div class="section-label">Streak analysis</div>
       <div class="card" style="padding:0;overflow:hidden;margin-bottom:1rem">
-        <table><thead><tr><th>Setup</th><th>After-loss win %</th><th>Samples</th><th>Max losing streak</th><th>Total</th></tr></thead>
+        <table><thead><tr><th>Setup</th><th>After-loss win %</th><th>Samples</th><th>Max win streak</th><th>Max loss streak</th><th>Total</th></tr></thead>
         <tbody id="streak-tbody"></tbody></table>
       </div>
-
       <div class="divider"></div>
-
-      <!-- Recent 30 with toggle -->
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
         <div class="section-label" style="margin-bottom:0">Recent 30 trades</div>
       </div>
@@ -215,8 +180,7 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
       <div class="streak-dots" id="recent-dots"></div>
       <p style="font-size:11px;color:#888780;margin-top:6px">Oldest → newest &nbsp;·&nbsp;
         <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#639922;vertical-align:middle"></span> Win &nbsp;
-        <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#E24B4A;vertical-align:middle"></span> Loss
-      </p>
+        <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#E24B4A;vertical-align:middle"></span> Loss</p>
     </div>
   </div>
 
@@ -257,31 +221,30 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
       </div>
       <div id="import-tv">
         <div class="card">
-          <div class="section-label" style="margin-bottom:.75rem">TradingView paste</div>
-          <div class="card-sm" style="margin-bottom:1rem;font-size:12px;color:#5f5e5a">Paste the raw TradingView trade list. Select system and timeframe — P&amp;L recalculated automatically (Sys A: $200W/$2000L · Sys B: $400W/$2000L).</div>
+          <div class="section-label" style="margin-bottom:.75rem">TradingView paste — funded trades</div>
+          <div class="card-sm" style="margin-bottom:1rem;font-size:12px;color:#5f5e5a">Sys A: $200W / $2,000L · Sys B: $400W / $2,000L. P&amp;L recalculated automatically.</div>
           <div class="form-row">
             <div class="form-group"><label class="form-label">System</label>
-              <select id="tv-sys"><option value="A">System A — $200W / $2,000L</option><option value="B">System B — $400W / $2,000L</option></select></div>
+              <select id="tv-sys"><option value="A">System A</option><option value="B">System B</option></select></div>
             <div class="form-group"><label class="form-label">Timeframe</label>
               <select id="tv-tf"><option value="15min">15min</option><option value="1min">1min</option><option value="3min">3min</option></select></div>
           </div>
-          <div class="form-group"><label class="form-label">Paste data</label>
-            <textarea id="tv-in" style="min-height:140px;font-family:monospace;font-size:11px" placeholder="Trade number&#9;Type&#9;Date and time..."></textarea></div>
+          <div class="form-group"><label class="form-label">Paste TradingView data</label>
+            <textarea id="tv-in" style="min-height:140px;font-family:monospace;font-size:11px" placeholder="Paste TradingView trade list here..."></textarea></div>
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
             <button class="btn btn-primary" onclick="convertTV()"><i class="ti ti-refresh"></i> Convert &amp; import</button>
-            <button class="btn btn-danger" onclick="clearAll()"><i class="ti ti-trash"></i> Clear all</button>
+            <button class="btn btn-danger" onclick="clearAll()"><i class="ti ti-trash"></i> Clear all trades</button>
             <span id="tv-msg"></span>
           </div>
         </div>
       </div>
       <div id="import-csv" style="display:none">
         <div class="card">
-          <div class="section-label" style="margin-bottom:.75rem">CSV import</div>
-          <div class="card-sm" style="margin-bottom:.75rem;font-size:12px;color:#5f5e5a">Required: date, system, timeframe, result, pnl · Optional: contracts, notes<br>date: YYYY-MM-DD · system: A/B · timeframe: 1min/3min/15min · result: W/L</div>
+          <div class="section-label" style="margin-bottom:.75rem">CSV import — funded trades</div>
+          <div class="card-sm" style="margin-bottom:.75rem;font-size:12px;color:#5f5e5a">Required: date, system, timeframe, result, pnl · Optional: contracts, notes<br>Accepts tab or comma separated.</div>
           <pre>date,system,timeframe,result,pnl,contracts,notes
-2025-01-06,A,15min,W,200,1,Clean break
-2025-01-07,A,15min,L,-2000,1,</pre>
-          <div class="form-group"><textarea id="csv-in" style="min-height:120px;font-family:monospace;font-size:12px" placeholder="Paste CSV here..."></textarea></div>
+2025-01-06,A,15min,W,200,1,</pre>
+          <div class="form-group"><textarea id="csv-in" style="min-height:100px;font-family:monospace;font-size:12px" placeholder="Paste CSV or tab-separated data here..."></textarea></div>
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
             <button class="btn btn-primary" onclick="importCSV()"><i class="ti ti-upload"></i> Import</button>
             <button class="btn btn-danger" onclick="clearAll()"><i class="ti ti-trash"></i> Clear all</button>
@@ -296,12 +259,11 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
   <div id="page-history" class="page">
     <div class="filter-row">
       <select id="f-sys" onchange="renderHistory()" style="width:140px"><option value="">All systems</option><option value="A">System A</option><option value="B">System B</option></select>
-      <select id="f-tf" onchange="renderHistory()" style="width:140px"><option value="">All timeframes</option><option value="15min">15min</option><option value="1min">1min</option><option value="3min">3min</option></select>
+      <select id="f-tf" onchange="renderHistory()" style="width:140px"><option value="">All TFs</option><option value="15min">15min</option><option value="1min">1min</option><option value="3min">3min</option></select>
     </div>
     <div class="card" style="padding:0;overflow:hidden;overflow-x:auto">
-      <table><thead><tr>
-        <th>Date</th><th>Sys</th><th>TF</th><th>Result</th><th>P&amp;L</th><th>Contracts</th><th>Notes</th><th></th>
-      </tr></thead><tbody id="hist-body"></tbody></table>
+      <table><thead><tr><th>Date</th><th>Sys</th><th>TF</th><th>Result</th><th>P&amp;L</th><th>Cts</th><th>Notes</th><th></th></tr></thead>
+      <tbody id="hist-body"></tbody></table>
       <div id="hist-empty" class="empty-state">No trades yet.</div>
     </div>
   </div>
@@ -309,33 +271,59 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
   <!-- PASSING -->
   <div id="page-passing" class="page">
     <div style="display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap">
-      <button class="nav-btn active" id="ptab-overview" onclick="showPassTab('overview')" style="font-size:12px;padding:6px 14px"><i class="ti ti-chart-bar"></i> Overview</button>
-      <button class="nav-btn" id="ptab-log" onclick="showPassTab('log')" style="font-size:12px;padding:6px 14px"><i class="ti ti-plus"></i> Log attempt</button>
+      <button class="nav-btn active" id="ptab-dashboard" onclick="showPassTab('dashboard')" style="font-size:12px;padding:6px 14px"><i class="ti ti-chart-bar"></i> Dashboard</button>
+      <button class="nav-btn" id="ptab-attempts" onclick="showPassTab('attempts')" style="font-size:12px;padding:6px 14px"><i class="ti ti-trophy"></i> Attempts</button>
       <button class="nav-btn" id="ptab-import" onclick="showPassTab('import')" style="font-size:12px;padding:6px 14px"><i class="ti ti-upload"></i> Import</button>
-      <button class="nav-btn" id="ptab-sim" onclick="showPassTab('sim')" style="font-size:12px;padding:6px 14px"><i class="ti ti-calculator"></i> Strategy sim</button>
+      <button class="nav-btn" id="ptab-sim" onclick="showPassTab('sim')" style="font-size:12px;padding:6px 14px"><i class="ti ti-calculator"></i> Sim</button>
       <button class="nav-btn" id="ptab-finance" onclick="showPassTab('finance')" style="font-size:12px;padding:6px 14px"><i class="ti ti-coin"></i> Finance</button>
       <button class="nav-btn" id="ptab-history" onclick="showPassTab('history')" style="font-size:12px;padding:6px 14px"><i class="ti ti-clock"></i> History</button>
     </div>
 
-    <div id="pass-overview">
-      <div class="section-label">Passing performance</div>
-      <div class="grid4" id="pass-metrics" style="margin-bottom:1rem"></div>
-      <div class="divider"></div>
-      <div class="section-label">Next attempt prediction</div>
-      <p style="font-size:12px;color:#888780;margin-bottom:.875rem">Based on historical pass rate, current streak, and after-fail recovery rate.</p>
-      <div id="pass-prediction"></div>
-      <div class="divider"></div>
-      <div class="section-label">Recent attempts</div>
-      <div class="streak-dots" id="pass-dots"></div>
-      <p style="font-size:11px;color:#888780;margin-top:6px">
-        <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#639922;vertical-align:middle"></span> Pass &nbsp;
-        <span style="display:inline-block;width:9px;height:9px;border-radius:50%;background:#E24B4A;vertical-align:middle"></span> Fail
-      </p>
+    <!-- PASSING DASHBOARD -->
+    <div id="pass-dashboard">
+      <div id="pass-empty" class="empty-state">
+        <i class="ti ti-trophy empty-icon"></i>
+        Import passing trades to see analysis.
+      </div>
+      <div id="pass-dash-content" style="display:none">
+        <div class="section-label">Passing trade performance</div>
+        <div class="grid4" id="pass-overview-metrics" style="margin-bottom:1rem"></div>
+        <div class="divider"></div>
+        <div class="section-label" style="margin-bottom:4px">Tomorrow's confidence — passing System A</div>
+        <p style="font-size:12px;color:#888780;margin-bottom:.75rem">Which timeframe gives you the best shot at passing tomorrow?</p>
+        <div id="pass-conf-a"></div>
+        <div style="margin-top:1rem;margin-bottom:4px" class="section-label">Tomorrow's confidence — passing System B</div>
+        <p style="font-size:12px;color:#888780;margin-bottom:.75rem"></p>
+        <div id="pass-conf-b"></div>
+        <div class="divider"></div>
+        <div class="section-label">Cross-system confluence — passing trades</div>
+        <div id="pass-confluence"></div>
+        <div class="divider"></div>
+        <div class="section-label">Streak analysis — passing trades</div>
+        <div class="card" style="padding:0;overflow:hidden;margin-bottom:1rem">
+          <table><thead><tr><th>Setup</th><th>After-loss win %</th><th>Samples</th><th>Max win streak</th><th>Max loss streak</th><th>Total</th></tr></thead>
+          <tbody id="pass-streak-tbody"></tbody></table>
+        </div>
+        <div class="divider"></div>
+        <div class="section-label">Setup comparison — passing trades ranked</div>
+        <div id="pass-comparison"></div>
+        <div class="divider"></div>
+        <div class="section-label">Recent 30 — passing trades</div>
+        <div class="toggle-row" id="pass-dots-toggle"></div>
+        <div class="streak-dots" id="pass-dots"></div>
+        <p style="font-size:11px;color:#888780;margin-top:6px">Oldest → newest</p>
+      </div>
     </div>
 
-    <div id="pass-log" style="display:none">
-      <div class="card" style="max-width:520px">
-        <div class="section-label" style="margin-bottom:.5rem">Log an attempt</div>
+    <!-- ATTEMPTS -->
+    <div id="pass-attempts" style="display:none">
+      <div class="grid4" id="pass-att-metrics" style="margin-bottom:1rem"></div>
+      <div class="divider"></div>
+      <div class="section-label">Next attempt prediction</div>
+      <div id="pass-prediction"></div>
+      <div class="divider"></div>
+      <div class="section-label">Log an attempt manually</div>
+      <div class="card" style="max-width:520px;margin-bottom:1rem">
         <p style="font-size:12px;color:#888780;margin-bottom:1rem">Rules: $1,500 TP · $2,000 SL · 2 wins to pass · 1 loss = instant fail · $95/account</p>
         <div class="form-row">
           <div class="form-group"><label class="form-label">Date</label><input type="date" id="pa-date"></div>
@@ -344,43 +332,75 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
               <option value="pass">Pass (W + W)</option>
               <option value="fail-l">Fail — Loss on trade 1</option>
               <option value="fail-wl">Fail — Win then Loss</option>
-            </select>
-          </div>
+            </select></div>
         </div>
         <div class="form-group"><label class="form-label">Notes</label><textarea id="pa-notes" placeholder="Optional..."></textarea></div>
-        <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
-          <button class="btn btn-primary" onclick="logAttempt()"><i class="ti ti-plus"></i> Add attempt</button>
+        <div style="display:flex;align-items:center;gap:10px">
+          <button class="btn btn-primary" onclick="logAttempt()"><i class="ti ti-plus"></i> Add</button>
           <span id="pa-msg"></span>
         </div>
       </div>
+      <div class="section-label">Attempt history</div>
+      <div class="card" style="padding:0;overflow:hidden">
+        <table><thead><tr><th>Date</th><th>Outcome</th><th>T1</th><th>T2</th><th>Notes</th><th></th></tr></thead>
+        <tbody id="att-body"></tbody></table>
+        <div id="att-empty" class="empty-state">No attempts logged yet.</div>
+      </div>
     </div>
 
+    <!-- PASSING IMPORT -->
     <div id="pass-import" style="display:none">
-      <div class="card" style="max-width:640px">
-        <div class="section-label" style="margin-bottom:.75rem">Import passing attempts from TradingView</div>
-        <div class="card-sm" style="margin-bottom:.75rem;font-size:12px;color:#5f5e5a">Paste TradingView trade list. The importer groups exit trades into attempts (2 trades per attempt, or 1 if trade 1 was a loss).</div>
-        <div class="form-group" style="margin-bottom:10px"><label class="form-label">Account cost ($)</label><input type="number" id="pi-cost" value="95" style="max-width:100px"></div>
-        <div class="form-group"><textarea id="pi-in" style="min-height:140px;font-family:monospace;font-size:11px" placeholder="Paste TradingView data here..."></textarea></div>
-        <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
-          <button class="btn btn-primary" onclick="importAttempts()"><i class="ti ti-upload"></i> Import</button>
-          <button class="btn btn-danger" onclick="clearAttempts()"><i class="ti ti-trash"></i> Clear all attempts</button>
-          <span id="pi-msg"></span>
+      <div style="display:flex;gap:6px;margin-bottom:1rem">
+        <button class="nav-btn active" id="pitab-tv" onclick="showPassImportTab('tv')" style="font-size:12px;padding:6px 14px"><i class="ti ti-brand-tradingview"></i> TradingView (trades)</button>
+        <button class="nav-btn" id="pitab-att" onclick="showPassImportTab('att')" style="font-size:12px;padding:6px 14px"><i class="ti ti-trophy"></i> Attempt outcomes</button>
+      </div>
+      <div id="pass-import-tv">
+        <div class="card" style="max-width:680px">
+          <div class="section-label" style="margin-bottom:.75rem">Import passing trades from TradingView</div>
+          <div class="card-sm" style="margin-bottom:1rem;font-size:12px;color:#5f5e5a">These are the individual trade results used to build passing confidence scores — separate from attempt outcomes. Same format as funded import.</div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">System</label>
+              <select id="ptv-sys"><option value="A">System A</option><option value="B">System B</option></select></div>
+            <div class="form-group"><label class="form-label">Timeframe</label>
+              <select id="ptv-tf"><option value="15min">15min</option><option value="1min">1min</option><option value="3min">3min</option></select></div>
+          </div>
+          <div class="form-group"><label class="form-label">Paste TradingView data</label>
+            <textarea id="ptv-in" style="min-height:140px;font-family:monospace;font-size:11px" placeholder="Paste TradingView trade list here..."></textarea></div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="convertPassTV()"><i class="ti ti-refresh"></i> Convert &amp; import</button>
+            <button class="btn btn-danger" onclick="clearPassTrades()"><i class="ti ti-trash"></i> Clear passing trades</button>
+            <span id="ptv-msg"></span>
+          </div>
+        </div>
+      </div>
+      <div id="pass-import-att" style="display:none">
+        <div class="card" style="max-width:680px">
+          <div class="section-label" style="margin-bottom:.75rem">Import attempt outcomes from TradingView</div>
+          <div class="card-sm" style="margin-bottom:1rem;font-size:12px;color:#5f5e5a">Groups exit trades into attempts — 2 wins = pass, any loss = instant fail. Each attempt is max 2 trades.</div>
+          <div class="form-group" style="margin-bottom:10px"><label class="form-label">Account cost ($)</label><input type="number" id="pi-cost" value="95" style="max-width:100px"></div>
+          <div class="form-group"><textarea id="pi-in" style="min-height:140px;font-family:monospace;font-size:11px" placeholder="Paste TradingView data here..."></textarea></div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <button class="btn btn-primary" onclick="importAttempts()"><i class="ti ti-upload"></i> Import</button>
+            <button class="btn btn-danger" onclick="clearAttempts()"><i class="ti ti-trash"></i> Clear attempts</button>
+            <span id="pi-msg"></span>
+          </div>
         </div>
       </div>
     </div>
 
+    <!-- SIM -->
     <div id="pass-sim" style="display:none">
       <div class="card" style="max-width:640px">
         <div class="section-label" style="margin-bottom:.75rem">Strategy simulator</div>
-        <p style="font-size:12px;color:#888780;margin-bottom:1rem">Enter different passing rules to compare expected cost and efficiency. Uses your actual historical trade win rate as the base probability.</p>
+        <p style="font-size:12px;color:#888780;margin-bottom:1rem">Compare different passing rules to find the most cost-effective approach.</p>
         <div class="form-row">
-          <div class="form-group"><label class="form-label">Win probability per trade (%)</label><input type="number" id="sim-wr" placeholder="e.g. 93" value="93"></div>
-          <div class="form-group"><label class="form-label">Wins needed to pass</label><input type="number" id="sim-wins" placeholder="e.g. 2" value="2"></div>
+          <div class="form-group"><label class="form-label">Win probability per trade (%)</label><input type="number" id="sim-wr" value="93"></div>
+          <div class="form-group"><label class="form-label">Wins needed to pass</label><input type="number" id="sim-wins" value="2"></div>
         </div>
         <div class="form-row">
-          <div class="form-group"><label class="form-label">Account cost ($)</label><input type="number" id="sim-cost" placeholder="e.g. 95" value="95"></div>
+          <div class="form-group"><label class="form-label">Account cost ($)</label><input type="number" id="sim-cost" value="95"></div>
           <div class="form-group"><label class="form-label">Loss = instant fail?</label>
-            <select id="sim-fail"><option value="yes">Yes — 1 loss ends attempt</option><option value="no">No — can recover from a loss</option></select></div>
+            <select id="sim-fail"><option value="yes">Yes</option><option value="no">No</option></select></div>
         </div>
         <div class="form-row">
           <div class="form-group"><label class="form-label">TP per win ($)</label><input type="number" id="sim-tp" value="1500"></div>
@@ -391,6 +411,7 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
       </div>
     </div>
 
+    <!-- FINANCE -->
     <div id="pass-finance" style="display:none">
       <div class="grid2" style="margin-bottom:1rem">
         <div class="card">
@@ -401,16 +422,13 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
               <select id="fin-type"><option value="spend">Spend</option><option value="payout">Payout received</option></select></div>
             <div class="form-group"><label class="form-label">Amount ($)</label><input type="number" id="fin-amount" placeholder="e.g. 95"></div>
           </div>
-          <div class="form-group"><label class="form-label">Notes</label><input type="text" id="fin-notes" placeholder="e.g. Account #3 purchase"></div>
+          <div class="form-group"><label class="form-label">Notes</label><input type="text" id="fin-notes" placeholder="e.g. Account #3"></div>
           <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
             <button class="btn btn-primary" onclick="logFinance()"><i class="ti ti-plus"></i> Add</button>
             <span id="fin-msg"></span>
           </div>
         </div>
-        <div>
-          <div class="section-label">Net position</div>
-          <div id="fin-net" class="grid2" style="gap:8px"></div>
-        </div>
+        <div><div class="section-label">Net position</div><div id="fin-net" class="grid2" style="gap:8px"></div></div>
       </div>
       <div class="section-label">Finance history</div>
       <div class="card" style="padding:0;overflow:hidden">
@@ -420,37 +438,45 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
       </div>
     </div>
 
+    <!-- PASSING HISTORY (trades) -->
     <div id="pass-history" style="display:none">
-      <div class="card" style="padding:0;overflow:hidden">
-        <table><thead><tr><th>Date</th><th>Outcome</th><th>Trade 1</th><th>Trade 2</th><th>Notes</th><th></th></tr></thead>
-        <tbody id="att-body"></tbody></table>
-        <div id="att-empty" class="empty-state">No attempts logged yet.</div>
+      <div class="filter-row">
+        <select id="pf-sys" onchange="renderPassHistory()" style="width:140px"><option value="">All systems</option><option value="A">System A</option><option value="B">System B</option></select>
+        <select id="pf-tf" onchange="renderPassHistory()" style="width:140px"><option value="">All TFs</option><option value="15min">15min</option><option value="1min">1min</option><option value="3min">3min</option></select>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden;overflow-x:auto">
+        <table><thead><tr><th>Date</th><th>Sys</th><th>TF</th><th>Result</th><th>P&amp;L</th><th>Notes</th><th></th></tr></thead>
+        <tbody id="pass-hist-body"></tbody></table>
+        <div id="pass-hist-empty" class="empty-state">No passing trades yet.</div>
       </div>
     </div>
   </div>
 
 </div>
 <script>
-// ── STORAGE KEYS ────────────────────────────────────────────────
+// ── STORAGE ──────────────────────────────────────────────────────
 const SK='nq_orb_v3';
+const PTK='nq_orb_pass_trades_v1';
 const PSK='nq_orb_passing_v2';
 const FSK='nq_orb_finance_v2';
-let trades=[], attempts=[], finances=[];
+let trades=[], passTrades=[], attempts=[], finances=[];
 let tfChart=null, sysChart=null;
-let dotsFilter='all';
+let dotsFilter='all', passDotsFilter='all';
 
 function loadData(){
   try{const r=localStorage.getItem(SK);if(r)trades=JSON.parse(r);}catch(e){trades=[];}
+  try{const r=localStorage.getItem(PTK);if(r)passTrades=JSON.parse(r);}catch(e){passTrades=[];}
   try{const r=localStorage.getItem(PSK);if(r)attempts=JSON.parse(r);}catch(e){attempts=[];}
   try{const r=localStorage.getItem(FSK);if(r)finances=JSON.parse(r);}catch(e){finances=[];}
 }
 function saveData(){try{localStorage.setItem(SK,JSON.stringify(trades));}catch(e){}}
+function savePassTrades(){try{localStorage.setItem(PTK,JSON.stringify(passTrades));}catch(e){}}
 function savePassData(){
   try{localStorage.setItem(PSK,JSON.stringify(attempts));}catch(e){}
   try{localStorage.setItem(FSK,JSON.stringify(finances));}catch(e){}
 }
 
-// ── NAVIGATION ──────────────────────────────────────────────────
+// ── NAVIGATION ────────────────────────────────────────────────────
 function showPage(p){
   document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('.nav > .nav-btn').forEach(el=>el.classList.remove('active'));
@@ -460,58 +486,61 @@ function showPage(p){
   if(p==='import')showImportTab('tv');
   if(p==='dashboard')renderDashboard();
   if(p==='history')renderHistory();
-  if(p==='passing'){showPassTab('overview');renderPassOverview();renderFinance();}
+  if(p==='passing'){showPassTab('dashboard');renderPassDashboard();renderPassAttempts();renderFinance();}
 }
-
 function showImportTab(t){
   document.getElementById('import-tv').style.display=t==='tv'?'block':'none';
   document.getElementById('import-csv').style.display=t==='csv'?'block':'none';
   document.getElementById('itab-tv').classList.toggle('active',t==='tv');
   document.getElementById('itab-csv').classList.toggle('active',t==='csv');
 }
-
 function showPassTab(t){
-  ['overview','log','import','sim','finance','history'].forEach(id=>{
+  ['dashboard','attempts','import','sim','finance','history'].forEach(id=>{
     document.getElementById('pass-'+id).style.display=id===t?'block':'none';
     document.getElementById('ptab-'+id).classList.toggle('active',id===t);
   });
-  if(t==='overview')renderPassOverview();
+  if(t==='dashboard')renderPassDashboard();
+  if(t==='attempts')renderPassAttempts();
   if(t==='finance')renderFinance();
-  if(t==='history')renderAttHistory();
+  if(t==='history')renderPassHistory();
+}
+function showPassImportTab(t){
+  document.getElementById('pass-import-tv').style.display=t==='tv'?'block':'none';
+  document.getElementById('pass-import-att').style.display=t==='att'?'block':'none';
+  document.getElementById('pitab-tv').classList.toggle('active',t==='tv');
+  document.getElementById('pitab-att').classList.toggle('active',t==='att');
 }
 
-// ── HELPERS ─────────────────────────────────────────────────────
+// ── HELPERS ───────────────────────────────────────────────────────
 function pctCol(wr){return wr>=.65?'green':wr>=.45?'amber':'red';}
-function barCls(wr){return wr>=.65?'bar-g':wr>=.45?'bar-a':'bar-r';}
+function barCls(wr,isSysB){if(wr<.45)return'bar-r';if(wr<.65)return'bar-a';return isSysB?'bar-b':'bar-g';}
 function badgeCls(wr){return wr>=.65?'badge-g':wr>=.45?'badge-a':'badge-r';}
-function ringCol(wr){return wr>=.65?'#639922':wr>=.45?'#BA7517':'#E24B4A';}
+function ringCol(wr,isSysB){if(wr>=.65)return isSysB?'#185FA5':'#639922';if(wr>=.45)return'#BA7517';return'#E24B4A';}
 
 function calcStats(arr){
   if(!arr.length)return null;
   const w=arr.filter(t=>t.result==='W').length;
-  return{total:arr.length,wins:w,losses:arr.length-w,wr:w/arr.length,pnl:arr.reduce((s,t)=>s+t.pnl,0)};
+  return{total:arr.length,wins:w,losses:arr.length-w,wr:w/arr.length,pnl:arr.reduce((s,t)=>s+(t.pnl||0),0)};
 }
-
 function calcStreak(arr){
-  let maxL=0,cur=0,alw=0,alt=0;
+  let maxL=0,maxW=0,curL=0,curW=0,alw=0,alt=0;
   for(let i=0;i<arr.length;i++){
-    if(arr[i].result==='L'){cur++;maxL=Math.max(maxL,cur);}else cur=0;
+    if(arr[i].result==='L'){curL++;maxL=Math.max(maxL,curL);curW=0;}
+    else{curW++;maxW=Math.max(maxW,curW);curL=0;}
     if(i>0&&arr[i-1].result==='L'){alt++;if(arr[i].result==='W')alw++;}
   }
-  return{maxL,alwr:alt?alw/alt:null,alt};
+  return{maxL,maxW,alwr:alt?alw/alt:null,alt};
 }
-
 function getCurrentStreak(arr){
   let streak=0,streakType=null;
   for(let i=arr.length-1;i>=0;i--){
     if(streakType===null)streakType=arr[i].result;
-    if(arr[i].result===streakType)streak++;
-    else break;
+    if(arr[i].result===streakType)streak++;else break;
   }
   return{streak,streakType};
 }
-
 function calcStreakSpecificWR(arr,streakType,streakLen){
+  if(streakLen<1)return null;
   let wins=0,total=0;
   for(let i=streakLen;i<arr.length;i++){
     let match=true;
@@ -520,55 +549,40 @@ function calcStreakSpecificWR(arr,streakType,streakLen){
   }
   return total>=3?{wr:wins/total,samples:total}:null;
 }
-
 function calcConfScore(arr,useRecency){
   if(!arr.length)return 0;
   const baseWR=arr.filter(t=>t.result==='W').length/arr.length;
   const recent=arr.slice(-20),older=arr.slice(0,-20);
   const rWins=recent.filter(t=>t.result==='W').length*2+older.filter(t=>t.result==='W').length;
   const rTotal=recent.length*2+older.length;
-  const recencyWR=rTotal>0?rWins/rTotal:baseWR;
-  const base=useRecency?recencyWR:baseWR;
+  const base=useRecency&&rTotal>0?rWins/rTotal:baseWR;
   const{streak,streakType}=getCurrentStreak(arr);
   const sk=calcStreak(arr);
   const alwr=sk.alwr!==null?sk.alwr:base;
   let conf=base;
-  if(streakType==='L'){const boost=Math.min(streak*0.08,0.25);conf=base+(alwr-base)*0.6+boost;}
+  if(streakType==='L'){const b=Math.min(streak*0.08,0.25);conf=base+(alwr-base)*0.6+b;}
   else if(streakType==='W'&&streak>=5){conf=base-Math.min((streak-4)*0.015,0.08);}
   return Math.max(0.05,Math.min(0.99,conf));
 }
-
 function drawRing(id,pct,color){
   const c=document.getElementById(id);if(!c)return;
   const ctx=c.getContext('2d');c.width=80;c.height=80;
   ctx.clearRect(0,0,80,80);
   ctx.beginPath();ctx.arc(40,40,30,0,Math.PI*2);ctx.strokeStyle='#f1efe8';ctx.lineWidth=7;ctx.stroke();
-  ctx.beginPath();ctx.arc(40,40,30,-Math.PI/2,Math.PI*2*pct-Math.PI/2);ctx.strokeStyle=color;ctx.lineWidth=7;ctx.lineCap='round';ctx.stroke();
+  if(pct>0){ctx.beginPath();ctx.arc(40,40,30,-Math.PI/2,Math.PI*2*pct-Math.PI/2);ctx.strokeStyle=color;ctx.lineWidth=7;ctx.lineCap='round';ctx.stroke();}
 }
-
 function toggleExplain(id,btn){
   const p=document.getElementById(id);const open=p.classList.toggle('open');
   btn.innerHTML=`<i class="ti ti-info-circle" style="font-size:11px"></i>${open?'Hide':'Explain'}`;
 }
-function togglePnl(){
-  const p=document.getElementById('pnl-panel');
-  p.style.display=p.style.display==='none'?'block':'none';
-}
+function togglePnl(){const p=document.getElementById('pnl-panel');p.style.display=p.style.display==='none'?'block':'none';}
 
-// ── SETUPS ───────────────────────────────────────────────────────
-const SETUPS_A=[
-  {key:'1min-A',label:'1min · Sys A',tf:'1min',sys:'A'},
-  {key:'3min-A',label:'3min · Sys A',tf:'3min',sys:'A'},
-  {key:'15min-A',label:'15min · Sys A',tf:'15min',sys:'A'},
-];
-const SETUPS_B=[
-  {key:'1min-B',label:'1min · Sys B',tf:'1min',sys:'B'},
-  {key:'3min-B',label:'3min · Sys B',tf:'3min',sys:'B'},
-  {key:'15min-B',label:'15min · Sys B',tf:'15min',sys:'B'},
-];
+// ── SETUPS ────────────────────────────────────────────────────────
+const SETUPS_A=[{key:'1min-A',label:'1min · Sys A',tf:'1min',sys:'A'},{key:'3min-A',label:'3min · Sys A',tf:'3min',sys:'A'},{key:'15min-A',label:'15min · Sys A',tf:'15min',sys:'A'}];
+const SETUPS_B=[{key:'1min-B',label:'1min · Sys B',tf:'1min',sys:'B'},{key:'3min-B',label:'3min · Sys B',tf:'3min',sys:'B'},{key:'15min-B',label:'15min · Sys B',tf:'15min',sys:'B'}];
 const ALL_SETUPS=[...SETUPS_A,...SETUPS_B];
 
-// ── BUILD CONF CARD ──────────────────────────────────────────────
+// ── CONF CARD ─────────────────────────────────────────────────────
 function buildConfCard(setup,sub,prefix,i,useRecency){
   if(!sub.length)return'';
   const st=calcStats(sub);
@@ -581,52 +595,43 @@ function buildConfCard(setup,sub,prefix,i,useRecency){
   const base=useRecency?recencyWR:st.wr;
   const alwr=sk.alwr!==null?sk.alwr:base;
   let conf=base;
-  if(streakType==='L'){const boost=Math.min(streak*0.08,0.25);conf=base+(alwr-base)*0.6+boost;}
+  if(streakType==='L'){const b=Math.min(streak*0.08,0.25);conf=base+(alwr-base)*0.6+b;}
   else if(streakType==='W'&&streak>=5){conf=base-Math.min((streak-4)*0.015,0.08);}
   conf=Math.max(0.05,Math.min(0.99,conf));
   const ss=calcStreakSpecificWR(sub,streakType,streak);
   const isSysB=setup.sys==='B';
-  const accentCls=isSysB?'sys-b-accent':'sys-a-accent';
-  const barColor=isSysB?'bar-b':'bar-g';
-
-  // last 3 trades
   const last3=sub.slice(-3);
-  const last3HTML=last3.map(t=>`<span class="last3-pill"><span style="width:7px;height:7px;border-radius:50%;background:${t.result==='W'?'#639922':'#E24B4A'};display:inline-block"></span>${t.date.slice(5)} ${t.result==='W'?'W':'L'} $${t.pnl>=0?'+':''}${t.pnl}</span>`).join('');
-
+  const last3HTML=last3.map(t=>`<span class="last3-pill"><span style="width:7px;height:7px;border-radius:50%;background:${t.result==='W'?'#639922':'#E24B4A'};display:inline-block"></span>${t.date.slice(5)} ${t.result} $${t.pnl>=0?'+':''}${t.pnl}</span>`).join('');
   let streakBadge='';
   if(streakType==='L')streakBadge=`<span class="badge badge-a">${streak}L → boosted</span>`;
-  else if(streakType==='W'&&streak>=5)streakBadge=`<span class="badge badge-gray">${streak}W → slight drag</span>`;
+  else if(streakType==='W'&&streak>=5)streakBadge=`<span class="badge badge-gray">${streak}W → drag</span>`;
   else if(streakType==='W')streakBadge=`<span class="badge badge-g">${streak}W streak</span>`;
-
   let streakEffect='No adjustment';
   if(streakType==='L'){const b=Math.min(streak*0.08,0.25);streakEffect=`+${Math.round(b*100)}pp boost`;}
   else if(streakType==='W'&&streak>=5){const d=Math.min((streak-4)*0.015,0.08);streakEffect=`−${Math.round(d*100)}pp drag`;}
-
-  const eid=`${prefix}-exp-${i}`;
-  const rid=`${prefix}-ring-${i}`;
-
-  return`<div class="conf-card ${accentCls}">
+  const eid=`${prefix}-exp-${i}`,rid=`${prefix}-ring-${i}`;
+  return`<div class="conf-card ${isSysB?'sys-b-accent':'sys-a-accent'}">
     <div class="conf-card-top">
       <div class="ring-wrap"><canvas id="${rid}"></canvas>
         <div class="ring-label"><div class="ring-pct ${pctCol(conf)}">${Math.round(conf*100)}%</div></div>
       </div>
       <div class="conf-info">
         <div class="conf-title">${setup.label}</div>
-        <div class="conf-note">${useRecency?'Recency':'Historical'} base: ${Math.round(base*100)}% · ${st.total} trades · ${streak}× ${streakType==='W'?'W':'L'} streak</div>
-        <div class="bar-track"><div class="bar-fill ${conf>=.65?barColor:'bar-r'}" style="width:${Math.round(conf*100)}%"></div></div>
+        <div class="conf-note">${useRecency?'Recency':'Historical'} base: ${Math.round(base*100)}% · ${st.total} trades · ${streak}× ${streakType==='W'?'W':'L'}</div>
+        <div class="bar-track"><div class="bar-fill ${barCls(conf,isSysB)}" style="width:${Math.round(conf*100)}%"></div></div>
         <div style="margin-top:6px;display:flex;gap:5px;flex-wrap:wrap;align-items:center">
           <span class="badge ${badgeCls(conf)}">${conf>=.75?'High':conf>=.5?'Moderate':'Low'}</span>
           ${streakBadge}
           <button class="explain-btn" onclick="toggleExplain('${eid}',this)"><i class="ti ti-info-circle" style="font-size:11px"></i>Explain</button>
         </div>
-        <div style="margin-top:6px"><span style="font-size:10px;color:#888780;font-weight:500;display:block;margin-bottom:3px">LAST 3 TRADES</span>${last3HTML||'<span style="font-size:11px;color:#d3d1c7">None yet</span>'}</div>
+        <div style="margin-top:6px"><span style="font-size:10px;color:#888780;font-weight:500;display:block;margin-bottom:3px">LAST 3</span>${last3HTML||'<span style="font-size:11px;color:#d3d1c7">None yet</span>'}</div>
       </div>
     </div>
     <div class="explain-panel" id="${eid}">
-      <div class="explain-row"><span class="explain-label">Baseline${useRecency?' (recency-weighted)':' (all-time)'}</span><span class="explain-val">${Math.round(base*100)}% (${st.total} trades)</span></div>
+      <div class="explain-row"><span class="explain-label">Baseline${useRecency?' (recency-weighted)':''}</span><span class="explain-val">${Math.round(base*100)}% (${st.total} trades)</span></div>
       ${useRecency?`<div class="explain-row"><span class="explain-label">Raw all-time win rate</span><span class="explain-val">${Math.round(st.wr*100)}%</span></div>`:''}
       ${useRecency?`<div class="explain-row"><span class="explain-label">Last 20 trades win rate</span><span class="explain-val">${recent20.length?Math.round(recent20.filter(t=>t.result==='W').length/recent20.length*100)+'%':'—'}</span></div>`:''}
-      <div class="explain-row"><span class="explain-label">Current streak</span><span class="explain-val">${streak}× consecutive ${streakType==='W'?'wins':'losses'}</span></div>
+      <div class="explain-row"><span class="explain-label">Current streak</span><span class="explain-val">${streak}× ${streakType==='W'?'wins':'losses'}</span></div>
       <div class="explain-row"><span class="explain-label">After-loss win rate</span><span class="explain-val">${sk.alwr!==null?Math.round(sk.alwr*100)+'% ('+sk.alt+' samples)':'Not enough data'}</span></div>
       <div class="explain-row"><span class="explain-label">Streak-specific stat</span><span class="explain-val">${ss?`After ${streak}× ${streakType==='W'?'W':'L'}, next won ${Math.round(ss.wr*100)}% (${ss.samples} samples)`:'Need 3+ samples'}</span></div>
       <div class="explain-row"><span class="explain-label">Streak adjustment</span><span class="explain-val">${streakEffect}</span></div>
@@ -635,20 +640,92 @@ function buildConfCard(setup,sub,prefix,i,useRecency){
   </div>`;
 }
 
-// ── RENDER DASHBOARD ─────────────────────────────────────────────
+// ── CROSS-SYSTEM CONFLUENCE ───────────────────────────────────────
+function buildConfluence(tradeArr,prefix){
+  const tfs=['1min','3min','15min'];
+  let html='';
+  tfs.forEach(tf=>{
+    const subA=tradeArr.filter(t=>t.tf===tf&&t.system==='A');
+    const subB=tradeArr.filter(t=>t.tf===tf&&t.system==='B');
+    if(!subA.length||!subB.length)return;
+    // find days where both A and B traded
+    const datesA=new Set(subA.map(t=>t.date));
+    const datesB=new Set(subB.map(t=>t.date));
+    const shared=[...datesA].filter(d=>datesB.has(d));
+    if(!shared.length)return;
+    let clip=0,agreeW=0,agreeL=0,total=shared.length;
+    shared.forEach(d=>{
+      const a=subA.find(t=>t.date===d);
+      const b=subB.find(t=>t.date===d);
+      if(!a||!b)return;
+      if(a.result==='W'&&b.result==='L')clip++;
+      else if(a.result==='W'&&b.result==='W')agreeW++;
+      else if(a.result==='L'&&b.result==='L')agreeL++;
+    });
+    const clipPct=total?Math.round(clip/total*100):0;
+    const agreeWPct=total?Math.round(agreeW/total*100):0;
+    const agreeLPct=total?Math.round(agreeL/total*100):0;
+    // after a B loss (any), what % does A win?
+    let aWinAfterBLoss=0,aWinAfterBLossTotal=0;
+    subB.forEach(bt=>{
+      if(bt.result==='L'){
+        const aMatch=subA.find(t=>t.date===bt.date);
+        if(aMatch){aWinAfterBLossTotal++;if(aMatch.result==='W')aWinAfterBLoss++;}
+      }
+    });
+    const aAfterBLossWR=aWinAfterBLossTotal>=3?Math.round(aWinAfterBLoss/aWinAfterBLossTotal*100):null;
+    // last shared day
+    const lastShared=shared[shared.length-1];
+    const lastA=subA.find(t=>t.date===lastShared);
+    const lastB=subB.find(t=>t.date===lastShared);
+    let lastNote='';
+    if(lastA&&lastB){
+      if(lastA.result==='W'&&lastB.result==='L')lastNote=`<span class="badge badge-a">Last session: B clipped SL, A won — likely a direction win</span>`;
+      else if(lastA.result==='W'&&lastB.result==='W')lastNote=`<span class="badge badge-g">Last session: both won</span>`;
+      else if(lastA.result==='L'&&lastB.result==='L')lastNote=`<span class="badge badge-r">Last session: both lost — genuine direction failure</span>`;
+      else if(lastA.result==='L'&&lastB.result==='W')lastNote=`<span class="badge badge-b">Last session: A lost, B won — unusual</span>`;
+    }
+    html+=`<div class="confluence-card ${clip>agreeL?'confluence-clip':agreeL>clip?'confluence-agree-loss':''}">
+      <div style="font-weight:500;font-size:13px;margin-bottom:6px">${tf} — System A vs System B (${total} shared days)</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px">
+        <span class="badge badge-a">SL clip (B loss, A win): ${clipPct}% (${clip}d)</span>
+        <span class="badge badge-g">Both win: ${agreeWPct}% (${agreeW}d)</span>
+        <span class="badge badge-r">Both lose: ${agreeLPct}% (${agreeL}d)</span>
+      </div>
+      ${aAfterBLossWR!==null?`<div style="font-size:12px;color:#5f5e5a;margin-bottom:6px">After a B loss on ${tf}, System A wins <strong>${aAfterBLossWR}%</strong> of the time (${aWinAfterBLossTotal} samples) — use as confluence for A.</div>`:'<div style="font-size:12px;color:#888780;margin-bottom:6px">Need 3+ shared sessions for A-after-B-loss rate.</div>'}
+      <div>${lastNote}</div>
+    </div>`;
+  });
+  return html||'<p style="color:#888780;font-size:13px">Need both System A and B data on the same timeframes to show confluence.</p>';
+}
+
+// ── STREAK TABLE ──────────────────────────────────────────────────
+function buildStreakTable(tradeArr,tbodyId){
+  let stHTML='';
+  ALL_SETUPS.forEach(s=>{
+    const sub=tradeArr.filter(t=>t.tf===s.tf&&t.system===s.sys);if(!sub.length)return;
+    const sk=calcStreak(sub);const st=calcStats(sub);
+    stHTML+=`<tr><td><span class="badge ${s.sys==='B'?'badge-b':'badge-gray'}">${s.label}</span></td>
+      <td>${sk.alwr!==null?`<span class="${pctCol(sk.alwr)}" style="font-weight:500">${Math.round(sk.alwr*100)}%</span>`:'<span style="color:#d3d1c7">—</span>'}</td>
+      <td style="color:#888780">${sk.alt}</td>
+      <td style="color:#888780;font-weight:500" class="green">${sk.maxW}</td>
+      <td style="color:#888780;font-weight:500" class="red">${sk.maxL}</td>
+      <td style="color:#888780">${st.total}</td></tr>`;
+  });
+  document.getElementById(tbodyId).innerHTML=stHTML||'<tr><td colspan="6" style="color:#888780;text-align:center;padding:1rem">No data</td></tr>';
+}
+
+// ── RENDER DASHBOARD ──────────────────────────────────────────────
 function renderDashboard(){
   if(!trades.length){
     document.getElementById('empty-dashboard').style.display='block';
     document.getElementById('dashboard-content').style.display='none';
-    document.getElementById('trade-count-header').textContent='No trades logged yet';
-    return;
+    document.getElementById('trade-count-header').textContent='No trades logged yet';return;
   }
   document.getElementById('empty-dashboard').style.display='none';
   document.getElementById('dashboard-content').style.display='block';
   const s=calcStats(trades);
-  document.getElementById('trade-count-header').textContent=`${trades.length} trades · ${Math.round(s.wr*100)}% overall win rate`;
-
-  // Finance overview
+  document.getElementById('trade-count-header').textContent=`${trades.length} funded trades · ${Math.round(s.wr*100)}% win rate`;
   const totalSpend=finances.filter(f=>f.type==='spend').reduce((a,f)=>a+f.amount,0);
   const totalPayout=finances.filter(f=>f.type==='payout').reduce((a,f)=>a+f.amount,0);
   const net=totalPayout-totalSpend;
@@ -656,166 +733,238 @@ function renderDashboard(){
     <div class="card-sm"><div class="sm-label">Total spent</div><div class="med-num red">${totalSpend?'-$'+totalSpend.toLocaleString():'—'}</div></div>
     <div class="card-sm"><div class="sm-label">Total payouts</div><div class="med-num green">${totalPayout?'+$'+totalPayout.toLocaleString():'—'}</div></div>
     <div class="card-sm" style="border-color:${net>=0?'#C0DD97':'#F7C1C1'};background:${net>=0?'#EAF3DE':'#FCEBEB'}">
-      <div class="sm-label">Net position</div>
-      <div class="med-num ${net>=0?'green':'red'}">${net>=0?'+':''}$${net.toLocaleString()}</div>
+      <div class="sm-label">Net position</div><div class="med-num ${net>=0?'green':'red'}">${net>=0?'+':''}$${net.toLocaleString()}</div>
     </div>
-    <div class="card-sm"><div class="sm-label">Passing attempts</div><div class="med-num">${attempts.length}</div><div class="sm-label">${attempts.filter(a=>a.passed).length} passed</div></div>
-  `;
+    <div class="card-sm"><div class="sm-label">Passing attempts</div><div class="med-num">${attempts.length}</div><div class="sm-label">${attempts.filter(a=>a.passed).length} passed</div></div>`;
   document.getElementById('pnl-metrics').innerHTML=`
     <div class="card-sm"><div class="sm-label">Imported P&amp;L</div><div class="med-num ${s.pnl>=0?'green':'red'}">${s.pnl>=0?'+':''}$${Math.round(s.pnl).toLocaleString()}</div></div>
-    <div class="card-sm"><div class="sm-label">Total trades</div><div class="med-num">${s.total}</div><div class="sm-label">${s.wins}W / ${s.losses}L</div></div>
-  `;
+    <div class="card-sm"><div class="sm-label">Trades</div><div class="med-num">${s.total}</div><div class="sm-label">${s.wins}W / ${s.losses}L</div></div>`;
 
-  // Tomorrow's actions — funded
+  // Actions — funded
   const scores=ALL_SETUPS.map(setup=>{
-    const sub=trades.filter(t=>t.tf===setup.tf&&t.system===setup.sys);
-    if(!sub.length)return null;
+    const sub=trades.filter(t=>t.tf===setup.tf&&t.system===setup.sys);if(!sub.length)return null;
     const conf=calcConfScore(sub,false);
     const{streak,streakType}=getCurrentStreak(sub);
     const last=sub[sub.length-1];
-    return{setup,conf,streak,streakType,last,total:sub.length};
+    return{setup,conf,streak,streakType,last};
   }).filter(Boolean).sort((a,b)=>b.conf-a.conf);
+  document.getElementById('actions-funded').innerHTML=scores.length?scores.map((r,idx)=>{
+    const reentry=(r.setup.tf==='1min'||r.setup.tf==='3min')&&r.last?.result==='L';
+    return`<div class="action-row">
+      <div class="action-rank">#${idx+1}</div>
+      <div class="action-info"><div class="action-title">${r.setup.label}</div>
+        <div class="action-sub">${Math.round(r.conf*100)}% confidence · ${r.streak}× ${r.streakType==='W'?'W':'L'}${reentry?' · re-entry recommended':''}</div></div>
+      <div style="display:flex;gap:5px;flex-wrap:wrap">
+        <span class="badge ${badgeCls(r.conf)}">${Math.round(r.conf*100)}%</span>
+        ${reentry?'<span class="badge badge-a">Re-entry</span>':''}
+        <span class="badge ${r.setup.sys==='B'?'badge-b':'badge-g'}">Sys ${r.setup.sys}</span>
+      </div></div>`;
+  }).join(''):'<p style="color:#888780;font-size:13px">No setup data yet.</p>';
 
-  if(scores.length){
-    let actHTML='';
-    scores.forEach((r,idx)=>{
-      const reentry=(r.setup.tf==='1min'||r.setup.tf==='3min')&&r.last?.result==='L';
-      const isSysB=r.setup.sys==='B';
-      actHTML+=`<div class="action-row">
-        <div class="action-rank">#${idx+1}</div>
-        <div class="action-info">
-          <div class="action-title">${r.setup.label}</div>
-          <div class="action-sub">${Math.round(r.conf*100)}% confidence · ${r.streak}× ${r.streakType==='W'?'W':'L'} streak${reentry?' · re-entry recommended':''}</div>
-        </div>
-        <div style="display:flex;gap:5px;align-items:center;flex-wrap:wrap">
-          <span class="badge ${badgeCls(r.conf)}">${Math.round(r.conf*100)}%</span>
-          ${reentry?'<span class="badge badge-a">Re-entry</span>':''}
-          <span class="badge ${isSysB?'badge-b':'badge-g'}">Sys ${r.setup.sys}</span>
-        </div>
-      </div>`;
-    });
-    document.getElementById('actions-funded').innerHTML=actHTML;
-  } else {
-    document.getElementById('actions-funded').innerHTML='<p style="color:#888780;font-size:13px">No setup data yet.</p>';
-  }
-
-  // Tomorrow's actions — passing
+  // Actions — passing
   if(attempts.length){
     const passes=attempts.filter(a=>a.passed).length;
     const passRate=passes/attempts.length;
     const{streak,streakType}=getCurrentStreak(attempts.map(a=>({result:a.passed?'W':'L'})));
-    let conf=passRate;
-    let afwNote='';
-    let afwRate=null;
-    let afwTotal=0;let afwWins=0;
+    let afwWins=0,afwTotal=0;
     for(let i=1;i<attempts.length;i++){if(!attempts[i-1].passed){afwTotal++;if(attempts[i].passed)afwWins++;}}
-    if(afwTotal>=2){afwRate=afwWins/afwTotal;}
-    if(streakType==='L'){const b=Math.min(streak*0.1,0.3);conf=passRate+(afwRate!==null?afwRate-passRate:0)*0.6+b;afwNote=`After ${streak} consecutive fails, recovery rate is ${afwRate!==null?Math.round(afwRate*100)+'%':'unknown'}.`;}
-    else if(streakType==='W'&&streak>=3){conf=passRate-Math.min((streak-2)*0.02,0.08);}
+    const afwRate=afwTotal>=2?afwWins/afwTotal:null;
+    let conf=passRate;
+    if(streakType==='L'){const b=Math.min(streak*0.1,0.3);conf=passRate+(afwRate!==null?afwRate-passRate:0)*0.6+b;}
+    else if(streakType==='W'&&streak>=3)conf=passRate-Math.min((streak-2)*0.02,0.08);
     conf=Math.max(0.05,Math.min(0.99,conf));
-    const rec=conf>=0.6?'Conditions look good — consider taking a passing attempt tomorrow.':conf>=0.4?'Moderate conditions — proceed with caution.':'Conditions are unfavourable — consider waiting.';
-    document.getElementById('actions-passing').innerHTML=`
-      <div class="banner ${conf>=0.6?'banner-green':conf>=0.4?'banner-amber':'banner-blue'}">
-        <h3><i class="ti ti-trophy"></i>Passing account recommendation</h3>
-        <p style="font-size:13px;margin-bottom:4px">${rec}</p>
-        <p style="font-size:12px;color:#5f5e5a">Pass rate: ${Math.round(passRate*100)}% · Current streak: ${streak}× ${streakType==='W'?'passes':'fails'} · Confidence: ${Math.round(conf*100)}%${afwNote?' · '+afwNote:''}</p>
-      </div>`;
+    const rec=conf>=0.6?'Conditions look good — consider a passing attempt tomorrow.':conf>=0.4?'Moderate — proceed with caution.':'Conditions unfavourable — consider waiting.';
+    document.getElementById('actions-passing').innerHTML=`<div class="banner ${conf>=0.6?'banner-green':conf>=0.4?'banner-amber':'banner-blue'}">
+      <h3><i class="ti ti-trophy"></i>Passing recommendation</h3>
+      <p style="font-size:13px;margin-bottom:4px">${rec}</p>
+      <p style="font-size:12px;color:#5f5e5a">Pass rate: ${Math.round(passRate*100)}% · ${streak}× ${streakType==='W'?'passes':'fails'} · Confidence: ${Math.round(conf*100)}%</p>
+    </div>`;
   } else {
     document.getElementById('actions-passing').innerHTML='<p style="color:#888780;font-size:13px">Log passing attempts to see a recommendation.</p>';
   }
 
-  // Conf cards — System A
+  // Conf cards
   let confA='',confB='',recA='',recB='';
-  SETUPS_A.forEach((s,i)=>{
-    const sub=trades.filter(t=>t.tf===s.tf&&t.system===s.sys);
-    confA+=buildConfCard(s,sub,'ca',i,false);
-    recA+=buildConfCard(s,sub,'ra',i,true);
-  });
-  SETUPS_B.forEach((s,i)=>{
-    const sub=trades.filter(t=>t.tf===s.tf&&t.system===s.sys);
-    confB+=buildConfCard(s,sub,'cb',i,false);
-    recB+=buildConfCard(s,sub,'rb',i,true);
-  });
+  SETUPS_A.forEach((s,i)=>{const sub=trades.filter(t=>t.tf===s.tf&&t.system===s.sys);confA+=buildConfCard(s,sub,'ca',i,false);recA+=buildConfCard(s,sub,'ra',i,true);});
+  SETUPS_B.forEach((s,i)=>{const sub=trades.filter(t=>t.tf===s.tf&&t.system===s.sys);confB+=buildConfCard(s,sub,'cb',i,false);recB+=buildConfCard(s,sub,'rb',i,true);});
   document.getElementById('conf-list-a').innerHTML=confA||'<p style="color:#888780;font-size:13px">No System A data yet.</p>';
   document.getElementById('conf-list-b').innerHTML=confB||'<p style="color:#888780;font-size:13px">No System B data yet.</p>';
-  document.getElementById('recency-list-a').innerHTML=recA?`<div style="margin-bottom:4px" class="sys-group-label sys-a-label"><i class="ti ti-circle-filled" style="font-size:8px"></i> System A</div>${recA}`:'';
-  document.getElementById('recency-list-b').innerHTML=recB?`<div style="margin-bottom:4px" class="sys-group-label sys-b-label"><i class="ti ti-circle-filled" style="font-size:8px"></i> System B</div>${recB}`:'';
-
-  // Draw rings
+  document.getElementById('recency-list-a').innerHTML=recA?`<div class="sys-group-label sys-a-label"><i class="ti ti-circle-filled" style="font-size:8px"></i> System A</div>${recA}`:'';
+  document.getElementById('recency-list-b').innerHTML=recB?`<div class="sys-group-label sys-b-label"><i class="ti ti-circle-filled" style="font-size:8px"></i> System B</div>${recB}`:'';
   setTimeout(()=>{
-    SETUPS_A.forEach((s,i)=>{
-      const sub=trades.filter(t=>t.tf===s.tf&&t.system===s.sys);if(!sub.length)return;
-      drawRing(`ca-ring-${i}`,calcConfScore(sub,false),sub[0].system==='B'?'#185FA5':ringCol(calcConfScore(sub,false)));
-      drawRing(`ra-ring-${i}`,calcConfScore(sub,true),ringCol(calcConfScore(sub,true)));
-    });
-    SETUPS_B.forEach((s,i)=>{
-      const sub=trades.filter(t=>t.tf===s.tf&&t.system===s.sys);if(!sub.length)return;
-      drawRing(`cb-ring-${i}`,calcConfScore(sub,false),'#185FA5');
-      drawRing(`rb-ring-${i}`,calcConfScore(sub,true),'#185FA5');
-    });
+    SETUPS_A.forEach((s,i)=>{const sub=trades.filter(t=>t.tf===s.tf&&t.system===s.sys);if(!sub.length)return;drawRing(`ca-ring-${i}`,calcConfScore(sub,false),ringCol(calcConfScore(sub,false),false));drawRing(`ra-ring-${i}`,calcConfScore(sub,true),ringCol(calcConfScore(sub,true),false));});
+    SETUPS_B.forEach((s,i)=>{const sub=trades.filter(t=>t.tf===s.tf&&t.system===s.sys);if(!sub.length)return;drawRing(`cb-ring-${i}`,calcConfScore(sub,false),ringCol(calcConfScore(sub,false),true));drawRing(`rb-ring-${i}`,calcConfScore(sub,true),ringCol(calcConfScore(sub,true),true));});
   },50);
 
-  // Setup comparison
+  // Confluence
+  document.getElementById('confluence-section').innerHTML=buildConfluence(trades,'f');
+
+  // Comparison
   const allScores=ALL_SETUPS.map(s=>{
     const sub=trades.filter(t=>t.tf===s.tf&&t.system===s.sys);if(!sub.length)return null;
     const st=calcStats(sub);
     return{label:s.label,sys:s.sys,conf:calcConfScore(sub,false),rec:calcConfScore(sub,true),wr:st.wr,total:st.total,wins:st.wins,losses:st.losses};
   }).filter(Boolean).sort((a,b)=>b.conf-a.conf);
-  if(allScores.length){
-    let cHTML=`<div class="card" style="padding:0;overflow:hidden;overflow-x:auto"><table><thead><tr><th>#</th><th>Setup</th><th>Confidence</th><th>Recency</th><th>Divergence</th><th>Win rate</th><th>Trades</th></tr></thead><tbody>`;
-    allScores.forEach((r,idx)=>{
-      const div=Math.round(r.rec*100)-Math.round(r.conf*100);
-      cHTML+=`<tr>
-        <td style="color:#d3d1c7;font-weight:500">#${idx+1}</td>
-        <td><span class="badge ${r.sys==='B'?'badge-b':'badge-g'}">${r.label}</span></td>
-        <td><span style="font-weight:500" class="${pctCol(r.conf)}">${Math.round(r.conf*100)}%</span></td>
-        <td><span style="font-weight:500" class="${pctCol(r.rec)}">${Math.round(r.rec*100)}%</span></td>
-        <td>${div===0?'<span style="color:#d3d1c7">—</span>':div>0?`<span class="green">+${div}pp</span>`:`<span class="red">${div}pp</span>`}</td>
-        <td>${Math.round(r.wr*100)}%</td>
-        <td style="color:#888780">${r.total} (${r.wins}W/${r.losses}L)</td>
-      </tr>`;
-    });
-    cHTML+='</tbody></table></div>';
-    document.getElementById('comparison-table').innerHTML=cHTML;
-  } else {
-    document.getElementById('comparison-table').innerHTML='<p style="color:#888780;font-size:13px">No data yet.</p>';
-  }
+  document.getElementById('comparison-table').innerHTML=allScores.length?`<div class="card" style="padding:0;overflow:hidden;overflow-x:auto"><table><thead><tr><th>#</th><th>Setup</th><th>Confidence</th><th>Recency</th><th>Divergence</th><th>Win rate</th><th>Trades</th></tr></thead><tbody>${
+    allScores.map((r,idx)=>{const div=Math.round(r.rec*100)-Math.round(r.conf*100);return`<tr>
+      <td style="color:#d3d1c7">#${idx+1}</td>
+      <td><span class="badge ${r.sys==='B'?'badge-b':'badge-g'}">${r.label}</span></td>
+      <td><span class="${pctCol(r.conf)}" style="font-weight:500">${Math.round(r.conf*100)}%</span></td>
+      <td><span class="${pctCol(r.rec)}" style="font-weight:500">${Math.round(r.rec*100)}%</span></td>
+      <td>${div===0?'<span style="color:#d3d1c7">—</span>':div>0?`<span class="green">+${div}pp</span>`:`<span class="red">${div}pp</span>`}</td>
+      <td>${Math.round(r.wr*100)}%</td>
+      <td style="color:#888780">${r.total} (${r.wins}W/${r.losses}L)</td></tr>`;}).join('')
+  }</tbody></table></div>`:'<p style="color:#888780;font-size:13px">No data yet.</p>';
 
   // Charts
   const tfs=['15min','1min','3min'];
   const tfWR=tfs.map(tf=>{const sub=trades.filter(t=>t.tf===tf);return sub.length?Math.round(calcStats(sub).wr*100):0;});
   if(tfChart)tfChart.destroy();
-  tfChart=new Chart(document.getElementById('chart-tf'),{type:'bar',data:{labels:tfs,datasets:[{label:'Win %',data:tfWR,backgroundColor:tfWR.map(v=>v>=65?'#639922':v>=45?'#BA7517':'#E24B4A'),borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{size:10}},grid:{color:'#f1efe8'}},x:{ticks:{font:{size:10}},grid:{display:false}}}}});
+  tfChart=new Chart(document.getElementById('chart-tf'),{type:'bar',data:{labels:tfs,datasets:[{data:tfWR,backgroundColor:tfWR.map(v=>v>=65?'#639922':v>=45?'#BA7517':'#E24B4A'),borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{size:10}},grid:{color:'#f1efe8'}},x:{ticks:{font:{size:10}},grid:{display:false}}}}});
   const sysWR=['A','B'].map(sys=>{const sub=trades.filter(t=>t.system===sys);return sub.length?Math.round(calcStats(sub).wr*100):0;});
   if(sysChart)sysChart.destroy();
-  sysChart=new Chart(document.getElementById('chart-sys'),{type:'bar',data:{labels:['System A','System B'],datasets:[{label:'Win %',data:sysWR,backgroundColor:['#639922','#185FA5'],borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{size:10}},grid:{color:'#f1efe8'}},x:{ticks:{font:{size:10}},grid:{display:false}}}}});
+  sysChart=new Chart(document.getElementById('chart-sys'),{type:'bar',data:{labels:['System A','System B'],datasets:[{data:sysWR,backgroundColor:['#639922','#185FA5'],borderRadius:5,borderSkipped:false}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{min:0,max:100,ticks:{callback:v=>v+'%',font:{size:10}},grid:{color:'#f1efe8'}},x:{ticks:{font:{size:10}},grid:{display:false}}}}});
 
   // Streak table
-  let stHTML='';
-  ALL_SETUPS.forEach(s=>{
-    const sub=trades.filter(t=>t.tf===s.tf&&t.system===s.sys);if(!sub.length)return;
-    const sk=calcStreak(sub);const st=calcStats(sub);
-    stHTML+=`<tr><td><span class="badge ${s.sys==='B'?'badge-b':'badge-gray'}">${s.label}</span></td>
-      <td>${sk.alwr!==null?`<span class="${pctCol(sk.alwr)}" style="font-weight:500">${Math.round(sk.alwr*100)}%</span>`:'<span style="color:#d3d1c7">—</span>'}</td>
-      <td style="color:#888780">${sk.alt}</td><td style="color:#888780">${sk.maxL}</td><td style="color:#888780">${st.total}</td></tr>`;
-  });
-  document.getElementById('streak-tbody').innerHTML=stHTML||'<tr><td colspan="5" style="color:#888780;text-align:center;padding:1rem">No data</td></tr>';
+  buildStreakTable(trades,'streak-tbody');
 
-  // Dots toggle
-  const toggleOptions=[{key:'all',label:'All'}, ...ALL_SETUPS.filter(s=>trades.some(t=>t.tf===s.tf&&t.system===s.sys)).map(s=>({key:s.key,label:s.label}))];
+  // Dots
+  const toggleOptions=[{key:'all',label:'All'},...ALL_SETUPS.filter(s=>trades.some(t=>t.tf===s.tf&&t.system===s.sys)).map(s=>({key:s.key,label:s.label,tf:s.tf,sys:s.sys}))];
   document.getElementById('dots-toggle').innerHTML=toggleOptions.map(o=>`<button class="toggle-btn${o.key===dotsFilter?' active':''}" onclick="setDotsFilter('${o.key}')">${o.label}</button>`).join('');
   renderDots();
 }
-
-function setDotsFilter(k){dotsFilter=k;document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.toggle('active',b.textContent.trim()===(k==='all'?'All':ALL_SETUPS.find(s=>s.key===k)?.label)));renderDots();}
+function setDotsFilter(k){
+  dotsFilter=k;
+  document.querySelectorAll('#dots-toggle .toggle-btn').forEach((b,i)=>{const keys=['all',...ALL_SETUPS.map(s=>s.key)];b.classList.toggle('active',keys[i]===k);});
+  renderDots();
+}
 function renderDots(){
   let arr=trades;
   if(dotsFilter!=='all'){const s=ALL_SETUPS.find(x=>x.key===dotsFilter);if(s)arr=trades.filter(t=>t.tf===s.tf&&t.system===s.sys);}
-  const recent=arr.slice(-30);
-  document.getElementById('recent-dots').innerHTML=recent.map(t=>`<div class="dot ${t.result==='W'?'dot-w':'dot-l'}" title="${t.date} · ${t.tf} Sys${t.system} · ${t.result==='W'?'Win':'Loss'} · $${t.pnl}">${t.result}</div>`).join('');
+  document.getElementById('recent-dots').innerHTML=arr.slice(-30).map(t=>`<div class="dot ${t.result==='W'?'dot-w':'dot-l'}" title="${t.date} · ${t.tf} Sys${t.system} · ${t.result}">${t.result}</div>`).join('');
 }
 
-// ── LOG TRADE ────────────────────────────────────────────────────
+// ── PASSING DASHBOARD ─────────────────────────────────────────────
+function renderPassDashboard(){
+  if(!passTrades.length){
+    document.getElementById('pass-empty').style.display='block';
+    document.getElementById('pass-dash-content').style.display='none';return;
+  }
+  document.getElementById('pass-empty').style.display='none';
+  document.getElementById('pass-dash-content').style.display='block';
+  const s=calcStats(passTrades);
+  document.getElementById('pass-overview-metrics').innerHTML=`
+    <div class="card-sm"><div class="sm-label">Passing trades</div><div class="med-num">${s.total}</div><div class="sm-label">${s.wins}W / ${s.losses}L</div></div>
+    <div class="card-sm"><div class="sm-label">Overall win rate</div><div class="med-num ${pctCol(s.wr)}">${Math.round(s.wr*100)}%</div><div class="bar-track"><div class="bar-fill ${barCls(s.wr,false)}" style="width:${Math.round(s.wr*100)}%"></div></div></div>
+    <div class="card-sm"><div class="sm-label">Setups tracked</div><div class="med-num">${ALL_SETUPS.filter(s=>passTrades.some(t=>t.tf===s.tf&&t.system===s.sys)).length}</div></div>
+    <div class="card-sm"><div class="sm-label">Best setup</div><div id="pass-best-setup" class="med-num" style="font-size:14px">—</div></div>`;
+
+  let pConfA='',pConfB='';
+  let bestConf=0,bestLabel='—';
+  SETUPS_A.forEach((s,i)=>{const sub=passTrades.filter(t=>t.tf===s.tf&&t.system===s.sys);const c=buildConfCard(s,sub,'pca',i,false);pConfA+=c;if(sub.length){const sc=calcConfScore(sub,false);if(sc>bestConf){bestConf=sc;bestLabel=s.label;}}});
+  SETUPS_B.forEach((s,i)=>{const sub=passTrades.filter(t=>t.tf===s.tf&&t.system===s.sys);const c=buildConfCard(s,sub,'pcb',i,false);pConfB+=c;if(sub.length){const sc=calcConfScore(sub,false);if(sc>bestConf){bestConf=sc;bestLabel=s.label;}}});
+  document.getElementById('pass-conf-a').innerHTML=pConfA||'<p style="color:#888780;font-size:13px">No System A passing data yet.</p>';
+  document.getElementById('pass-conf-b').innerHTML=pConfB||'<p style="color:#888780;font-size:13px">No System B passing data yet.</p>';
+  const bestEl=document.getElementById('pass-best-setup');if(bestEl)bestEl.textContent=bestLabel;
+  setTimeout(()=>{
+    SETUPS_A.forEach((s,i)=>{const sub=passTrades.filter(t=>t.tf===s.tf&&t.system===s.sys);if(!sub.length)return;drawRing(`pca-ring-${i}`,calcConfScore(sub,false),ringCol(calcConfScore(sub,false),false));});
+    SETUPS_B.forEach((s,i)=>{const sub=passTrades.filter(t=>t.tf===s.tf&&t.system===s.sys);if(!sub.length)return;drawRing(`pcb-ring-${i}`,calcConfScore(sub,false),ringCol(calcConfScore(sub,false),true));});
+  },50);
+
+  document.getElementById('pass-confluence').innerHTML=buildConfluence(passTrades,'p');
+  buildStreakTable(passTrades,'pass-streak-tbody');
+
+  // Comparison
+  const pScores=ALL_SETUPS.map(s=>{
+    const sub=passTrades.filter(t=>t.tf===s.tf&&t.system===s.sys);if(!sub.length)return null;
+    const st=calcStats(sub);
+    return{label:s.label,sys:s.sys,conf:calcConfScore(sub,false),rec:calcConfScore(sub,true),wr:st.wr,total:st.total,wins:st.wins,losses:st.losses};
+  }).filter(Boolean).sort((a,b)=>b.conf-a.conf);
+  document.getElementById('pass-comparison').innerHTML=pScores.length?`<div class="card" style="padding:0;overflow:hidden;overflow-x:auto"><table><thead><tr><th>#</th><th>Setup</th><th>Confidence</th><th>Recency</th><th>Win rate</th><th>Trades</th></tr></thead><tbody>${
+    pScores.map((r,idx)=>`<tr><td style="color:#d3d1c7">#${idx+1}</td><td><span class="badge ${r.sys==='B'?'badge-b':'badge-g'}">${r.label}</span></td><td><span class="${pctCol(r.conf)}" style="font-weight:500">${Math.round(r.conf*100)}%</span></td><td><span class="${pctCol(r.rec)}" style="font-weight:500">${Math.round(r.rec*100)}%</span></td><td>${Math.round(r.wr*100)}%</td><td style="color:#888780">${r.total} (${r.wins}W/${r.losses}L)</td></tr>`).join('')
+  }</tbody></table></div>`:'<p style="color:#888780;font-size:13px">No data yet.</p>';
+
+  // Dots
+  const pToggleOptions=[{key:'all',label:'All'},...ALL_SETUPS.filter(s=>passTrades.some(t=>t.tf===s.tf&&t.system===s.sys)).map(s=>({key:s.key,label:s.label}))];
+  document.getElementById('pass-dots-toggle').innerHTML=pToggleOptions.map(o=>`<button class="toggle-btn${o.key===passDotsFilter?' active':''}" onclick="setPassDotsFilter('${o.key}')">${o.label}</button>`).join('');
+  renderPassDots();
+}
+function setPassDotsFilter(k){
+  passDotsFilter=k;
+  document.querySelectorAll('#pass-dots-toggle .toggle-btn').forEach((b,i)=>{const keys=['all',...ALL_SETUPS.map(s=>s.key)];b.classList.toggle('active',keys[i]===k);});
+  renderPassDots();
+}
+function renderPassDots(){
+  let arr=passTrades;
+  if(passDotsFilter!=='all'){const s=ALL_SETUPS.find(x=>x.key===passDotsFilter);if(s)arr=passTrades.filter(t=>t.tf===s.tf&&t.system===s.sys);}
+  document.getElementById('pass-dots').innerHTML=arr.slice(-30).map(t=>`<div class="dot ${t.result==='W'?'dot-w':'dot-l'}" title="${t.date} · ${t.tf} Sys${t.system} · ${t.result}">${t.result}</div>`).join('');
+}
+
+// ── PASSING ATTEMPTS ──────────────────────────────────────────────
+function renderPassAttempts(){
+  if(!attempts.length){
+    document.getElementById('pass-att-metrics').innerHTML='<p style="color:#888780;font-size:13px">No attempts logged yet.</p>';
+    document.getElementById('pass-prediction').innerHTML='';
+    document.getElementById('att-body').innerHTML='';
+    document.getElementById('att-empty').style.display='block';return;
+  }
+  const passes=attempts.filter(a=>a.passed).length;
+  const passRate=passes/attempts.length;
+  const totalCost=attempts.reduce((s,a)=>s+(a.cost||95),0);
+  const costPerPass=passes>0?totalCost/passes:0;
+  document.getElementById('pass-att-metrics').innerHTML=`
+    <div class="card-sm"><div class="sm-label">Attempts</div><div class="med-num">${attempts.length}</div><div class="sm-label">${passes}P / ${attempts.length-passes}F</div></div>
+    <div class="card-sm"><div class="sm-label">Pass rate</div><div class="med-num ${pctCol(passRate)}">${Math.round(passRate*100)}%</div><div class="bar-track"><div class="bar-fill ${barCls(passRate,false)}" style="width:${Math.round(passRate*100)}%"></div></div></div>
+    <div class="card-sm"><div class="sm-label">Cost per pass</div><div class="med-num ${costPerPass>200?'red':'green'}">$${Math.round(costPerPass)||'—'}</div><div class="sm-label">$${totalCost} total</div></div>
+    <div class="card-sm"><div class="sm-label">Exp. attempts</div><div class="med-num">${passRate>0?Math.round(1/passRate*10)/10:'—'}</div></div>`;
+  const arr=attempts.map(a=>({result:a.passed?'W':'L'}));
+  const{streak,streakType}=getCurrentStreak(arr);
+  let afwWins=0,afwTotal=0;
+  for(let i=1;i<attempts.length;i++){if(!attempts[i-1].passed){afwTotal++;if(attempts[i].passed)afwWins++;}}
+  const afwRate=afwTotal>=2?afwWins/afwTotal:null;
+  let conf=passRate;
+  if(streakType==='L'){const b=Math.min(streak*0.1,0.3);conf=passRate+(afwRate!==null?afwRate-passRate:0)*0.6+b;}
+  else if(streakType==='W'&&streak>=3)conf=passRate-Math.min((streak-2)*0.02,0.08);
+  conf=Math.max(0.05,Math.min(0.99,conf));
+  const ss=calcStreakSpecificWR(arr,streakType,streak);
+  document.getElementById('pass-prediction').innerHTML=`<div class="conf-card">
+    <div class="conf-card-top">
+      <div class="ring-wrap"><canvas id="pass-ring"></canvas>
+        <div class="ring-label"><div class="ring-pct ${pctCol(conf)}">${Math.round(conf*100)}%</div></div>
+      </div>
+      <div class="conf-info">
+        <div class="conf-title">Probability of passing next attempt</div>
+        <div class="conf-note">Base: ${Math.round(passRate*100)}% · ${streak}× ${streakType==='W'?'passes':'fails'}</div>
+        <div class="bar-track"><div class="bar-fill ${barCls(conf,false)}" style="width:${Math.round(conf*100)}%"></div></div>
+        <div style="margin-top:6px;display:flex;gap:5px;flex-wrap:wrap;align-items:center">
+          <span class="badge ${badgeCls(conf)}">${conf>=.65?'High':conf>=.4?'Moderate':'Low'}</span>
+          ${streakType==='L'?`<span class="badge badge-a">${streak}F → boosted</span>`:streak>=3?`<span class="badge badge-gray">${streak}P → drag</span>`:''}
+          <button class="explain-btn" onclick="toggleExplain('pass-exp',this)"><i class="ti ti-info-circle" style="font-size:11px"></i>Explain</button>
+        </div>
+      </div>
+    </div>
+    <div class="explain-panel" id="pass-exp">
+      <div class="explain-row"><span class="explain-label">Historical pass rate</span><span class="explain-val">${Math.round(passRate*100)}% (${attempts.length})</span></div>
+      <div class="explain-row"><span class="explain-label">Current streak</span><span class="explain-val">${streak}× ${streakType==='W'?'passes':'fails'}</span></div>
+      <div class="explain-row"><span class="explain-label">After-fail recovery rate</span><span class="explain-val">${afwRate!==null?Math.round(afwRate*100)+'% ('+afwTotal+' samples)':'Need 2+ samples'}</span></div>
+      <div class="explain-row"><span class="explain-label">Streak-specific stat</span><span class="explain-val">${ss?`After ${streak}× ${streakType==='W'?'P':'F'}, next ${Math.round(ss.wr*100)}% (${ss.samples} samples)`:'Need 3+ samples'}</span></div>
+      <div class="explain-row"><span class="explain-label">Expected cost to next pass</span><span class="explain-val">~$${Math.round((1/conf)*95)}</span></div>
+      <div class="explain-row" style="padding-top:8px;border-top:0.5px solid #d3d1c7"><span class="explain-label" style="font-weight:500">Confidence score</span><span class="explain-val ${pctCol(conf)}" style="font-size:14px">${Math.round(conf*100)}%</span></div>
+    </div>
+  </div>`;
+  setTimeout(()=>drawRing('pass-ring',conf,ringCol(conf,false)),50);
+  document.getElementById('att-empty').style.display='none';
+  document.getElementById('att-body').innerHTML=[...attempts].reverse().map(a=>`<tr>
+    <td style="font-size:11px">${a.date}</td>
+    <td><span class="badge ${a.passed?'badge-g':'badge-r'}">${a.passed?'Pass':'Fail'}</span></td>
+    <td><span class="badge ${a.t1==='W'?'badge-g':'badge-r'}">${a.t1==='W'?'Win':'Loss'}</span></td>
+    <td>${a.t2?`<span class="badge ${a.t2==='W'?'badge-g':'badge-r'}">${a.t2==='W'?'Win':'Loss'}</span>`:'<span style="color:#d3d1c7">—</span>'}</td>
+    <td style="color:#888780;font-size:11px">${a.notes||'—'}</td>
+    <td><button class="btn btn-danger btn-sm" onclick="deleteAttempt(${a.id})"><i class="ti ti-trash"></i></button></td>
+  </tr>`).join('');
+}
+
+// ── LOG / IMPORT ──────────────────────────────────────────────────
 function logTrade(){
   const date=document.getElementById('l-date').value;
   const sys=document.getElementById('l-sys').value;
@@ -829,13 +978,10 @@ function logTrade(){
   if(isNaN(pnl)){msg.className='msg-err';msg.textContent='Enter P&L.';return;}
   trades.push({id:Date.now(),date,system:sys,tf,result:res,pnl,contracts,notes});
   trades.sort((a,b)=>a.date.localeCompare(b.date));
-  saveData();
-  msg.className='msg-ok';msg.textContent='Added.';
+  saveData();msg.className='msg-ok';msg.textContent='Added.';
   document.getElementById('l-pnl').value='';document.getElementById('l-notes').value='';
   setTimeout(()=>msg.textContent='',2500);
 }
-
-// ── IMPORT ───────────────────────────────────────────────────────
 function convertTV(){
   const raw=document.getElementById('tv-in').value.trim();
   const sys=document.getElementById('tv-sys').value;
@@ -845,7 +991,7 @@ function convertTV(){
   const winPnl=sys==='B'?400:200;const lossPnl=-2000;const contracts=sys==='B'?2:1;
   const lines=raw.split('\n').map(l=>l.trim()).filter(Boolean);
   const hi=lines.findIndex(l=>l.toLowerCase().includes('trade number')||l.toLowerCase().includes('type'));
-  if(hi===-1){msg.className='msg-err';msg.textContent='No header row found.';return;}
+  if(hi===-1){msg.className='msg-err';msg.textContent='No header found.';return;}
   const exits=lines.slice(hi+1).filter(l=>l.toLowerCase().includes('exit'));
   let added=0,skipped=0;
   exits.forEach((line,i)=>{
@@ -858,19 +1004,15 @@ function convertTV(){
     added++;
   });
   trades.sort((a,b)=>a.date.localeCompare(b.date));
-  saveData();
-  msg.className='msg-ok';msg.textContent=`Imported ${added}${skipped?' ('+skipped+' skipped)':''}`;
-  document.getElementById('tv-in').value='';
-  renderDashboard();setTimeout(()=>msg.textContent='',4000);
+  saveData();msg.className='msg-ok';msg.textContent=`Imported ${added}${skipped?' ('+skipped+' skipped)':''}`;
+  document.getElementById('tv-in').value='';renderDashboard();setTimeout(()=>msg.textContent='',4000);
 }
-
 function importCSV(){
   const raw=document.getElementById('csv-in').value.trim();
   const msg=document.getElementById('import-msg');
   if(!raw){msg.className='msg-err';msg.textContent='Nothing to import.';return;}
   const lines=raw.split('\n').map(l=>l.trim()).filter(Boolean);
   if(lines.length<2){msg.className='msg-err';msg.textContent='Need header + data.';return;}
-  // auto-detect delimiter — tab or comma
   const delim=lines[0].includes('\t')?'\t':',';
   const headers=lines[0].split(delim).map(h=>h.trim().toLowerCase());
   const missing=['date','system','timeframe','result','pnl'].filter(n=>!headers.includes(n));
@@ -888,62 +1030,52 @@ function importCSV(){
     added++;
   }
   trades.sort((a,b)=>a.date.localeCompare(b.date));
-  saveData();
-  msg.className='msg-ok';msg.textContent=`Imported ${added}${skipped?' ('+skipped+' skipped)':''}`;
-  document.getElementById('csv-in').value='';
-  renderDashboard();setTimeout(()=>msg.textContent='',4000);
+  saveData();msg.className='msg-ok';msg.textContent=`Imported ${added}${skipped?' ('+skipped+' skipped)':''}`;
+  document.getElementById('csv-in').value='';renderDashboard();setTimeout(()=>msg.textContent='',4000);
 }
+function clearAll(){if(!confirm('Delete all funded trade data?'))return;trades=[];saveData();renderDashboard();}
 
-function clearAll(){if(!confirm('Delete all trade data?'))return;trades=[];saveData();renderDashboard();}
-
-// ── HISTORY ──────────────────────────────────────────────────────
-function renderHistory(){
-  const sys=document.getElementById('f-sys').value;
-  const tf=document.getElementById('f-tf').value;
-  const filtered=[...trades].filter(t=>(!sys||t.system===sys)&&(!tf||t.tf===tf)).reverse();
-  const body=document.getElementById('hist-body');
-  const empty=document.getElementById('hist-empty');
-  if(!filtered.length){body.innerHTML='';empty.style.display='block';return;}
-  empty.style.display='none';
-  body.innerHTML=filtered.map(t=>`<tr>
-    <td style="font-size:11px;white-space:nowrap">${t.date}</td>
-    <td><span class="badge ${t.system==='B'?'badge-b':'badge-gray'}">Sys ${t.system}</span></td>
-    <td><span class="badge badge-gray">${t.tf}</span></td>
-    <td><span class="badge ${t.result==='W'?'badge-g':'badge-r'}">${t.result==='W'?'Win':'Loss'}</span></td>
-    <td style="font-weight:500;color:${t.pnl>=0?'#3B6D11':'#A32D2D'}">${t.pnl>=0?'+':''}$${Math.round(t.pnl).toLocaleString()}</td>
-    <td style="color:#888780">${t.contracts||1}</td>
-    <td style="color:#888780;max-width:160px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.notes||'—'}</td>
-    <td><button class="btn btn-danger btn-sm" onclick="deleteTrade(${t.id})"><i class="ti ti-trash"></i></button></td>
-  </tr>`).join('');
+function convertPassTV(){
+  const raw=document.getElementById('ptv-in').value.trim();
+  const sys=document.getElementById('ptv-sys').value;
+  const tf=document.getElementById('ptv-tf').value;
+  const msg=document.getElementById('ptv-msg');
+  if(!raw){msg.className='msg-err';msg.textContent='Nothing to import.';return;}
+  const winPnl=sys==='B'?400:200;const lossPnl=-2000;const contracts=sys==='B'?2:1;
+  const lines=raw.split('\n').map(l=>l.trim()).filter(Boolean);
+  const hi=lines.findIndex(l=>l.toLowerCase().includes('trade number')||l.toLowerCase().includes('type'));
+  if(hi===-1){msg.className='msg-err';msg.textContent='No header found.';return;}
+  const exits=lines.slice(hi+1).filter(l=>l.toLowerCase().includes('exit'));
+  let added=0,skipped=0;
+  exits.forEach((line,i)=>{
+    const cols=line.split('\t').map(c=>c.trim());if(cols.length<8){skipped++;return;}
+    const dateRaw=cols[2];const rawPnl=parseFloat(cols[7]);
+    if(!dateRaw||isNaN(rawPnl)){skipped++;return;}
+    const date=dateRaw.split(' ')[0];
+    if(!date.match(/^\d{4}-\d{2}-\d{2}$/)){skipped++;return;}
+    passTrades.push({id:Date.now()+i,date,system:sys,tf,result:rawPnl>0?'W':'L',pnl:rawPnl>0?winPnl:lossPnl,contracts,notes:''});
+    added++;
+  });
+  passTrades.sort((a,b)=>a.date.localeCompare(b.date));
+  savePassTrades();msg.className='msg-ok';msg.textContent=`Imported ${added} passing trades${skipped?' ('+skipped+' skipped)':''}`;
+  document.getElementById('ptv-in').value='';renderPassDashboard();setTimeout(()=>msg.textContent='',4000);
 }
-function deleteTrade(id){trades=trades.filter(t=>t.id!==id);saveData();renderHistory();renderDashboard();}
+function clearPassTrades(){if(!confirm('Clear all passing trades?'))return;passTrades=[];savePassTrades();renderPassDashboard();}
 
-// ── EXPORT ───────────────────────────────────────────────────────
-function exportCSV(){
-  if(!trades.length){alert('No trades to export.');return;}
-  const rows=trades.map(t=>[t.date,t.system,t.tf,t.result,t.pnl,t.contracts||1,(t.notes||'').replace(/,/g,';').replace(/\t/g,' ')].join(','));
-  const csv=['date,system,timeframe,result,pnl,contracts,notes',...rows].join('\n');
-  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
-  a.download=`nq-orb-trades-${new Date().toISOString().split('T')[0]}.csv`;a.click();
-}
-
-// ── PASSING ──────────────────────────────────────────────────────
 function logAttempt(){
   const date=document.getElementById('pa-date').value;
   const outcome=document.getElementById('pa-outcome').value;
   const notes=document.getElementById('pa-notes').value.trim();
   const msg=document.getElementById('pa-msg');
   if(!date){msg.className='msg-err';msg.textContent='Enter a date.';return;}
-  const passed=outcome==='pass';
   const t1=outcome==='fail-l'?'L':'W';
   const t2=outcome==='pass'?'W':outcome==='fail-wl'?'L':null;
-  attempts.push({id:Date.now(),date,passed,t1,t2,notes,cost:95});
+  attempts.push({id:Date.now(),date,passed:outcome==='pass',t1,t2,notes,cost:95});
   attempts.sort((a,b)=>a.date.localeCompare(b.date));
   savePassData();msg.className='msg-ok';msg.textContent='Logged.';
   document.getElementById('pa-notes').value='';
-  setTimeout(()=>msg.textContent='',2500);renderPassOverview();
+  setTimeout(()=>msg.textContent='',2500);renderPassAttempts();
 }
-
 function importAttempts(){
   const raw=document.getElementById('pi-in').value.trim();
   const cost=parseFloat(document.getElementById('pi-cost').value)||95;
@@ -969,130 +1101,79 @@ function importAttempts(){
   }
   attempts.sort((a,b)=>a.date.localeCompare(b.date));
   savePassData();msg.className='msg-ok';msg.textContent=`Imported ${added} attempt${added!==1?'s':''}`;
-  document.getElementById('pi-in').value='';renderPassOverview();setTimeout(()=>msg.textContent='',4000);
+  document.getElementById('pi-in').value='';renderPassAttempts();setTimeout(()=>msg.textContent='',4000);
 }
+function clearAttempts(){if(!confirm('Clear all attempts?'))return;attempts=[];savePassData();renderPassAttempts();}
+function deleteAttempt(id){attempts=attempts.filter(a=>a.id!==id);savePassData();renderPassAttempts();}
 
-function clearAttempts(){if(!confirm('Clear all passing attempts?'))return;attempts=[];savePassData();renderPassOverview();renderAttHistory();}
-function deleteAttempt(id){attempts=attempts.filter(a=>a.id!==id);savePassData();renderAttHistory();renderPassOverview();}
-
-function renderPassOverview(){
-  if(!attempts.length){
-    document.getElementById('pass-metrics').innerHTML='<p style="color:#888780;font-size:13px">No attempts logged yet.</p>';
-    document.getElementById('pass-prediction').innerHTML='<p style="color:#888780;font-size:13px">Log attempts to see prediction.</p>';
-    document.getElementById('pass-dots').innerHTML='';return;
-  }
-  const passes=attempts.filter(a=>a.passed).length;
-  const fails=attempts.length-passes;
-  const passRate=passes/attempts.length;
-  const totalCost=attempts.reduce((s,a)=>s+a.cost,0);
-  const costPerPass=passes>0?totalCost/passes:0;
-  document.getElementById('pass-metrics').innerHTML=`
-    <div class="card-sm"><div class="sm-label">Attempts</div><div class="med-num">${attempts.length}</div><div class="sm-label">${passes}P / ${fails}F</div></div>
-    <div class="card-sm"><div class="sm-label">Pass rate</div><div class="med-num ${pctCol(passRate)}">${Math.round(passRate*100)}%</div><div class="bar-track"><div class="bar-fill ${barCls(passRate)}" style="width:${Math.round(passRate*100)}%"></div></div></div>
-    <div class="card-sm"><div class="sm-label">Cost per pass</div><div class="med-num ${costPerPass>200?'red':'green'}">$${Math.round(costPerPass)||'—'}</div><div class="sm-label">$${totalCost} total</div></div>
-    <div class="card-sm"><div class="sm-label">Exp. attempts to pass</div><div class="med-num">${passRate>0?Math.round(1/passRate*10)/10:'—'}</div></div>
-  `;
-  const arr=attempts.map(a=>({result:a.passed?'W':'L'}));
-  const{streak,streakType}=getCurrentStreak(arr);
-  let afwWins=0,afwTotal=0;
-  for(let i=1;i<attempts.length;i++){if(!attempts[i-1].passed){afwTotal++;if(attempts[i].passed)afwWins++;}}
-  const afwRate=afwTotal>=2?afwWins/afwTotal:null;
-  let conf=passRate;
-  if(streakType==='L'){const b=Math.min(streak*0.1,0.3);conf=passRate+(afwRate!==null?afwRate-passRate:0)*0.6+b;}
-  else if(streakType==='W'&&streak>=3)conf=passRate-Math.min((streak-2)*0.02,0.08);
-  conf=Math.max(0.05,Math.min(0.99,conf));
-  const ss=calcStreakSpecificWR(attempts.map(a=>({result:a.passed?'W':'L'})),streakType,streak);
-  document.getElementById('pass-prediction').innerHTML=`
-    <div class="conf-card">
-      <div class="conf-card-top">
-        <div class="ring-wrap"><canvas id="pass-ring"></canvas>
-          <div class="ring-label"><div class="ring-pct ${pctCol(conf)}">${Math.round(conf*100)}%</div></div>
-        </div>
-        <div class="conf-info">
-          <div class="conf-title">Probability of passing next attempt</div>
-          <div class="conf-note">Base rate ${Math.round(passRate*100)}% · ${streak}× consecutive ${streakType==='W'?'passes':'fails'}</div>
-          <div class="bar-track"><div class="bar-fill ${barCls(conf)}" style="width:${Math.round(conf*100)}%"></div></div>
-          <div style="margin-top:6px;display:flex;gap:5px;flex-wrap:wrap;align-items:center">
-            <span class="badge ${badgeCls(conf)}">${conf>=.65?'High':conf>=.4?'Moderate':'Low'} confidence</span>
-            ${streakType==='L'?`<span class="badge badge-a">${streak}F streak → boosted</span>`:streak>=3?`<span class="badge badge-gray">${streak}P streak → drag`:''}
-            <button class="explain-btn" onclick="toggleExplain('pass-exp',this)"><i class="ti ti-info-circle" style="font-size:11px"></i>Explain</button>
-          </div>
-        </div>
-      </div>
-      <div class="explain-panel" id="pass-exp">
-        <div class="explain-row"><span class="explain-label">Historical pass rate</span><span class="explain-val">${Math.round(passRate*100)}% (${attempts.length} attempts)</span></div>
-        <div class="explain-row"><span class="explain-label">Current streak</span><span class="explain-val">${streak}× ${streakType==='W'?'passes':'fails'}</span></div>
-        <div class="explain-row"><span class="explain-label">After-fail recovery rate</span><span class="explain-val">${afwRate!==null?Math.round(afwRate*100)+'% ('+afwTotal+' samples)':'Need 2+ samples'}</span></div>
-        <div class="explain-row"><span class="explain-label">Streak-specific stat</span><span class="explain-val">${ss?`After ${streak}× ${streakType==='W'?'P':'F'}, next passed ${Math.round(ss.wr*100)}% (${ss.samples} samples)`:'Need 3+ samples'}</span></div>
-        <div class="explain-row"><span class="explain-label">Expected cost to next pass</span><span class="explain-val">~$${Math.round((1/conf)*95)}</span></div>
-        <div class="explain-row" style="padding-top:8px;border-top:0.5px solid #d3d1c7"><span class="explain-label" style="font-weight:500">Confidence score</span><span class="explain-val ${pctCol(conf)}" style="font-size:14px">${Math.round(conf*100)}%</span></div>
-      </div>
-    </div>`;
-  setTimeout(()=>drawRing('pass-ring',conf,ringCol(conf)),50);
-  document.getElementById('pass-dots').innerHTML=[...attempts].slice(-30).map(a=>`<div class="dot ${a.passed?'dot-w':'dot-l'}" title="${a.date} · ${a.passed?'Pass':'Fail'}">${a.passed?'P':'F'}</div>`).join('');
-}
-
-function renderAttHistory(){
-  const body=document.getElementById('att-body');const empty=document.getElementById('att-empty');
-  if(!attempts.length){body.innerHTML='';empty.style.display='block';return;}
+function renderHistory(){
+  const sys=document.getElementById('f-sys').value;
+  const tf=document.getElementById('f-tf').value;
+  const filtered=[...trades].filter(t=>(!sys||t.system===sys)&&(!tf||t.tf===tf)).reverse();
+  const body=document.getElementById('hist-body');const empty=document.getElementById('hist-empty');
+  if(!filtered.length){body.innerHTML='';empty.style.display='block';return;}
   empty.style.display='none';
-  body.innerHTML=[...attempts].reverse().map(a=>`<tr>
-    <td style="font-size:11px">${a.date}</td>
-    <td><span class="badge ${a.passed?'badge-g':'badge-r'}">${a.passed?'Pass':'Fail'}</span></td>
-    <td><span class="badge ${a.t1==='W'?'badge-g':'badge-r'}">${a.t1==='W'?'Win':'Loss'}</span></td>
-    <td>${a.t2?`<span class="badge ${a.t2==='W'?'badge-g':'badge-r'}">${a.t2==='W'?'Win':'Loss'}</span>`:'<span style="color:#d3d1c7">—</span>'}</td>
-    <td style="color:#888780;font-size:11px">${a.notes||'—'}</td>
-    <td><button class="btn btn-danger btn-sm" onclick="deleteAttempt(${a.id})"><i class="ti ti-trash"></i></button></td>
+  body.innerHTML=filtered.map(t=>`<tr>
+    <td style="font-size:11px;white-space:nowrap">${t.date}</td>
+    <td><span class="badge ${t.system==='B'?'badge-b':'badge-gray'}">Sys ${t.system}</span></td>
+    <td><span class="badge badge-gray">${t.tf}</span></td>
+    <td><span class="badge ${t.result==='W'?'badge-g':'badge-r'}">${t.result==='W'?'Win':'Loss'}</span></td>
+    <td style="font-weight:500;color:${t.pnl>=0?'#3B6D11':'#A32D2D'}">${t.pnl>=0?'+':''}$${Math.round(t.pnl)}</td>
+    <td style="color:#888780">${t.contracts||1}</td>
+    <td style="color:#888780;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.notes||'—'}</td>
+    <td><button class="btn btn-danger btn-sm" onclick="deleteTrade(${t.id})"><i class="ti ti-trash"></i></button></td>
   </tr>`).join('');
 }
+function deleteTrade(id){trades=trades.filter(t=>t.id!==id);saveData();renderHistory();renderDashboard();}
 
-// ── STRATEGY SIMULATOR ──────────────────────────────────────────
+function renderPassHistory(){
+  const sys=document.getElementById('pf-sys').value;
+  const tf=document.getElementById('pf-tf').value;
+  const filtered=[...passTrades].filter(t=>(!sys||t.system===sys)&&(!tf||t.tf===tf)).reverse();
+  const body=document.getElementById('pass-hist-body');const empty=document.getElementById('pass-hist-empty');
+  if(!filtered.length){body.innerHTML='';empty.style.display='block';return;}
+  empty.style.display='none';
+  body.innerHTML=filtered.map(t=>`<tr>
+    <td style="font-size:11px;white-space:nowrap">${t.date}</td>
+    <td><span class="badge ${t.system==='B'?'badge-b':'badge-gray'}">Sys ${t.system}</span></td>
+    <td><span class="badge badge-gray">${t.tf}</span></td>
+    <td><span class="badge ${t.result==='W'?'badge-g':'badge-r'}">${t.result==='W'?'Win':'Loss'}</span></td>
+    <td style="font-weight:500;color:${t.pnl>=0?'#3B6D11':'#A32D2D'}">${t.pnl>=0?'+':''}$${Math.round(t.pnl)}</td>
+    <td style="color:#888780;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.notes||'—'}</td>
+    <td><button class="btn btn-danger btn-sm" onclick="deletePassTrade(${t.id})"><i class="ti ti-trash"></i></button></td>
+  </tr>`).join('');
+}
+function deletePassTrade(id){passTrades=passTrades.filter(t=>t.id!==id);savePassTrades();renderPassHistory();renderPassDashboard();}
+
+function exportCSV(){
+  if(!trades.length){alert('No funded trades to export.');return;}
+  const rows=trades.map(t=>[t.date,t.system,t.tf,t.result,t.pnl,t.contracts||1,(t.notes||'').replace(/,/g,';').replace(/\t/g,' ')].join(','));
+  const csv=['date,system,timeframe,result,pnl,contracts,notes',...rows].join('\n');
+  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  a.download=`nq-orb-funded-${new Date().toISOString().split('T')[0]}.csv`;a.click();
+}
+
 function runSim(){
   const wr=parseFloat(document.getElementById('sim-wr').value)/100;
   const wins=parseInt(document.getElementById('sim-wins').value);
   const cost=parseFloat(document.getElementById('sim-cost').value);
-  const instantFail=document.getElementById('sim-fail').value==='yes';
   const tp=parseFloat(document.getElementById('sim-tp').value);
-  const sl=parseFloat(document.getElementById('sim-sl').value);
-  if(isNaN(wr)||isNaN(wins)||isNaN(cost)||isNaN(tp)||isNaN(sl)){
-    document.getElementById('sim-results').innerHTML='<p class="msg-err">Fill in all fields.</p>';return;
-  }
-  let passProb;
-  if(instantFail){
-    // P(pass) = P(all wins in sequence) = wr^wins
-    passProb=Math.pow(wr,wins);
-  } else {
-    // P(pass) = P(at least 'wins' wins before any loss ends it — simplified: wr^wins since loss ends it anyway)
-    passProb=Math.pow(wr,wins);
-  }
+  const passProb=Math.pow(wr,wins);
   const expectedAttempts=1/passProb;
   const expectedCost=expectedAttempts*cost;
   const passProfit=wins*tp;
   const roiPerPass=passProfit-expectedCost;
-  const breakEvenAttempts=passProfit/cost;
-
-  document.getElementById('sim-results').innerHTML=`
-    <div class="divider"></div>
-    <div class="section-label">Simulation results</div>
+  document.getElementById('sim-results').innerHTML=`<div class="divider"></div>
     <div class="grid4" style="margin-bottom:1rem">
       <div class="card-sm"><div class="sm-label">Pass probability</div><div class="med-num ${pctCol(passProb)}">${Math.round(passProb*100)}%</div></div>
       <div class="card-sm"><div class="sm-label">Expected attempts</div><div class="med-num">${Math.round(expectedAttempts*10)/10}</div></div>
-      <div class="card-sm"><div class="sm-label">Expected cost to pass</div><div class="med-num red">$${Math.round(expectedCost)}</div></div>
+      <div class="card-sm"><div class="sm-label">Expected cost</div><div class="med-num red">$${Math.round(expectedCost)}</div></div>
       <div class="card-sm"><div class="sm-label">Pass profit</div><div class="med-num green">$${Math.round(passProfit)}</div></div>
     </div>
-    <div class="grid2">
-      <div class="card-sm"><div class="sm-label">Net ROI per pass (profit − avg cost)</div><div class="med-num ${roiPerPass>=0?'green':'red'}">${roiPerPass>=0?'+':''}$${Math.round(roiPerPass)}</div></div>
-      <div class="card-sm"><div class="sm-label">Break-even attempts</div><div class="med-num">${Math.round(breakEvenAttempts*10)/10} <span style="font-size:13px;font-weight:400;color:#888780">passes needed to cover costs at this rate</span></div></div>
-    </div>
-    <div class="card-sm" style="margin-top:10px;font-size:12px;color:#5f5e5a">
-      At ${Math.round(wr*100)}% win rate with ${wins} wins needed and instant-fail on loss: you pass ${Math.round(passProb*100)}% of attempts. 
-      Every ${Math.round(expectedAttempts*10)/10} attempts on average costs $${Math.round(expectedCost)} to secure one pass worth $${Math.round(passProfit)}.
-      ${roiPerPass>=0?`Net positive — each pass returns roughly $${Math.round(roiPerPass)} after expected costs.`:`Currently net negative per pass cycle — consider reducing cost per attempt or increasing TP.`}
-    </div>
-  `;
+    <div class="card-sm"><div class="sm-label">Net ROI per pass cycle</div><div class="med-num ${roiPerPass>=0?'green':'red'}">${roiPerPass>=0?'+':''}$${Math.round(roiPerPass)}</div></div>
+    <p style="font-size:12px;color:#5f5e5a;margin-top:10px">At ${Math.round(wr*100)}% win rate with ${wins} wins needed: ${Math.round(passProb*100)}% pass probability. Each pass costs ~$${Math.round(expectedCost)} to achieve and returns $${Math.round(passProfit)}. ${roiPerPass>=0?'Net positive — each pass cycle returns $'+Math.round(roiPerPass)+' after expected costs.':'Net negative — consider reducing cost per attempt or increasing TP target.'}</p>`;
 }
 
-// ── FINANCE ──────────────────────────────────────────────────────
 function logFinance(){
   const date=document.getElementById('fin-date').value;
   const type=document.getElementById('fin-type').value;
@@ -1116,10 +1197,8 @@ function renderFinance(){
     <div class="card-sm"><div class="sm-label">Total spent</div><div class="med-num red">${ts?'-$'+ts.toLocaleString():'$0'}</div></div>
     <div class="card-sm"><div class="sm-label">Total payouts</div><div class="med-num green">${tp?'+$'+tp.toLocaleString():'$0'}</div></div>
     <div class="card-sm" style="grid-column:1/-1;border-color:${net>=0?'#C0DD97':'#F7C1C1'};background:${net>=0?'#EAF3DE':'#FCEBEB'}">
-      <div class="sm-label">Net position</div>
-      <div class="med-num ${net>=0?'green':'red'}">${net>=0?'+':''}$${net.toLocaleString()}</div>
-      <div class="sm-label">${net>=0?'You are in profit overall':'You are in deficit — keep going'}</div>
-    </div>`;
+      <div class="sm-label">Net position</div><div class="med-num ${net>=0?'green':'red'}">${net>=0?'+':''}$${net.toLocaleString()}</div>
+      <div class="sm-label">${net>=0?'In profit overall':'In deficit — keep going'}</div></div>`;
   const body=document.getElementById('fin-body');const empty=document.getElementById('fin-empty');
   if(!finances.length){body.innerHTML='';empty.style.display='block';return;}
   empty.style.display='none';
@@ -1132,7 +1211,7 @@ function renderFinance(){
   </tr>`).join('');
 }
 
-// ── INIT ─────────────────────────────────────────────────────────
+// ── INIT ──────────────────────────────────────────────────────────
 loadData();
 const today=new Date().toISOString().split('T')[0];
 document.getElementById('l-date').value=today;
