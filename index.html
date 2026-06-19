@@ -169,7 +169,7 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
       <div class="divider"></div>
       <div class="section-label">Streak analysis</div>
       <div class="card" style="padding:0;overflow:hidden;margin-bottom:1rem">
-        <table><thead><tr><th>Setup</th><th>After-loss win %</th><th>Samples</th><th>Max win streak</th><th>Max loss streak</th><th>Total</th></tr></thead>
+        <table><thead><tr><th>Setup</th><th>After-loss win %</th><th>Samples</th><th>Max win streak</th><th>Max loss streak</th><th>Current streak</th><th>Total</th></tr></thead>
         <tbody id="streak-tbody"></tbody></table>
       </div>
       <div class="divider"></div>
@@ -301,7 +301,7 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
         <div class="divider"></div>
         <div class="section-label">Streak analysis — passing trades</div>
         <div class="card" style="padding:0;overflow:hidden;margin-bottom:1rem">
-          <table><thead><tr><th>Setup</th><th>After-loss win %</th><th>Samples</th><th>Max win streak</th><th>Max loss streak</th><th>Total</th></tr></thead>
+          <table><thead><tr><th>Setup</th><th>After-loss win %</th><th>Samples</th><th>Max win streak</th><th>Max loss streak</th><th>Current streak</th><th>Total</th></tr></thead>
           <tbody id="pass-streak-tbody"></tbody></table>
         </div>
         <div class="divider"></div>
@@ -705,14 +705,19 @@ function buildStreakTable(tradeArr,tbodyId){
   ALL_SETUPS.forEach(s=>{
     const sub=tradeArr.filter(t=>t.tf===s.tf&&t.system===s.sys);if(!sub.length)return;
     const sk=calcStreak(sub);const st=calcStats(sub);
+    const{streak,streakType}=getCurrentStreak(sub);
+    const streakLabel=streakType==='W'
+      ?`<span class="badge badge-g">${streak}W</span>`
+      :`<span class="badge badge-r">${streak}L</span>`;
     stHTML+=`<tr><td><span class="badge ${s.sys==='B'?'badge-b':'badge-gray'}">${s.label}</span></td>
       <td>${sk.alwr!==null?`<span class="${pctCol(sk.alwr)}" style="font-weight:500">${Math.round(sk.alwr*100)}%</span>`:'<span style="color:#d3d1c7">—</span>'}</td>
       <td style="color:#888780">${sk.alt}</td>
-      <td style="color:#888780;font-weight:500" class="green">${sk.maxW}</td>
-      <td style="color:#888780;font-weight:500" class="red">${sk.maxL}</td>
+      <td style="font-weight:500" class="green">${sk.maxW}</td>
+      <td style="font-weight:500" class="red">${sk.maxL}</td>
+      <td>${streakLabel}</td>
       <td style="color:#888780">${st.total}</td></tr>`;
   });
-  document.getElementById(tbodyId).innerHTML=stHTML||'<tr><td colspan="6" style="color:#888780;text-align:center;padding:1rem">No data</td></tr>';
+  document.getElementById(tbodyId).innerHTML=stHTML||'<tr><td colspan="7" style="color:#888780;text-align:center;padding:1rem">No data</td></tr>';
 }
 
 // ── RENDER DASHBOARD ──────────────────────────────────────────────
