@@ -6,6 +6,8 @@
 <title>NQ ORB Predictor</title>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.31.0/dist/tabler-icons.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/2.0.1/chartjs-plugin-zoom.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#f8f8f6;color:#1a1a18;font-size:14px;min-height:100vh}
@@ -175,11 +177,12 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
       <div class="divider"></div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
         <div class="section-label" style="margin-bottom:0">Equity curve</div>
+        <button class="btn btn-sm" onclick="resetEquityZoom()" style="font-size:11px"><i class="ti ti-zoom-reset"></i> Reset zoom</button>
       </div>
-      <p style="font-size:12px;color:#888780;margin-bottom:.75rem">Cumulative P&amp;L over time. Toggle between setups — green steps = wins, red = losses.</p>
+      <p style="font-size:12px;color:#888780;margin-bottom:.75rem">Cumulative P&amp;L over time. Scroll to zoom · drag to pan · green = win · red = loss.</p>
       <div class="toggle-row" id="equity-toggle"></div>
       <div class="card" style="padding:1rem;margin-bottom:4px">
-        <div style="position:relative;height:220px"><canvas id="chart-equity"></canvas></div>
+        <div style="position:relative;height:240px"><canvas id="chart-equity"></canvas></div>
       </div>
       <div class="divider"></div>
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
@@ -321,6 +324,16 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
         <div class="toggle-row" id="pass-dots-toggle"></div>
         <div class="streak-dots" id="pass-dots"></div>
         <p style="font-size:11px;color:#888780;margin-top:6px">Oldest → newest</p>
+        <div class="divider"></div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem">
+          <div class="section-label" style="margin-bottom:0">Equity curve — passing trades</div>
+          <button class="btn btn-sm" onclick="resetPassEquityZoom()" style="font-size:11px"><i class="ti ti-zoom-reset"></i> Reset zoom</button>
+        </div>
+        <p style="font-size:12px;color:#888780;margin-bottom:.75rem">Scroll to zoom · drag to pan · green = win · red = loss.</p>
+        <div class="toggle-row" id="pass-equity-toggle"></div>
+        <div class="card" style="padding:1rem;margin-bottom:4px">
+          <div style="position:relative;height:240px"><canvas id="chart-pass-equity"></canvas></div>
+        </div>
       </div>
     </div>
 
@@ -469,8 +482,8 @@ const PTK='nq_orb_pass_trades_v1';
 const PSK='nq_orb_passing_v2';
 const FSK='nq_orb_finance_v2';
 let trades=[], passTrades=[], attempts=[], finances=[];
-let tfChart=null, sysChart=null, equityChart=null;
-let dotsFilter='all', passDotsFilter='all', equityFilter='all';
+let tfChart=null, sysChart=null, equityChart=null, passEquityChart=null;
+let dotsFilter='all', passDotsFilter='all', equityFilter='all', passEquityFilter='all';
 
 function loadData(){
   try{const r=localStorage.getItem(SK);if(r)trades=JSON.parse(r);}catch(e){trades=[];}
@@ -892,18 +905,18 @@ function setEquityFilter(k){
   });
   renderEquityChart();
 }
-function renderEquityChart(){
-  let arr=trades;
-  if(equityFilter!=='all'){const s=ALL_SETUPS.find(x=>x.key===equityFilter);if(s)arr=trades.filter(t=>t.tf===s.tf&&t.system===s.sys);}
+function resetEquityZoom(){if(equityChart)equityChart.resetZoom();}
+function resetPassEquityZoom(){if(passEquityChart)passEquityChart.resetZoom();}
+
+function buildEquityChart(canvasId,arr,existingChart){
   arr=[...arr].sort((a,b)=>a.date.localeCompare(b.date));
-  if(!arr.length){if(equityChart){equityChart.destroy();equityChart=null;}return;}
+  if(!arr.length){if(existingChart){existingChart.destroy();}return null;}
   let cumPnl=0;
   const labels=arr.map(t=>t.date.slice(5));
   const data=arr.map(t=>{cumPnl+=t.pnl;return cumPnl;});
   const pointColors=arr.map(t=>t.result==='W'?'#639922':'#E24B4A');
-  const pointRadius=arr.map(()=>4);
-  if(equityChart)equityChart.destroy();
-  equityChart=new Chart(document.getElementById('chart-equity'),{
+  if(existingChart)existingChart.destroy();
+  return new Chart(document.getElementById(canvasId),{
     type:'line',
     data:{labels,datasets:[{
       data,
@@ -911,8 +924,8 @@ function renderEquityChart(){
       borderWidth:1.5,
       pointBackgroundColor:pointColors,
       pointBorderColor:pointColors,
-      pointRadius,
-      pointHoverRadius:6,
+      pointRadius:4,
+      pointHoverRadius:7,
       fill:false,
       tension:0
     }]},
@@ -923,10 +936,14 @@ function renderEquityChart(){
         tooltip:{callbacks:{
           label:ctx=>{
             const t=arr[ctx.dataIndex];
-            return`${t.result==='W'?'Win':'Loss'} $${t.pnl>=0?'+':''}${t.pnl} · Cumulative: $${ctx.parsed.y.toLocaleString()}`;
+            return`${t.result==='W'?'✓ Win':'✗ Loss'} $${t.pnl>=0?'+':''}${t.pnl} · Total: $${ctx.parsed.y.toLocaleString()}`;
           },
           title:ctx=>`${arr[ctx[0].dataIndex].date} · ${arr[ctx[0].dataIndex].tf} Sys${arr[ctx[0].dataIndex].system}`
-        }}
+        }},
+        zoom:{
+          zoom:{wheel:{enabled:true},pinch:{enabled:true},mode:'x'},
+          pan:{enabled:true,mode:'x'}
+        }
       },
       scales:{
         y:{ticks:{callback:v=>'$'+v.toLocaleString(),font:{size:10}},grid:{color:'#f1efe8'}},
@@ -934,6 +951,28 @@ function renderEquityChart(){
       }
     }
   });
+}
+
+function renderEquityChart(){
+  let arr=trades;
+  if(equityFilter!=='all'){const s=ALL_SETUPS.find(x=>x.key===equityFilter);if(s)arr=trades.filter(t=>t.tf===s.tf&&t.system===s.sys);}
+  equityChart=buildEquityChart('chart-equity',arr,equityChart);
+}
+
+function renderPassEquityChart(){
+  let arr=passTrades;
+  if(passEquityFilter!=='all'){const s=ALL_SETUPS.find(x=>x.key===passEquityFilter);if(s)arr=passTrades.filter(t=>t.tf===s.tf&&t.system===s.sys);}
+  passEquityChart=buildEquityChart('chart-pass-equity',arr,passEquityChart);
+}
+
+function setPassEquityFilter(k){
+  passEquityFilter=k;
+  document.querySelectorAll('#pass-equity-toggle .toggle-btn').forEach(b=>{
+    const setups=[{key:'all',label:'All setups'},...ALL_SETUPS.map(s=>({key:s.key,label:s.label}))];
+    const match=setups.find(s=>s.key===k);
+    b.classList.toggle('active',b.textContent.trim()===(match?match.label:'All setups'));
+  });
+  renderPassEquityChart();
 }
 function renderPassDashboard(){
   if(!passTrades.length){
@@ -989,6 +1028,11 @@ function renderPassDashboard(){
   const pToggleOptions=[{key:'all',label:'All'},...ALL_SETUPS.filter(s=>passTrades.some(t=>t.tf===s.tf&&t.system===s.sys)).map(s=>({key:s.key,label:s.label}))];
   document.getElementById('pass-dots-toggle').innerHTML=pToggleOptions.map(o=>`<button class="toggle-btn${o.key===passDotsFilter?' active':''}" onclick="setPassDotsFilter('${o.key}')">${o.label}</button>`).join('');
   renderPassDots();
+
+  // Passing equity curve
+  const pEquitySetups=[{key:'all',label:'All setups'},...ALL_SETUPS.filter(s=>passTrades.some(t=>t.tf===s.tf&&t.system===s.sys)).map(s=>({key:s.key,label:s.label}))];
+  document.getElementById('pass-equity-toggle').innerHTML=pEquitySetups.map(o=>`<button class="toggle-btn${o.key===passEquityFilter?' active':''}" onclick="setPassEquityFilter('${o.key}')">${o.label}</button>`).join('');
+  renderPassEquityChart();
 }
 function setPassDotsFilter(k){
   passDotsFilter=k;
