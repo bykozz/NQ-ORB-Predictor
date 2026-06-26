@@ -406,16 +406,17 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
       <div style="display:flex;gap:6px;margin-bottom:1rem">
         <button class="nav-btn active" id="pitab-tv" onclick="showPassImportTab('tv')" style="font-size:12px;padding:6px 14px"><i class="ti ti-brand-tradingview"></i> TradingView (trades)</button>
         <button class="nav-btn" id="pitab-att" onclick="showPassImportTab('att')" style="font-size:12px;padding:6px 14px"><i class="ti ti-trophy"></i> Attempt outcomes</button>
+        <button class="nav-btn" id="pitab-fix" onclick="showPassImportTab('fix')" style="font-size:12px;padding:6px 14px"><i class="ti ti-edit"></i> Bulk fix P&amp;L</button>
       </div>
       <div id="pass-import-tv">
         <div class="card" style="max-width:680px">
           <div class="section-label" style="margin-bottom:.75rem">Import passing trades from TradingView</div>
-          <div class="card-sm" style="margin-bottom:1rem;font-size:12px;color:#5f5e5a">These are the individual trade results used to build passing confidence scores — separate from attempt outcomes. Same format as funded import.</div>
+          <div class="card-sm" style="margin-bottom:1rem;font-size:12px;color:#5f5e5a">Uses the actual Net PnL USD from TradingView directly — no recalculation. Your $1,500 wins and $2,000 losses come through as-is.</div>
           <div class="form-row">
             <div class="form-group"><label class="form-label">System</label>
               <select id="ptv-sys"><option value="A">System A</option><option value="B">System B</option></select></div>
             <div class="form-group"><label class="form-label">Timeframe</label>
-              <select id="ptv-tf"><option value="15min">15min</option><option value="1min">1min</option><option value="3min">3min</option></select></div>
+              <select id="ptv-tf"><option value="1min">1min</option><option value="3min">3min</option><option value="15min">15min</option></select></div>
           </div>
           <div class="form-group"><label class="form-label">Paste TradingView data</label>
             <textarea id="ptv-in" style="min-height:140px;font-family:monospace;font-size:11px" placeholder="Paste TradingView trade list here..."></textarea></div>
@@ -441,7 +442,30 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
       </div>
     </div>
 
-    <!-- SIM -->
+      <div id="pass-import-fix" style="display:none">
+        <div class="card" style="max-width:680px">
+          <div class="section-label" style="margin-bottom:.75rem">Bulk fix P&amp;L on existing passing trades</div>
+          <div class="card-sm" style="margin-bottom:1rem;font-size:12px;color:#5f5e5a">
+            Use this to correct P&amp;L values on trades already imported. Select which trades to fix by system/timeframe, set the correct win and loss values, and apply.
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Fix trades for system</label>
+              <select id="fix-sys"><option value="all">All systems</option><option value="A">System A only</option><option value="B">System B only</option></select></div>
+            <div class="form-group"><label class="form-label">Fix trades for timeframe</label>
+              <select id="fix-tf"><option value="all">All timeframes</option><option value="1min">1min</option><option value="3min">3min</option><option value="15min">15min</option></select></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label class="form-label">Correct win P&amp;L ($)</label><input type="number" id="fix-win" value="1500" placeholder="e.g. 1500"></div>
+            <div class="form-group"><label class="form-label">Correct loss P&amp;L ($)</label><input type="number" id="fix-loss" value="-2000" placeholder="e.g. -2000"></div>
+          </div>
+          <div id="fix-preview" class="card-sm" style="margin-bottom:1rem;font-size:12px;color:#5f5e5a"></div>
+          <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
+            <button class="btn" onclick="previewFix()"><i class="ti ti-eye"></i> Preview</button>
+            <button class="btn btn-primary" onclick="applyFix()"><i class="ti ti-check"></i> Apply fix</button>
+            <span id="fix-msg"></span>
+          </div>
+        </div>
+      </div>
     <div id="pass-sim" style="display:none">
       <div class="card" style="max-width:640px">
         <div class="section-label" style="margin-bottom:.75rem">Strategy simulator</div>
@@ -558,10 +582,10 @@ function showPassTab(t){
   if(t==='history')renderPassHistory();
 }
 function showPassImportTab(t){
-  document.getElementById('pass-import-tv').style.display=t==='tv'?'block':'none';
-  document.getElementById('pass-import-att').style.display=t==='att'?'block':'none';
-  document.getElementById('pitab-tv').classList.toggle('active',t==='tv');
-  document.getElementById('pitab-att').classList.toggle('active',t==='att');
+  ['tv','att','fix'].forEach(id=>{
+    const el=document.getElementById('pass-import-'+id);if(el)el.style.display=id===t?'block':'none';
+    const btn=document.getElementById('pitab-'+id);if(btn)btn.classList.toggle('active',id===t);
+  });
 }
 
 // ── HELPERS ───────────────────────────────────────────────────────
@@ -1217,7 +1241,6 @@ function convertPassTV(){
   const tf=document.getElementById('ptv-tf').value;
   const msg=document.getElementById('ptv-msg');
   if(!raw){msg.className='msg-err';msg.textContent='Nothing to import.';return;}
-  const winPnl=sys==='B'?400:200;const lossPnl=-2000;const contracts=sys==='B'?2:1;
   const lines=raw.split('\n').map(l=>l.trim()).filter(Boolean);
   const hi=lines.findIndex(l=>l.toLowerCase().includes('trade number')||l.toLowerCase().includes('type'));
   if(hi===-1){msg.className='msg-err';msg.textContent='No header found.';return;}
@@ -1229,13 +1252,57 @@ function convertPassTV(){
     if(!dateRaw||isNaN(rawPnl)){skipped++;return;}
     const date=dateRaw.split(' ')[0];
     if(!date.match(/^\d{4}-\d{2}-\d{2}$/)){skipped++;return;}
-    passTrades.push({id:Date.now()+i,date,system:sys,tf,result:rawPnl>0?'W':'L',pnl:rawPnl>0?winPnl:lossPnl,contracts,notes:''});
+    // Use actual P&L from TradingView — no recalculation
+    passTrades.push({id:Date.now()+i,date,system:sys,tf,result:rawPnl>0?'W':'L',pnl:rawPnl,contracts:1,notes:''});
     added++;
   });
   passTrades.sort((a,b)=>a.date.localeCompare(b.date));
   savePassTrades();msg.className='msg-ok';msg.textContent=`Imported ${added} passing trades${skipped?' ('+skipped+' skipped)':''}`;
   document.getElementById('ptv-in').value='';renderPassDashboard();setTimeout(()=>msg.textContent='',4000);
 }
+function getFixTargets(){
+  const sys=document.getElementById('fix-sys').value;
+  const tf=document.getElementById('fix-tf').value;
+  return passTrades.filter(t=>
+    (sys==='all'||t.system===sys) &&
+    (tf==='all'||t.tf===tf)
+  );
+}
+function previewFix(){
+  const targets=getFixTargets();
+  const winVal=parseFloat(document.getElementById('fix-win').value);
+  const lossVal=parseFloat(document.getElementById('fix-loss').value);
+  const preview=document.getElementById('fix-preview');
+  if(!targets.length){preview.textContent='No matching trades found.';return;}
+  const wrongWins=targets.filter(t=>t.result==='W'&&t.pnl!==winVal).length;
+  const wrongLosses=targets.filter(t=>t.result==='L'&&t.pnl!==lossVal).length;
+  preview.innerHTML=`Found <strong>${targets.length}</strong> matching trades:<br>
+    · ${wrongWins} wins currently NOT at $${winVal} → will be updated to $${winVal}<br>
+    · ${wrongLosses} losses currently NOT at $${lossVal} → will be updated to $${lossVal}<br>
+    · ${targets.length-wrongWins-wrongLosses} trades already correct — unchanged`;
+}
+function applyFix(){
+  const targets=getFixTargets();
+  const winVal=parseFloat(document.getElementById('fix-win').value);
+  const lossVal=parseFloat(document.getElementById('fix-loss').value);
+  const msg=document.getElementById('fix-msg');
+  if(isNaN(winVal)||isNaN(lossVal)){msg.className='msg-err';msg.textContent='Enter valid P&L values.';return;}
+  if(!targets.length){msg.className='msg-err';msg.textContent='No matching trades found.';return;}
+  let updated=0;
+  const targetIds=new Set(targets.map(t=>t.id));
+  passTrades=passTrades.map(t=>{
+    if(!targetIds.has(t.id))return t;
+    const correctPnl=t.result==='W'?winVal:lossVal;
+    if(t.pnl!==correctPnl){updated++;return{...t,pnl:correctPnl};}
+    return t;
+  });
+  savePassTrades();
+  msg.className='msg-ok';msg.textContent=`Updated ${updated} trade${updated!==1?'s':''}`;
+  document.getElementById('fix-preview').textContent='';
+  renderPassDashboard();
+  setTimeout(()=>msg.textContent='',3000);
+}
+
 function clearPassTrades(){if(!confirm('Clear all passing trades?'))return;passTrades=[];savePassTrades();renderPassDashboard();}
 
 function logPassTrade(){
