@@ -286,6 +286,7 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
   <div id="page-passing" class="page">
     <div style="display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap">
       <button class="nav-btn active" id="ptab-dashboard" onclick="showPassTab('dashboard')" style="font-size:12px;padding:6px 14px"><i class="ti ti-chart-bar"></i> Dashboard</button>
+      <button class="nav-btn" id="ptab-log" onclick="showPassTab('log')" style="font-size:12px;padding:6px 14px"><i class="ti ti-plus"></i> Log trade</button>
       <button class="nav-btn" id="ptab-attempts" onclick="showPassTab('attempts')" style="font-size:12px;padding:6px 14px"><i class="ti ti-trophy"></i> Attempts</button>
       <button class="nav-btn" id="ptab-import" onclick="showPassTab('import')" style="font-size:12px;padding:6px 14px"><i class="ti ti-upload"></i> Import</button>
       <button class="nav-btn" id="ptab-sim" onclick="showPassTab('sim')" style="font-size:12px;padding:6px 14px"><i class="ti ti-calculator"></i> Sim</button>
@@ -335,6 +336,34 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
         <div class="toggle-row" id="pass-equity-toggle"></div>
         <div class="card" style="padding:1rem;margin-bottom:4px">
           <div style="position:relative;height:240px"><canvas id="chart-pass-equity"></canvas></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PASS LOG TRADE -->
+    <div id="pass-log" style="display:none">
+      <div class="card" style="max-width:520px">
+        <div class="section-label" style="margin-bottom:1rem">Log a passing trade</div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Date</label><input type="date" id="pl-date"></div>
+          <div class="form-group"><label class="form-label">System</label>
+            <select id="pl-sys"><option value="A">System A</option><option value="B">System B</option></select></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Timeframe</label>
+            <select id="pl-tf"><option value="1min">1min</option><option value="3min">3min</option><option value="15min">15min</option></select></div>
+          <div class="form-group"><label class="form-label">Result</label>
+            <select id="pl-res"><option value="W">Win</option><option value="L">Loss</option></select></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">P&amp;L ($)</label><input type="number" id="pl-pnl" placeholder="e.g. 1500 or -2000"></div>
+          <div class="form-group"><label class="form-label">Contracts</label>
+            <select id="pl-contracts"><option value="1">1</option><option value="2">2</option></select></div>
+        </div>
+        <div class="form-group"><label class="form-label">Notes</label><textarea id="pl-notes" placeholder="Optional..."></textarea></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
+          <button class="btn btn-primary" onclick="logPassTrade()"><i class="ti ti-plus"></i> Add trade</button>
+          <span id="pl-msg"></span>
         </div>
       </div>
     </div>
@@ -519,9 +548,9 @@ function showImportTab(t){
   document.getElementById('itab-csv').classList.toggle('active',t==='csv');
 }
 function showPassTab(t){
-  ['dashboard','attempts','import','sim','finance','history'].forEach(id=>{
-    document.getElementById('pass-'+id).style.display=id===t?'block':'none';
-    document.getElementById('ptab-'+id).classList.toggle('active',id===t);
+  ['dashboard','log','attempts','import','sim','finance','history'].forEach(id=>{
+    const el=document.getElementById('pass-'+id);if(el)el.style.display=id===t?'block':'none';
+    const btn=document.getElementById('ptab-'+id);if(btn)btn.classList.toggle('active',id===t);
   });
   if(t==='dashboard')renderPassDashboard();
   if(t==='attempts')renderPassAttempts();
@@ -1209,6 +1238,26 @@ function convertPassTV(){
 }
 function clearPassTrades(){if(!confirm('Clear all passing trades?'))return;passTrades=[];savePassTrades();renderPassDashboard();}
 
+function logPassTrade(){
+  const date=document.getElementById('pl-date').value;
+  const sys=document.getElementById('pl-sys').value;
+  const tf=document.getElementById('pl-tf').value;
+  const res=document.getElementById('pl-res').value;
+  const pnl=parseFloat(document.getElementById('pl-pnl').value);
+  const contracts=parseInt(document.getElementById('pl-contracts').value)||1;
+  const notes=document.getElementById('pl-notes').value.trim();
+  const msg=document.getElementById('pl-msg');
+  if(!date){msg.className='msg-err';msg.textContent='Enter a date.';return;}
+  if(isNaN(pnl)){msg.className='msg-err';msg.textContent='Enter P&L.';return;}
+  passTrades.push({id:Date.now(),date,system:sys,tf,result:res,pnl,contracts,notes});
+  passTrades.sort((a,b)=>a.date.localeCompare(b.date));
+  savePassTrades();
+  msg.className='msg-ok';msg.textContent='Added.';
+  document.getElementById('pl-pnl').value='';
+  document.getElementById('pl-notes').value='';
+  setTimeout(()=>msg.textContent='',2500);
+}
+
 function logAttempt(){
   const date=document.getElementById('pa-date').value;
   const outcome=document.getElementById('pa-outcome').value;
@@ -1375,6 +1424,7 @@ loadData();
 const today=new Date().toISOString().split('T')[0];
 document.getElementById('l-date').value=today;
 document.getElementById('pa-date').value=today;
+document.getElementById('pl-date').value=today;
 document.getElementById('fin-date').value=today;
 renderDashboard();
 </script>
