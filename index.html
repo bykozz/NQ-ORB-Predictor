@@ -121,7 +121,9 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
       <button class="nav-btn" onclick="showPage('import')"><i class="ti ti-upload"></i> Import</button>
       <button class="nav-btn" onclick="showPage('history')"><i class="ti ti-clock"></i> History</button>
       <button class="nav-btn" onclick="showPage('passing')"><i class="ti ti-trophy"></i> Passing</button>
-      <button class="nav-btn" onclick="exportCSV()"><i class="ti ti-download"></i> Export</button>
+      <button class="nav-btn" onclick="exportCSV('funded')"><i class="ti ti-download"></i> Export funded</button>
+      <button class="nav-btn" onclick="exportCSV('passing')"><i class="ti ti-download"></i> Export passing</button>
+      <button class="nav-btn" onclick="exportCSV('all')"><i class="ti ti-download"></i> Export all</button>
     </div>
   </div>
 
@@ -1290,12 +1292,24 @@ function renderPassHistory(){
 }
 function deletePassTrade(id){passTrades=passTrades.filter(t=>t.id!==id);savePassTrades();renderPassHistory();renderPassDashboard();}
 
-function exportCSV(){
-  if(!trades.length){alert('No funded trades to export.');return;}
-  const rows=trades.map(t=>[t.date,t.system,t.tf,t.result,t.pnl,t.contracts||1,(t.notes||'').replace(/,/g,';').replace(/\t/g,' ')].join(','));
-  const csv=['date,system,timeframe,result,pnl,contracts,notes',...rows].join('\n');
-  const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
-  a.download=`nq-orb-funded-${new Date().toISOString().split('T')[0]}.csv`;a.click();
+function exportCSV(mode){
+  const headers='date,type,system,timeframe,result,pnl,contracts,notes';
+  let rows=[];
+  if(mode==='funded'||mode==='all'){
+    if(!trades.length&&mode==='funded'){alert('No funded trades to export.');return;}
+    rows.push(...trades.map(t=>[t.date,'funded',t.system,t.tf,t.result,t.pnl,t.contracts||1,(t.notes||'').replace(/,/g,';').replace(/\t/g,' ')].join(',')));
+  }
+  if(mode==='passing'||mode==='all'){
+    if(!passTrades.length&&mode==='passing'){alert('No passing trades to export.');return;}
+    rows.push(...passTrades.map(t=>[t.date,'passing',t.system,t.tf,t.result,t.pnl,t.contracts||1,(t.notes||'').replace(/,/g,';').replace(/\t/g,' ')].join(',')));
+  }
+  if(!rows.length){alert('No data to export.');return;}
+  const csv=[headers,...rows].join('\n');
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([csv],{type:'text/csv'}));
+  const label=mode==='all'?'all':mode==='passing'?'passing':'funded';
+  a.download=`nq-orb-${label}-${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
 }
 
 function runSim(){
