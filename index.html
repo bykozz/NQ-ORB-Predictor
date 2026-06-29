@@ -908,14 +908,32 @@ function renderDashboard(){
     return{label:s.label,sys:s.sys,conf:calcConfScore(sub,false),rec:calcConfScore(sub,true),wr:st.wr,total:st.total,wins:st.wins,losses:st.losses};
   }).filter(Boolean).sort((a,b)=>b.conf-a.conf);
   document.getElementById('comparison-table').innerHTML=allScores.length?`<div class="card" style="padding:0;overflow:hidden;overflow-x:auto"><table><thead><tr><th>#</th><th>Setup</th><th>Confidence</th><th>Recency</th><th>Divergence</th><th>Win rate</th><th>Trades</th></tr></thead><tbody>${
-    allScores.map((r,idx)=>{const div=Math.round(r.rec*100)-Math.round(r.conf*100);return`<tr>
-      <td style="color:#d3d1c7">#${idx+1}</td>
-      <td><span class="badge ${r.sys==='B'?'badge-b':'badge-g'}">${r.label}</span></td>
-      <td><span class="${pctCol(r.conf)}" style="font-weight:500">${Math.round(r.conf*100)}%</span></td>
-      <td><span class="${pctCol(r.rec)}" style="font-weight:500">${Math.round(r.rec*100)}%</span></td>
-      <td>${div===0?'<span style="color:#d3d1c7">—</span>':div>0?`<span class="green">+${div}pp</span>`:`<span class="red">${div}pp</span>`}</td>
-      <td>${Math.round(r.wr*100)}%</td>
-      <td style="color:#888780">${r.total} (${r.wins}W/${r.losses}L)</td></tr>`;}).join('')
+    allScores.map((r,idx)=>{
+      const div=Math.round(r.rec*100)-Math.round(r.conf*100);
+      const recent20=trades.filter(t=>t.tf===r.tf&&t.system===r.sys).slice(-20);
+      const recent20wr=recent20.length?Math.round(recent20.filter(t=>t.result==='W').length/recent20.length*100):0;
+      let divExplain='';
+      if(div===0){
+        divExplain='Recent 20 trades are in line with your long-term average — edge is consistent.';
+      } else if(div>0){
+        divExplain=`Last 20 trades (${recent20wr}% win rate) are outperforming your long-term average (${Math.round(r.wr*100)}%). Recent form is stronger than usual — positive signal.`;
+      } else {
+        divExplain=`Last 20 trades (${recent20wr}% win rate) are underperforming your long-term average (${Math.round(r.wr*100)}%). Recent form is weaker than usual — worth monitoring.`;
+      }
+      const eid=`div-exp-${idx}`;
+      const divCell=div===0
+        ?'<span style="color:#d3d1c7">—</span>'
+        :`<span class="${div>0?'green':'red'}" style="cursor:pointer;text-decoration:underline;text-underline-offset:2px" onclick="toggleExplain('${eid}',this)">${div>0?'+':''}${div}pp</span>
+         <div id="${eid}" class="explain-panel" style="margin-top:4px;font-size:11px;color:#5f5e5a;font-weight:400">${divExplain}</div>`;
+      return`<tr>
+        <td style="color:#d3d1c7">#${idx+1}</td>
+        <td><span class="badge ${r.sys==='B'?'badge-b':'badge-g'}">${r.label}</span></td>
+        <td><span class="${pctCol(r.conf)}" style="font-weight:500">${Math.round(r.conf*100)}%</span></td>
+        <td><span class="${pctCol(r.rec)}" style="font-weight:500">${Math.round(r.rec*100)}%</span></td>
+        <td>${divCell}</td>
+        <td>${Math.round(r.wr*100)}%</td>
+        <td style="color:#888780">${r.total} (${r.wins}W/${r.losses}L)</td></tr>`;
+    }).join('')
   }</tbody></table></div>`:'<p style="color:#888780;font-size:13px">No data yet.</p>';
 
   // Charts
@@ -1075,8 +1093,22 @@ function renderPassDashboard(){
     const st=calcStats(sub);
     return{label:s.label,sys:s.sys,conf:calcConfScore(sub,false),rec:calcConfScore(sub,true),wr:st.wr,total:st.total,wins:st.wins,losses:st.losses};
   }).filter(Boolean).sort((a,b)=>b.conf-a.conf);
-  document.getElementById('pass-comparison').innerHTML=pScores.length?`<div class="card" style="padding:0;overflow:hidden;overflow-x:auto"><table><thead><tr><th>#</th><th>Setup</th><th>Confidence</th><th>Recency</th><th>Win rate</th><th>Trades</th></tr></thead><tbody>${
-    pScores.map((r,idx)=>`<tr><td style="color:#d3d1c7">#${idx+1}</td><td><span class="badge ${r.sys==='B'?'badge-b':'badge-g'}">${r.label}</span></td><td><span class="${pctCol(r.conf)}" style="font-weight:500">${Math.round(r.conf*100)}%</span></td><td><span class="${pctCol(r.rec)}" style="font-weight:500">${Math.round(r.rec*100)}%</span></td><td>${Math.round(r.wr*100)}%</td><td style="color:#888780">${r.total} (${r.wins}W/${r.losses}L)</td></tr>`).join('')
+  document.getElementById('pass-comparison').innerHTML=pScores.length?`<div class="card" style="padding:0;overflow:hidden;overflow-x:auto"><table><thead><tr><th>#</th><th>Setup</th><th>Confidence</th><th>Recency</th><th>Divergence</th><th>Win rate</th><th>Trades</th></tr></thead><tbody>${
+    pScores.map((r,idx)=>{
+      const div=Math.round(r.rec*100)-Math.round(r.conf*100);
+      const recent20=passTrades.filter(t=>t.tf===r.tf&&t.system===r.sys).slice(-20);
+      const recent20wr=recent20.length?Math.round(recent20.filter(t=>t.result==='W').length/recent20.length*100):0;
+      let divExplain='';
+      if(div===0){divExplain='Recent 20 trades are in line with your long-term average — edge is consistent.';}
+      else if(div>0){divExplain=`Last 20 trades (${recent20wr}% win rate) are outperforming your long-term average (${Math.round(r.wr*100)}%). Recent passing form is stronger than usual.`;}
+      else{divExplain=`Last 20 trades (${recent20wr}% win rate) are underperforming your long-term average (${Math.round(r.wr*100)}%). Recent passing form is weaker — worth monitoring.`;}
+      const eid=`pdiv-exp-${idx}`;
+      const divCell=div===0
+        ?'<span style="color:#d3d1c7">—</span>'
+        :`<span class="${div>0?'green':'red'}" style="cursor:pointer;text-decoration:underline;text-underline-offset:2px" onclick="toggleExplain('${eid}',this)">${div>0?'+':''}${div}pp</span>
+         <div id="${eid}" class="explain-panel" style="margin-top:4px;font-size:11px;color:#5f5e5a;font-weight:400">${divExplain}</div>`;
+      return`<tr><td style="color:#d3d1c7">#${idx+1}</td><td><span class="badge ${r.sys==='B'?'badge-b':'badge-g'}">${r.label}</span></td><td><span class="${pctCol(r.conf)}" style="font-weight:500">${Math.round(r.conf*100)}%</span></td><td><span class="${pctCol(r.rec)}" style="font-weight:500">${Math.round(r.rec*100)}%</span></td><td>${divCell}</td><td>${Math.round(r.wr*100)}%</td><td style="color:#888780">${r.total} (${r.wins}W/${r.losses}L)</td></tr>`;
+    }).join('')
   }</tbody></table></div>`:'<p style="color:#888780;font-size:13px">No data yet.</p>';
 
   // Dots
