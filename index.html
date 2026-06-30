@@ -105,6 +105,41 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
 .form-group{margin-bottom:10px}
 .filter-row{display:flex;gap:8px;margin-bottom:.75rem;flex-wrap:wrap}
 .filter-row select{width:auto;padding:6px 10px}
+/* Accounts */
+.card-account{background:#fff;border:0.5px solid #e0dfd8;border-radius:12px;padding:.875rem 1rem;margin-bottom:8px;cursor:pointer}
+.card-account:hover{border-color:#888780}
+.card-account.active-account{border-color:#639922;border-width:1.5px}
+.card-account.danger-account{border-color:#E24B4A;border-width:1.5px}
+.card-account.amber-account{border-color:#BA7517;border-width:1.5px}
+.acc-mini{background:#fff;border:0.5px solid #e0dfd8;border-radius:10px;padding:.75rem 1rem;cursor:pointer}
+.acc-mini:hover{border-color:#888780}
+.acc-mini-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:.5rem}
+.acc-mini-name{font-weight:500;font-size:13px}
+.progress-bar{background:#f1efe8;border-radius:4px;height:8px;overflow:hidden;margin-top:4px}
+.progress-fill{height:8px;border-radius:4px;background:#639922}
+.back-btn{padding:5px 10px;border:0.5px solid #d3d1c7;border-radius:8px;cursor:pointer;font-size:12px;background:#fff;font-family:inherit;display:inline-flex;align-items:center;gap:4px}
+.back-btn:hover{background:#f1efe8}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px;margin-bottom:1rem}
+.stat-box{background:#f8f8f6;border-radius:8px;padding:.75rem 1rem;border:0.5px solid #e0dfd8}
+.stat-val{font-size:20px;font-weight:500;line-height:1}
+.stat-lbl{font-size:10px;color:#888780;margin-top:2px}
+.winning-day-dots{display:flex;gap:5px;margin-top:6px}
+.wd-dot{width:20px;height:20px;border-radius:50%;border:1.5px solid #d3d1c7;background:#fff}
+.wd-dot.filled{background:#639922;border-color:#639922}
+input[type=checkbox]{width:auto;margin-right:6px}
+.btn-success{background:#639922;color:#fff;border-color:#639922}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:1rem}
+.cal-day{border-radius:6px;padding:4px;min-height:46px;font-size:10px;border:0.5px solid #e0dfd8;background:#fff}
+.cal-day-empty{background:#fafafa;border-color:#f1efe8}
+.cal-day-num{font-weight:500;margin-bottom:2px;color:#888780}
+.cal-win{background:#EAF3DE;border-color:#C0DD97}
+.cal-loss{background:#FCEBEB;border-color:#F7C1C1}
+.cal-payout{background:#E6F1FB;border-color:#B5D4F4}
+.cal-header{display:grid;grid-template-columns:repeat(7,1fr);gap:3px;margin-bottom:4px}
+.cal-header-day{font-size:10px;font-weight:500;color:#888780;text-align:center;padding:4px}
+.cal-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:.75rem}
+.cal-legend{display:flex;gap:12px;font-size:11px;color:#5f5e5a;margin-bottom:1rem;flex-wrap:wrap}
+.cal-legend-dot{display:inline-block;width:10px;height:10px;border-radius:2px;vertical-align:middle;margin-right:3px}
 @media(max-width:480px){.form-row{grid-template-columns:1fr}.header{flex-direction:column}.nav{width:100%}}
 </style>
 </head>
@@ -117,6 +152,8 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
     </div>
     <div class="nav">
       <button class="nav-btn active" onclick="showPage('dashboard')"><i class="ti ti-layout-dashboard"></i> Dashboard</button>
+      <button class="nav-btn" onclick="showPage('accounts')"><i class="ti ti-wallet"></i> Accounts</button>
+      <button class="nav-btn" onclick="showPage('finance')"><i class="ti ti-coin"></i> Finance</button>
       <button class="nav-btn" onclick="showPage('log')"><i class="ti ti-plus"></i> Log</button>
       <button class="nav-btn" onclick="showPage('import')"><i class="ti ti-upload"></i> Import</button>
       <button class="nav-btn" onclick="showPage('history')"><i class="ti ti-clock"></i> History</button>
@@ -198,6 +235,90 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
     </div>
   </div>
 
+  <!-- ACCOUNTS -->
+  <div id="page-accounts" class="page">
+    <div id="acc-detail-view" style="display:none"></div>
+    <div id="acc-list-view">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+        <div class="section-label" style="margin-bottom:0">Funded accounts</div>
+        <button class="btn btn-primary btn-sm" onclick="showCreateAccount()"><i class="ti ti-plus"></i> Add account</button>
+      </div>
+      <div id="create-acc-form" style="display:none" class="card" style="margin-bottom:1rem">
+        <div class="section-label" style="margin-bottom:1rem">New funded account</div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Account ID (last 4 digits)</label><input type="text" id="acc-id" placeholder="e.g. 4821" maxlength="6"></div>
+          <div class="form-group"><label class="form-label">Start date</label><input type="date" id="acc-start"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Starting balance ($)</label><input type="number" id="acc-balance" value="50000"></div>
+          <div class="form-group"><label class="form-label">Current balance ($)</label><input type="number" id="acc-current" placeholder="If different from start"></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Winning days banked</label><input type="number" id="acc-windays" value="0" min="0" max="5"></div>
+          <div class="form-group"><label class="form-label">Had a payout?</label>
+            <select id="acc-hadpayout"><option value="no">No — floor $48,000</option><option value="yes">Yes — floor $50,100</option></select></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Payouts already taken (this account)</label><input type="number" id="acc-payoutcount" value="0" min="0"></div>
+          <div class="form-group"><label class="form-label">Payouts until moved to live</label><input type="number" id="acc-payouttarget" value="5" min="1"></div>
+        </div>
+        <div class="form-group"><label class="form-label">Notes / trading approach</label><textarea id="acc-note" placeholder="e.g. System A 15min, targeting $3k payout..."></textarea></div>
+        <div style="display:flex;gap:8px;align-items:center;margin-top:4px">
+          <button class="btn btn-primary" onclick="createAccount()"><i class="ti ti-check"></i> Create</button>
+          <button class="btn" onclick="document.getElementById('create-acc-form').style.display='none'">Cancel</button>
+          <span id="acc-msg"></span>
+        </div>
+      </div>
+      <div id="active-accounts"></div>
+      <div class="divider"></div>
+      <div class="section-label">Archived accounts</div>
+      <div id="archived-accounts"></div>
+      <div class="divider"></div>
+      <div class="section-label">Combined calendar — all accounts</div>
+      <p style="font-size:12px;color:#888780;margin-bottom:.75rem">Every funded trade and payout across all accounts, by day.</p>
+      <div class="cal-nav">
+        <button class="btn btn-sm" onclick="changeCalMonth(-1)"><i class="ti ti-chevron-left"></i></button>
+        <span id="main-cal-label" style="font-size:13px;font-weight:500"></span>
+        <button class="btn btn-sm" onclick="changeCalMonth(1)"><i class="ti ti-chevron-right"></i></button>
+      </div>
+      <div class="cal-header" id="main-cal-header"></div>
+      <div class="cal-grid" id="main-calendar"></div>
+      <div class="cal-legend">
+        <span><span class="cal-legend-dot" style="background:#EAF3DE;border:0.5px solid #C0DD97"></span>Win day</span>
+        <span><span class="cal-legend-dot" style="background:#FCEBEB;border:0.5px solid #F7C1C1"></span>Loss day</span>
+        <span><span class="cal-legend-dot" style="background:#E6F1FB;border:0.5px solid #B5D4F4"></span>Payout</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINANCE -->
+  <div id="page-finance" class="page">
+    <p style="font-size:12px;color:#888780;margin-bottom:1rem">Shared finance tracker across both passing and funded accounts — payouts logged from any account page (Accounts tab) appear here automatically.</p>
+    <div class="grid2" style="margin-bottom:1rem">
+      <div class="card">
+        <div class="section-label">Log spend or payout</div>
+        <div class="form-group"><label class="form-label">Date</label><input type="date" id="fin-date"></div>
+        <div class="form-row">
+          <div class="form-group"><label class="form-label">Type</label>
+            <select id="fin-type"><option value="spend">Spend</option><option value="payout">Payout received</option></select></div>
+          <div class="form-group"><label class="form-label">Amount ($)</label><input type="number" id="fin-amount" placeholder="e.g. 95"></div>
+        </div>
+        <div class="form-group"><label class="form-label">Notes</label><input type="text" id="fin-notes" placeholder="e.g. Account #3"></div>
+        <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
+          <button class="btn btn-primary" onclick="logFinance()"><i class="ti ti-plus"></i> Add</button>
+          <span id="fin-msg"></span>
+        </div>
+      </div>
+      <div><div class="section-label">Net position</div><div id="fin-net" class="grid2" style="gap:8px"></div></div>
+    </div>
+    <div class="section-label">Finance history</div>
+    <div class="card" style="padding:0;overflow:hidden">
+      <table><thead><tr><th>Date</th><th>Type</th><th>Amount</th><th>Notes</th><th></th></tr></thead>
+      <tbody id="fin-body"></tbody></table>
+      <div id="fin-empty" class="empty-state">No entries yet.</div>
+    </div>
+  </div>
+
   <!-- LOG -->
   <div id="page-log" class="page">
     <div class="card" style="max-width:520px">
@@ -214,9 +335,17 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
           <select id="l-res"><option value="W">Win</option><option value="L">Loss</option></select></div>
       </div>
       <div class="form-row">
-        <div class="form-group"><label class="form-label">P&amp;L ($)</label><input type="number" id="l-pnl" placeholder="e.g. 200 or -2000"></div>
+        <div class="form-group"><label class="form-label">P&amp;L ($) — per account</label><input type="number" id="l-pnl" placeholder="e.g. 200 or -2000"></div>
         <div class="form-group"><label class="form-label">Contracts</label>
           <select id="l-contracts"><option value="1">1</option><option value="2">2</option></select></div>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Account(s) — select one or more, or leave unassigned</label>
+        <div id="l-account-list" class="card-sm" style="max-height:160px;overflow-y:auto"></div>
+      </div>
+      <div class="form-group">
+        <label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer">
+          <input type="checkbox" id="l-closedacc"> This loss closed the account(s) selected above</label>
       </div>
       <div class="form-group"><label class="form-label">Notes</label><textarea id="l-notes" placeholder="Optional..."></textarea></div>
       <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
@@ -247,7 +376,7 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
             <textarea id="tv-in" style="min-height:140px;font-family:monospace;font-size:11px" placeholder="Paste TradingView trade list here..."></textarea></div>
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
             <button class="btn btn-primary" onclick="convertTV()"><i class="ti ti-refresh"></i> Convert &amp; import</button>
-            <button class="btn btn-danger" onclick="clearAll()"><i class="ti ti-trash"></i> Clear all trades</button>
+            <button id="clear-all-tv-btn" class="btn btn-danger" onclick="clearAll(this)"><i class="ti ti-trash"></i> Clear all trades</button>
             <span id="tv-msg"></span>
           </div>
         </div>
@@ -261,7 +390,7 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
           <div class="form-group"><textarea id="csv-in" style="min-height:100px;font-family:monospace;font-size:12px" placeholder="Paste CSV or tab-separated data here..."></textarea></div>
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
             <button class="btn btn-primary" onclick="importCSV()"><i class="ti ti-upload"></i> Import</button>
-            <button class="btn btn-danger" onclick="clearAll()"><i class="ti ti-trash"></i> Clear all</button>
+            <button id="clear-all-csv-btn" class="btn btn-danger" onclick="clearAll(this)"><i class="ti ti-trash"></i> Clear all</button>
             <span id="import-msg"></span>
           </div>
         </div>
@@ -274,9 +403,10 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
     <div class="filter-row">
       <select id="f-sys" onchange="renderHistory()" style="width:140px"><option value="">All systems</option><option value="A">System A</option><option value="B">System B</option></select>
       <select id="f-tf" onchange="renderHistory()" style="width:140px"><option value="">All TFs</option><option value="15min">15min</option><option value="1min">1min</option><option value="3min">3min</option></select>
+      <select id="f-acc" onchange="renderHistory()" style="width:160px"><option value="">All accounts</option></select>
     </div>
     <div class="card" style="padding:0;overflow:hidden;overflow-x:auto">
-      <table><thead><tr><th>Date</th><th>Sys</th><th>TF</th><th>Result</th><th>P&amp;L</th><th>Cts</th><th>Notes</th><th></th></tr></thead>
+      <table><thead><tr><th>Date</th><th>Sys</th><th>TF</th><th>Result</th><th>P&amp;L</th><th>Account</th><th>Notes</th><th></th></tr></thead>
       <tbody id="hist-body"></tbody></table>
       <div id="hist-empty" class="empty-state">No trades yet.</div>
     </div>
@@ -286,11 +416,11 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
   <div id="page-passing" class="page">
     <div style="display:flex;gap:6px;margin-bottom:1.25rem;flex-wrap:wrap">
       <button class="nav-btn active" id="ptab-dashboard" onclick="showPassTab('dashboard')" style="font-size:12px;padding:6px 14px"><i class="ti ti-chart-bar"></i> Dashboard</button>
+      <button class="nav-btn" id="ptab-builder" onclick="showPassTab('builder')" style="font-size:12px;padding:6px 14px"><i class="ti ti-target"></i> Attempt builder</button>
       <button class="nav-btn" id="ptab-log" onclick="showPassTab('log')" style="font-size:12px;padding:6px 14px"><i class="ti ti-plus"></i> Log trade</button>
       <button class="nav-btn" id="ptab-attempts" onclick="showPassTab('attempts')" style="font-size:12px;padding:6px 14px"><i class="ti ti-trophy"></i> Attempts</button>
       <button class="nav-btn" id="ptab-import" onclick="showPassTab('import')" style="font-size:12px;padding:6px 14px"><i class="ti ti-upload"></i> Import</button>
       <button class="nav-btn" id="ptab-sim" onclick="showPassTab('sim')" style="font-size:12px;padding:6px 14px"><i class="ti ti-calculator"></i> Sim</button>
-      <button class="nav-btn" id="ptab-finance" onclick="showPassTab('finance')" style="font-size:12px;padding:6px 14px"><i class="ti ti-coin"></i> Finance</button>
       <button class="nav-btn" id="ptab-history" onclick="showPassTab('history')" style="font-size:12px;padding:6px 14px"><i class="ti ti-clock"></i> History</button>
     </div>
 
@@ -341,6 +471,19 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
     </div>
 
     <!-- PASS LOG TRADE -->
+    <!-- ATTEMPT BUILDER -->
+    <div id="pass-builder" style="display:none">
+      <div class="section-label">Current attempt</div>
+      <div id="builder-active-status" style="margin-bottom:1rem"></div>
+      <div class="divider"></div>
+      <div class="section-label">Unassigned passing trades</div>
+      <p style="font-size:12px;color:#888780;margin-bottom:.875rem">Tap a trade to assign it as T1 (opens a new account attempt) or T2 (closes the open one).</p>
+      <div id="builder-trade-pool"></div>
+      <div class="divider"></div>
+      <div class="section-label">Tracked accounts</div>
+      <div id="builder-account-list"></div>
+    </div>
+
     <div id="pass-log" style="display:none">
       <div class="card" style="max-width:520px">
         <div class="section-label" style="margin-bottom:1rem">Log a passing trade</div>
@@ -422,7 +565,7 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
             <textarea id="ptv-in" style="min-height:140px;font-family:monospace;font-size:11px" placeholder="Paste TradingView trade list here..."></textarea></div>
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
             <button class="btn btn-primary" onclick="convertPassTV()"><i class="ti ti-refresh"></i> Convert &amp; import</button>
-            <button class="btn btn-danger" onclick="clearPassTrades()"><i class="ti ti-trash"></i> Clear passing trades</button>
+            <button id="clear-pass-btn" class="btn btn-danger" onclick="clearPassTrades(this)"><i class="ti ti-trash"></i> Clear passing trades</button>
             <span id="ptv-msg"></span>
           </div>
         </div>
@@ -435,7 +578,7 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
           <div class="form-group"><textarea id="pi-in" style="min-height:140px;font-family:monospace;font-size:11px" placeholder="Paste TradingView data here..."></textarea></div>
           <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap">
             <button class="btn btn-primary" onclick="importAttempts()"><i class="ti ti-upload"></i> Import</button>
-            <button class="btn btn-danger" onclick="clearAttempts()"><i class="ti ti-trash"></i> Clear attempts</button>
+            <button id="clear-attempts-btn" class="btn btn-danger" onclick="clearAttempts(this)"><i class="ti ti-trash"></i> Clear attempts</button>
             <span id="pi-msg"></span>
           </div>
         </div>
@@ -488,33 +631,7 @@ pre{font-family:monospace;font-size:11px;color:#5f5e5a;background:#f1efe8;paddin
       </div>
     </div>
 
-    <!-- FINANCE -->
-    <div id="pass-finance" style="display:none">
-      <div class="grid2" style="margin-bottom:1rem">
-        <div class="card">
-          <div class="section-label">Log spend or payout</div>
-          <div class="form-group"><label class="form-label">Date</label><input type="date" id="fin-date"></div>
-          <div class="form-row">
-            <div class="form-group"><label class="form-label">Type</label>
-              <select id="fin-type"><option value="spend">Spend</option><option value="payout">Payout received</option></select></div>
-            <div class="form-group"><label class="form-label">Amount ($)</label><input type="number" id="fin-amount" placeholder="e.g. 95"></div>
-          </div>
-          <div class="form-group"><label class="form-label">Notes</label><input type="text" id="fin-notes" placeholder="e.g. Account #3"></div>
-          <div style="display:flex;align-items:center;gap:10px;margin-top:4px">
-            <button class="btn btn-primary" onclick="logFinance()"><i class="ti ti-plus"></i> Add</button>
-            <span id="fin-msg"></span>
-          </div>
-        </div>
-        <div><div class="section-label">Net position</div><div id="fin-net" class="grid2" style="gap:8px"></div></div>
-      </div>
-      <div class="section-label">Finance history</div>
-      <div class="card" style="padding:0;overflow:hidden">
-        <table><thead><tr><th>Date</th><th>Type</th><th>Amount</th><th>Notes</th><th></th></tr></thead>
-        <tbody id="fin-body"></tbody></table>
-        <div id="fin-empty" class="empty-state">No entries yet.</div>
-      </div>
-    </div>
-
+    
     <!-- PASSING HISTORY (trades) -->
     <div id="pass-history" style="display:none">
       <div class="filter-row">
@@ -536,15 +653,21 @@ const SK='nq_orb_v3';
 const PTK='nq_orb_pass_trades_v1';
 const PSK='nq_orb_passing_v2';
 const FSK='nq_orb_finance_v2';
-let trades=[], passTrades=[], attempts=[], finances=[];
+const ACK='nq_orb_accounts_v1';
+const PACK='nq_orb_pass_accounts_v1';
+let trades=[], passTrades=[], attempts=[], finances=[], accounts=[], passAccounts=[];
 let tfChart=null, sysChart=null, equityChart=null, passEquityChart=null;
 let dotsFilter='all', passDotsFilter='all', equityFilter='all', passEquityFilter='all';
+let calYear=new Date().getFullYear(), calMonth=new Date().getMonth();
+let accCalState={};
 
 function loadData(){
   try{const r=localStorage.getItem(SK);if(r)trades=JSON.parse(r);}catch(e){trades=[];}
   try{const r=localStorage.getItem(PTK);if(r)passTrades=JSON.parse(r);}catch(e){passTrades=[];}
   try{const r=localStorage.getItem(PSK);if(r)attempts=JSON.parse(r);}catch(e){attempts=[];}
   try{const r=localStorage.getItem(FSK);if(r)finances=JSON.parse(r);}catch(e){finances=[];}
+  try{const r=localStorage.getItem(ACK);if(r)accounts=JSON.parse(r);}catch(e){accounts=[];}
+  try{const r=localStorage.getItem(PACK);if(r)passAccounts=JSON.parse(r);}catch(e){passAccounts=[];}
 }
 function saveData(){try{localStorage.setItem(SK,JSON.stringify(trades));}catch(e){}}
 function savePassTrades(){try{localStorage.setItem(PTK,JSON.stringify(passTrades));}catch(e){}}
@@ -552,18 +675,23 @@ function savePassData(){
   try{localStorage.setItem(PSK,JSON.stringify(attempts));}catch(e){}
   try{localStorage.setItem(FSK,JSON.stringify(finances));}catch(e){}
 }
+function saveAccounts(){try{localStorage.setItem(ACK,JSON.stringify(accounts));}catch(e){}}
+function savePassAccounts(){try{localStorage.setItem(PACK,JSON.stringify(passAccounts));}catch(e){}}
 
 // ── NAVIGATION ────────────────────────────────────────────────────
 function showPage(p){
   document.querySelectorAll('.page').forEach(el=>el.classList.remove('active'));
   document.querySelectorAll('.nav > .nav-btn').forEach(el=>el.classList.remove('active'));
   document.getElementById('page-'+p).classList.add('active');
-  const idx={dashboard:0,log:1,import:2,history:3,passing:4}[p];
-  document.querySelectorAll('.nav > .nav-btn')[idx].classList.add('active');
+  const idx={dashboard:0,accounts:1,finance:2,log:3,import:4,history:5,passing:6}[p];
+  if(idx!==undefined)document.querySelectorAll('.nav > .nav-btn')[idx].classList.add('active');
   if(p==='import')showImportTab('tv');
   if(p==='dashboard')renderDashboard();
+  if(p==='accounts'){showAccountList();renderAccounts();}
+  if(p==='finance')renderFinance();
   if(p==='history')renderHistory();
-  if(p==='passing'){showPassTab('dashboard');renderPassDashboard();renderPassAttempts();renderFinance();}
+  if(p==='log')populateAccountDropdown('l-account-list');
+  if(p==='passing'){showPassTab('dashboard');renderPassDashboard();renderPassAttempts();}
 }
 function showImportTab(t){
   document.getElementById('import-tv').style.display=t==='tv'?'block':'none';
@@ -572,13 +700,13 @@ function showImportTab(t){
   document.getElementById('itab-csv').classList.toggle('active',t==='csv');
 }
 function showPassTab(t){
-  ['dashboard','log','attempts','import','sim','finance','history'].forEach(id=>{
+  ['dashboard','builder','log','attempts','import','sim','history'].forEach(id=>{
     const el=document.getElementById('pass-'+id);if(el)el.style.display=id===t?'block':'none';
     const btn=document.getElementById('ptab-'+id);if(btn)btn.classList.toggle('active',id===t);
   });
   if(t==='dashboard')renderPassDashboard();
+  if(t==='builder')renderAttemptBuilder();
   if(t==='attempts')renderPassAttempts();
-  if(t==='finance')renderFinance();
   if(t==='history')renderPassHistory();
 }
 function showPassImportTab(t){
@@ -1197,6 +1325,630 @@ function renderPassAttempts(){
 }
 
 // ── LOG / IMPORT ──────────────────────────────────────────────────
+// ── ACCOUNT MANAGEMENT ────────────────────────────────────────────
+function getAccountFloor(acc){
+  if(acc.floor!==undefined&&acc.floor!==null)return acc.floor;
+  return acc.hadPayout?50100:(acc.startBalance||50000)-2000;
+}
+function tradeHasAccount(t,accId){
+  if(t.accountIds&&t.accountIds.length)return t.accountIds.includes(accId);
+  return t.accountId===accId;
+}
+function getAccountCushion(acc){return(acc.currentBalance||acc.startBalance||50000)-getAccountFloor(acc);}
+function getAccountProfit(acc){return(acc.currentBalance||acc.startBalance||50000)-50000;}
+
+function showCreateAccount(){
+  const f=document.getElementById('create-acc-form');
+  f.style.display=f.style.display==='none'?'block':'none';
+  document.getElementById('acc-start').value=today;
+}
+function showAccountList(){
+  document.getElementById('acc-detail-view').style.display='none';
+  document.getElementById('acc-list-view').style.display='block';
+}
+function createAccount(){
+  const id=document.getElementById('acc-id').value.trim();
+  const start=document.getElementById('acc-start').value;
+  const startBal=parseFloat(document.getElementById('acc-balance').value)||50000;
+  const curBal=parseFloat(document.getElementById('acc-current').value)||startBal;
+  const winDays=parseInt(document.getElementById('acc-windays').value)||0;
+  const hadPayout=document.getElementById('acc-hadpayout').value==='yes';
+  const existingPayoutCount=parseInt(document.getElementById('acc-payoutcount').value)||0;
+  const payoutTarget=parseInt(document.getElementById('acc-payouttarget').value)||5;
+  const note=document.getElementById('acc-note').value.trim();
+  const msg=document.getElementById('acc-msg');
+  if(!id){msg.className='msg-err';msg.textContent='Enter account ID.';return;}
+  // backfill placeholder payouts if account already had some before tracking started
+  const backfillPayouts=Array.from({length:existingPayoutCount},(_,i)=>({date:'—',profitAtPayout:null,gross:null,net:null,note:'Backfilled — pre-tracker payout',backfilled:true}));
+  accounts.push({
+    id:Date.now().toString(),
+    name:`Account ${id}`,
+    accountId:id,
+    startDate:start,
+    startBalance:startBal,
+    currentBalance:curBal,
+    winningDays:winDays,
+    hadPayout,
+    payoutTarget,
+    note,
+    status:'active',
+    payouts:backfillPayouts,
+    createdAt:Date.now()
+  });
+  saveAccounts();
+  msg.className='msg-ok';msg.textContent='Account created.';
+  document.getElementById('create-acc-form').style.display='none';
+  document.getElementById('acc-id').value='';
+  document.getElementById('acc-current').value='';
+  document.getElementById('acc-note').value='';
+  renderAccounts();
+  setTimeout(()=>msg.textContent='',2500);
+}
+function renderAccounts(){
+  const active=accounts.filter(a=>a.status==='active');
+  const archived=accounts.filter(a=>a.status!=='active');
+  const el=document.getElementById('active-accounts');
+  if(!el)return;
+  if(!active.length){
+    el.innerHTML='<p style="color:#888780;font-size:13px;margin-bottom:1rem">No active funded accounts. Add one above.</p>';
+  } else {
+    el.innerHTML=active.map(a=>{
+      const profit=getAccountProfit(a);
+      const cushion=getAccountCushion(a);
+      const pct=Math.min(100,Math.max(0,profit/3000*100));
+      const statusCls=cushion<=0?'danger-account':cushion<500?'amber-account':'active-account';
+      const wd=a.winningDays||0;
+      const wdDots=Array.from({length:5},(_,i)=>`<div class="wd-dot${i<wd?' filled':''}"></div>`).join('');
+      const payoutCount=(a.payouts||[]).length;
+      const payoutTarget=a.payoutTarget||5;
+      const milestoneHit=payoutCount>=payoutTarget;
+      return`<div class="card-account ${statusCls}" onclick="showAccountDetail('${a.id}')">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+          <div>
+            <div style="font-weight:500;font-size:13px">${a.name} <span style="color:#888780;font-size:11px">#${a.accountId}</span></div>
+            <div style="font-size:11px;color:#888780;margin-top:1px">${a.note||'No notes'}</div>
+          </div>
+          <div style="display:flex;gap:4px;flex-direction:column;align-items:flex-end">
+            <span class="badge ${profit>=3000?'badge-g':profit>=1000?'badge-a':'badge-gray'}">${profit>=0?'+':''}$${Math.round(profit).toLocaleString()}</span>
+            <span class="badge ${milestoneHit?'badge-b':'badge-gray'}">${payoutCount}/${payoutTarget} payouts${milestoneHit?' ✓':''}</span>
+          </div>
+        </div>
+        <div style="display:flex;gap:16px;font-size:11px;margin-bottom:6px;flex-wrap:wrap">
+          <span>Balance: <strong>$${(a.currentBalance||50000).toLocaleString()}</strong></span>
+          <span>Cushion: <strong class="${cushion<500?'red':cushion<1000?'amber':'green'}">$${Math.round(cushion).toLocaleString()}</strong></span>
+          <span>Floor: <strong>$${getAccountFloor(a).toLocaleString()}</strong></span>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <div style="flex:1;min-width:120px"><div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
+          <div style="font-size:10px;color:#888780;margin-top:3px">$${Math.round(profit).toLocaleString()} of $3,000 target</div></div>
+          <div><div style="font-size:10px;color:#888780;margin-bottom:3px">Winning days</div><div class="winning-day-dots">${wdDots}</div></div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+  const arEl=document.getElementById('archived-accounts');
+  if(arEl){
+    arEl.innerHTML=archived.length?archived.map(a=>`<div class="card-account" style="opacity:.65" onclick="showAccountDetail('${a.id}')">
+      <div style="display:flex;justify-content:space-between">
+        <div><span style="font-weight:500">${a.name}</span> <span style="color:#888780;font-size:11px">#${a.accountId}</span></div>
+        <span class="badge ${a.status==='blown'?'badge-r':'badge-g'}">${a.status}</span>
+      </div>
+    </div>`).join(''):'<p style="color:#888780;font-size:13px">No archived accounts.</p>';
+  }
+  renderMainCalendar();
+}
+
+// ── CALENDARS ─────────────────────────────────────────────────────
+const DOW_HEADERS=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+function buildCalGrid(year,month,dataByDate,scopeAccId){
+  const firstDay=new Date(year,month,1).getDay();
+  const startOffset=(firstDay+6)%7; // Mon=0
+  const daysInMonth=new Date(year,month+1,0).getDate();
+  let html='';
+  for(let i=0;i<startOffset;i++)html+=`<div class="cal-day cal-day-empty"></div>`;
+  for(let d=1;d<=daysInMonth;d++){
+    const dateStr=`${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const day=dataByDate[dateStr];
+    let cls='cal-day';let content='';
+    const hasData=!!day;
+    if(day){
+      if(day.payout)cls+=' cal-payout';
+      else if(day.losses>0)cls+=' cal-loss';
+      else if(day.wins>0)cls+=' cal-win';
+      if(day.wins||day.losses)content+=`<div style="font-size:9px;font-weight:500;color:${day.pnl>=0?'#3B6D11':'#A32D2D'}">${day.pnl>=0?'+':''}$${Math.abs(Math.round(day.pnl))}</div>`;
+      if(day.payout)content+=`<div style="font-size:9px;color:#0C447C">💰$${day.payoutAmt}</div>`;
+    }
+    const clickAttr=hasData?` style="cursor:pointer" onclick="showDayDetail('${dateStr}','${scopeAccId||''}')"`:'';
+    html+=`<div class="${cls}"${clickAttr}><div class="cal-day-num">${d}</div>${content}</div>`;
+  }
+  return html;
+}
+function showDayDetail(dateStr,scopeAccId){
+  const dayTrades=trades.filter(t=>t.date===dateStr&&(!scopeAccId||t.accountId===scopeAccId));
+  const dayPayouts=[];
+  accounts.forEach(a=>{
+    if(scopeAccId&&a.id!==scopeAccId)return;
+    (a.payouts||[]).forEach(p=>{if(p.date===dateStr)dayPayouts.push({...p,accName:a.name,accNum:a.accountId});});
+  });
+  let html=`<div style="position:fixed;inset:0;background:rgba(0,0,0,.4);z-index:1000;display:flex;align-items:center;justify-content:center;padding:1rem" onclick="if(event.target===this)closeDayDetail()">
+    <div class="card" style="max-width:420px;width:100%;max-height:80vh;overflow-y:auto">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem">
+        <div class="section-label" style="margin-bottom:0">${dateStr}</div>
+        <button class="btn btn-sm" onclick="closeDayDetail()"><i class="ti ti-x"></i></button>
+      </div>`;
+  if(!dayTrades.length&&!dayPayouts.length){
+    html+=`<p style="color:#888780;font-size:13px">No trades or payouts on this day.</p>`;
+  } else {
+    if(dayTrades.length){
+      html+=`<div class="section-label">Trades</div>`;
+      dayTrades.forEach(t=>{
+        const accName=t.accountId?(accounts.find(a=>a.id===t.accountId)?.name||'Unknown'):'Unassigned';
+        html+=`<div class="trade-pill" style="cursor:default">
+          <div class="trade-pill-info">
+            <span class="badge ${t.system==='B'?'badge-b':'badge-gray'}">Sys ${t.system}</span>
+            <span class="badge badge-gray" style="margin-left:4px">${t.tf}</span>
+            <span class="badge ${t.result==='W'?'badge-g':'badge-r'}" style="margin-left:4px">${t.result==='W'?'Win':'Loss'}</span>
+            <div style="font-size:11px;color:#888780;margin-top:4px">Account: ${accName}${t.notes?' · '+t.notes:''}</div>
+          </div>
+          <span style="font-weight:500;color:${t.pnl>=0?'#3B6D11':'#A32D2D'}">${t.pnl>=0?'+':''}$${Math.round(t.pnl)}</span>
+        </div>`;
+      });
+    }
+    if(dayPayouts.length){
+      html+=`<div class="section-label" style="margin-top:1rem">Payouts</div>`;
+      dayPayouts.forEach(p=>{
+        html+=`<div class="trade-pill" style="cursor:default">
+          <div class="trade-pill-info">
+            <span class="badge badge-b">Payout</span>
+            <div style="font-size:11px;color:#888780;margin-top:4px">${p.accName} #${p.accNum}${p.note?' · '+p.note:''}</div>
+          </div>
+          <span style="font-weight:500;color:#0C447C">+$${(p.net||0).toLocaleString()}</span>
+        </div>`;
+      });
+    }
+  }
+  html+=`</div></div>`;
+  const existing=document.getElementById('day-detail-modal');
+  if(existing)existing.remove();
+  const div=document.createElement('div');
+  div.id='day-detail-modal';
+  div.innerHTML=html;
+  document.body.appendChild(div);
+}
+function closeDayDetail(){
+  const el=document.getElementById('day-detail-modal');
+  if(el)el.remove();
+}
+function renderMainCalendar(){
+  const grid=document.getElementById('main-calendar');if(!grid)return;
+  const label=document.getElementById('main-cal-label');
+  if(label)label.textContent=new Date(calYear,calMonth).toLocaleDateString('en',{month:'long',year:'numeric'});
+  const hdr=document.getElementById('main-cal-header');
+  if(hdr)hdr.innerHTML=DOW_HEADERS.map(d=>`<div class="cal-header-day">${d}</div>`).join('');
+  const byDate={};
+  trades.forEach(t=>{
+    if(!byDate[t.date])byDate[t.date]={wins:0,losses:0,pnl:0};
+    if(t.result==='W')byDate[t.date].wins++;else byDate[t.date].losses++;
+    byDate[t.date].pnl+=t.pnl||0;
+  });
+  finances.filter(f=>f.type==='payout').forEach(f=>{
+    if(!byDate[f.date])byDate[f.date]={wins:0,losses:0,pnl:0};
+    byDate[f.date].payout=true;
+    byDate[f.date].payoutAmt=(byDate[f.date].payoutAmt||0)+f.amount;
+  });
+  grid.innerHTML=buildCalGrid(calYear,calMonth,byDate);
+}
+function changeCalMonth(dir){
+  calMonth+=dir;
+  if(calMonth>11){calMonth=0;calYear++;}
+  if(calMonth<0){calMonth=11;calYear--;}
+  renderMainCalendar();
+}
+function renderAccountCalendar(accId){
+  if(!accCalState[accId])accCalState[accId]={year:new Date().getFullYear(),month:new Date().getMonth()};
+  const st=accCalState[accId];
+  const grid=document.getElementById(`acc-cal-${accId}`);if(!grid)return;
+  const label=document.getElementById(`acc-cal-label-${accId}`);
+  if(label)label.textContent=new Date(st.year,st.month).toLocaleDateString('en',{month:'long',year:'numeric'});
+  const hdr=document.getElementById(`acc-cal-header-${accId}`);
+  if(hdr)hdr.innerHTML=DOW_HEADERS.map(d=>`<div class="cal-header-day">${d}</div>`).join('');
+  const acc=accounts.find(a=>a.id===accId);
+  const byDate={};
+  trades.filter(t=>tradeHasAccount(t,accId)).forEach(t=>{
+    if(!byDate[t.date])byDate[t.date]={wins:0,losses:0,pnl:0};
+    if(t.result==='W')byDate[t.date].wins++;else byDate[t.date].losses++;
+    byDate[t.date].pnl+=t.pnl||0;
+  });
+  (acc?.payouts||[]).forEach(p=>{
+    if(!p.date||p.date==='—')return;
+    if(!byDate[p.date])byDate[p.date]={wins:0,losses:0,pnl:0};
+    byDate[p.date].payout=true;
+    byDate[p.date].payoutAmt=(byDate[p.date].payoutAmt||0)+(p.net||0);
+  });
+  grid.innerHTML=buildCalGrid(st.year,st.month,byDate,accId);
+}
+function changeAccCalMonth(accId,dir){
+  if(!accCalState[accId])accCalState[accId]={year:new Date().getFullYear(),month:new Date().getMonth()};
+  const st=accCalState[accId];
+  st.month+=dir;
+  if(st.month>11){st.month=0;st.year++;}
+  if(st.month<0){st.month=11;st.year--;}
+  renderAccountCalendar(accId);
+}
+
+function showAccountDetail(accId){
+  const acc=accounts.find(a=>a.id===accId);if(!acc)return;
+  document.getElementById('acc-list-view').style.display='none';
+  const det=document.getElementById('acc-detail-view');
+  det.style.display='block';
+  const profit=getAccountProfit(acc);
+  const cushion=getAccountCushion(acc);
+  const wd=acc.winningDays||0;
+  const wdDots=Array.from({length:5},(_,i)=>`<div class="wd-dot${i<wd?' filled':''}"></div>`).join('');
+  const pct=Math.min(100,Math.max(0,profit/3000*100));
+  const accTrades=trades.filter(t=>tradeHasAccount(t,accId));
+  const payoutCount=(acc.payouts||[]).length;
+  const payoutTarget=acc.payoutTarget||5;
+  const payoutPct=Math.min(100,Math.max(0,payoutCount/payoutTarget*100));
+  const payoutDots=Array.from({length:payoutTarget},(_,i)=>`<div class="wd-dot${i<payoutCount?' filled':''}"></div>`).join('');
+  const hitMilestone=payoutCount>=payoutTarget;
+  det.innerHTML=`
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:1.25rem;flex-wrap:wrap">
+      <button class="back-btn" onclick="showAccountList();renderAccounts();"><i class="ti ti-arrow-left"></i> Back</button>
+      <div>
+        <div style="font-weight:500;font-size:16px">${acc.name} <span style="color:#888780;font-size:13px">#${acc.accountId}</span></div>
+        <div style="font-size:12px;color:#888780">Started ${acc.startDate||'—'} · ${acc.status}</div>
+      </div>
+      <span class="badge ${acc.status==='active'?'badge-g':acc.status==='blown'?'badge-r':'badge-gray'}">${acc.status}</span>
+    </div>
+    ${hitMilestone?`<div class="banner banner-green"><h3><i class="ti ti-trophy"></i>Payout milestone reached!</h3><p style="font-size:13px">This account has hit ${payoutCount}/${payoutTarget} payouts — eligible to move to a live account. Update the status below once moved.</p></div>`:''}
+    <div class="stat-grid">
+      <div class="stat-box"><div class="stat-lbl">Balance</div><div class="stat-val">$${(acc.currentBalance||50000).toLocaleString()}</div></div>
+      <div class="stat-box"><div class="stat-lbl">Profit</div><div class="stat-val ${profit>=0?'green':'red'}">${profit>=0?'+':''}$${Math.round(profit).toLocaleString()}</div></div>
+      <div class="stat-box"><div class="stat-lbl">Cushion</div><div class="stat-val ${cushion<500?'red':cushion<1000?'amber':'green'}">$${Math.round(cushion).toLocaleString()}</div></div>
+      <div class="stat-box"><div class="stat-lbl">Floor</div><div class="stat-val">$${getAccountFloor(acc).toLocaleString()}</div></div>
+      <div class="stat-box"><div class="stat-lbl">To $3k target</div><div class="stat-val">${profit>=3000?'✓ Ready':'$'+Math.max(0,3000-profit).toLocaleString()}</div></div>
+      <div class="stat-box"><div class="stat-lbl">Trades logged</div><div class="stat-val">${accTrades.length}</div></div>
+    </div>
+    <div style="margin-bottom:1rem">
+      <div style="font-size:11px;color:#888780;margin-bottom:6px">Progress to $3,000</div>
+      <div class="progress-bar" style="height:10px"><div class="progress-fill" style="width:${pct}%"></div></div>
+    </div>
+    <div style="margin-bottom:1rem">
+      <div style="font-size:11px;color:#888780;margin-bottom:6px">Winning days (${wd}/5)</div>
+      <div class="winning-day-dots">${wdDots}</div>
+    </div>
+    <div style="margin-bottom:1rem">
+      <div style="font-size:11px;color:#888780;margin-bottom:6px">Payout milestone (${payoutCount}/${payoutTarget}) ${hitMilestone?'<span class="badge badge-g" style="margin-left:4px">Ready to go live</span>':''}</div>
+      <div class="winning-day-dots">${payoutDots}</div>
+      <div class="progress-bar" style="margin-top:6px"><div class="progress-fill" style="width:${payoutPct}%;background:${hitMilestone?'#185FA5':'#639922'}"></div></div>
+    </div>
+    ${acc.note?`<div class="card-sm" style="margin-bottom:1rem;font-size:12px">${acc.note}</div>`:''}
+    <div class="card" style="margin-bottom:1rem">
+      <div class="section-label" style="margin-bottom:.75rem">Update account</div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Current balance ($)</label><input type="number" id="edit-bal-${accId}" value="${acc.currentBalance||50000}"></div>
+        <div class="form-group"><label class="form-label">Winning days</label><input type="number" id="edit-wd-${accId}" value="${wd}" min="0" max="5"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Had a payout?</label>
+          <select id="edit-payout-${accId}"><option value="no"${!acc.hadPayout?' selected':''}>No — floor $48,000</option><option value="yes"${acc.hadPayout?' selected':''}>Yes — floor $50,100</option></select></div>
+        <div class="form-group"><label class="form-label">Status</label>
+          <select id="edit-status-${accId}"><option value="active"${acc.status==='active'?' selected':''}>Active</option><option value="blown"${acc.status==='blown'?' selected':''}>Blown</option><option value="paid"${acc.status==='paid'?' selected':''}>Paid out / cycling</option></select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Payouts until moved to live</label><input type="number" id="edit-payouttarget-${accId}" value="${payoutTarget}" min="1"></div>
+        <div class="form-group"><label class="form-label">Floor override ($) — leave blank to auto-calculate</label><input type="number" id="edit-floor-${accId}" placeholder="Auto: $${getAccountFloor(acc).toLocaleString()}"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Notes</label><textarea id="edit-note-${accId}">${acc.note||''}</textarea></div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:4px">
+        <button class="btn btn-primary" onclick="updateAccount('${accId}')"><i class="ti ti-check"></i> Save changes</button>
+        <button class="btn btn-success" onclick="logPayout('${accId}')"><i class="ti ti-cash"></i> Log payout</button>
+        <span id="edit-msg-${accId}"></span>
+      </div>
+      <div id="payout-box-${accId}" style="display:none"></div>
+    </div>
+    <div class="section-label">Payout history</div>
+    ${(acc.payouts||[]).length?`<div class="card" style="padding:0;overflow:hidden;overflow-x:auto;margin-bottom:1rem">
+      <table><thead><tr><th>Date</th><th>Profit at payout</th><th>Requested</th><th>Gross (50%)</th><th>Net (after 10%)</th><th>Notes</th><th></th></tr></thead>
+      <tbody>${acc.payouts.map((p,i)=>`<tr>
+        <td style="font-size:11px">${p.date}</td>
+        <td>$${p.profitAtPayout?.toLocaleString()||'—'}</td>
+        <td>${p.request?'$'+p.request.toLocaleString():'—'}</td>
+        <td>$${(p.gross||0).toLocaleString()}</td>
+        <td class="green" style="font-weight:500">+$${(p.net||0).toLocaleString()}</td>
+        <td style="color:#888780;font-size:11px">${p.note||'—'}</td>
+        <td><button id="del-payout-btn-${accId}-${i}" class="btn btn-danger btn-sm" onclick="deletePayout('${accId}',${i})"><i class="ti ti-trash"></i></button></td>
+      </tr>`).join('')}</tbody></table></div>`:'<p style="color:#888780;font-size:13px;margin-bottom:1rem">No payouts logged yet.</p>'}
+    <div class="section-label">Trades on this account</div>
+    <div class="card" style="padding:0;overflow:hidden;overflow-x:auto">
+      <table><thead><tr><th>Date</th><th>Sys</th><th>TF</th><th>Result</th><th>P&amp;L</th><th>Notes</th><th></th></tr></thead>
+      <tbody>${accTrades.length?[...accTrades].reverse().map(t=>`<tr>
+        <td style="font-size:11px">${t.date}</td>
+        <td><span class="badge ${t.system==='B'?'badge-b':'badge-gray'}">Sys ${t.system}</span></td>
+        <td><span class="badge badge-gray">${t.tf}</span></td>
+        <td><span class="badge ${t.result==='W'?'badge-g':'badge-r'}">${t.result==='W'?'Win':'Loss'}${t.closedAccount?' 💀':''}</span></td>
+        <td style="font-weight:500;color:${t.pnl>=0?'#3B6D11':'#A32D2D'}">${t.pnl>=0?'+':''}$${Math.round(t.pnl)}</td>
+        <td style="color:#888780;font-size:11px">${t.notes||'—'}</td>
+        <td><button class="btn btn-danger btn-sm" onclick="deleteTradeFromAccount('${t.id}','${accId}')"><i class="ti ti-trash"></i></button></td>
+      </tr>`).join(''):'<tr><td colspan="7" style="color:#888780;text-align:center;padding:1rem">No trades assigned to this account yet.</td></tr>'}</tbody></table>
+    </div>
+    <div class="divider"></div>
+    <div class="section-label">Account calendar</div>
+    <div class="cal-nav">
+      <button class="btn btn-sm" onclick="changeAccCalMonth('${accId}',-1)"><i class="ti ti-chevron-left"></i></button>
+      <span id="acc-cal-label-${accId}" style="font-size:13px;font-weight:500"></span>
+      <button class="btn btn-sm" onclick="changeAccCalMonth('${accId}',1)"><i class="ti ti-chevron-right"></i></button>
+    </div>
+    <div class="cal-header" id="acc-cal-header-${accId}"></div>
+    <div class="cal-grid" id="acc-cal-${accId}"></div>
+    <div class="cal-legend">
+      <span><span class="cal-legend-dot" style="background:#EAF3DE;border:0.5px solid #C0DD97"></span>Win</span>
+      <span><span class="cal-legend-dot" style="background:#FCEBEB;border:0.5px solid #F7C1C1"></span>Loss</span>
+      <span><span class="cal-legend-dot" style="background:#E6F1FB;border:0.5px solid #B5D4F4"></span>Payout</span>
+    </div>
+  `;
+  renderAccountCalendar(accId);
+}
+function logPayout(accId){
+  const acc=accounts.find(a=>a.id===accId);if(!acc)return;
+  const profit=getAccountProfit(acc);
+  if(profit<100){alert('Account profit is too low to log a payout.');return;}
+  const box=document.getElementById(`payout-box-${accId}`);
+  if(!box)return;
+  box.style.display=box.style.display==='none'?'block':'none';
+  box.innerHTML=`<div class="card-sm" style="margin-top:10px">
+    <div style="font-size:12px;margin-bottom:8px">Current profit: <strong>$${Math.round(profit).toLocaleString()}</strong></div>
+    <div class="form-group"><label class="form-label">Request amount ($) — how much profit are you drawing on?</label>
+      <input type="number" id="payout-request-${accId}" value="${Math.round(profit)}" max="${Math.round(profit)}" oninput="updatePayoutPreview('${accId}')"></div>
+    <div id="payout-preview-${accId}" class="card-sm" style="margin-bottom:8px;font-size:12px"></div>
+    <div class="form-group"><label class="form-label">Note (optional)</label><input type="text" id="payout-note-${accId}" placeholder="e.g. First payout"></div>
+    <div style="display:flex;gap:8px;align-items:center">
+      <button class="btn btn-success btn-sm" onclick="confirmPayout('${accId}')"><i class="ti ti-check"></i> Confirm payout</button>
+      <button class="btn btn-sm" onclick="document.getElementById('payout-box-${accId}').style.display='none'">Cancel</button>
+    </div>
+  </div>`;
+  updatePayoutPreview(accId);
+}
+function updatePayoutPreview(accId){
+  const acc=accounts.find(a=>a.id===accId);if(!acc)return;
+  const profit=getAccountProfit(acc);
+  const reqEl=document.getElementById(`payout-request-${accId}`);
+  const previewEl=document.getElementById(`payout-preview-${accId}`);
+  if(!reqEl||!previewEl)return;
+  let request=parseFloat(reqEl.value)||0;
+  if(request>profit)request=profit;
+  const gross=Math.round(request*0.5);
+  const net=Math.round(gross*0.9);
+  const newBalance=(acc.currentBalance||50000)-gross;
+  previewEl.innerHTML=`Withdrawal (50% of request): <strong>$${gross.toLocaleString()}</strong><br>
+    Net after 10% commission: <strong class="green">$${net.toLocaleString()}</strong><br>
+    New account balance: <strong>$${newBalance.toLocaleString()}</strong> <span style="color:#888780">(floor will be $50,100)</span><br>
+    <span style="color:#854F0B">Winning days will reset to 0/5 — need 5 new winning days before next payout.</span>`;
+}
+function confirmPayout(accId){
+  const acc=accounts.find(a=>a.id===accId);if(!acc)return;
+  const profit=getAccountProfit(acc);
+  const reqEl=document.getElementById(`payout-request-${accId}`);
+  let request=parseFloat(reqEl?.value)||0;
+  if(request<=0){alert('Enter a request amount.');return;}
+  if(request>profit)request=profit;
+  const gross=Math.round(request*0.5);
+  const net=Math.round(gross*0.9);
+  const noteEl=document.getElementById(`payout-note-${accId}`);
+  const note=noteEl?noteEl.value.trim():'';
+  if(!acc.payouts)acc.payouts=[];
+  const financeId=Date.now();
+  acc.payouts.push({date:today,profitAtPayout:Math.round(profit),request:Math.round(request),gross,net,note,financeId});
+  acc.currentBalance=(acc.currentBalance||50000)-gross;
+  acc.hadPayout=true;
+  acc.winningDays=0;
+  saveAccounts();
+  finances.push({id:financeId,date:today,type:'payout',amount:net,notes:`Payout from ${acc.name} (#${acc.accountId})${note?' — '+note:''}`,linkedAccountId:accId});
+  savePassData();
+  showAccountDetail(accId);
+}
+// ── PASSING ATTEMPT BUILDER ───────────────────────────────────────
+function getOpenPassAccount(){
+  return passAccounts.find(a=>a.status==='open');
+}
+function getAssignedPassTradeIds(){
+  const ids=new Set();
+  passAccounts.forEach(a=>{if(a.t1TradeId)ids.add(a.t1TradeId);if(a.t2TradeId)ids.add(a.t2TradeId);});
+  return ids;
+}
+function renderAttemptBuilder(){
+  const statusEl=document.getElementById('builder-active-status');
+  const poolEl=document.getElementById('builder-trade-pool');
+  const listEl=document.getElementById('builder-account-list');
+  if(!statusEl||!poolEl||!listEl)return;
+
+  const open=getOpenPassAccount();
+  if(open){
+    const t1=passTrades.find(t=>t.id===open.t1TradeId);
+    statusEl.innerHTML=`<div class="banner banner-amber"><h3><i class="ti ti-target"></i>${open.name} — waiting for T2</h3>
+      <p style="font-size:12px">T1: ${t1?`${t1.date} · ${t1.tf} Sys ${t1.system} · Win ✓`:'—'}</p>
+      ${open.note?`<p style="font-size:12px;margin-top:4px;color:#5f5e5a">${open.note}</p>`:''}
+      <button id="cancel-attempt-btn" class="btn btn-danger btn-sm" style="margin-top:8px" onclick="cancelOpenAttempt(this)"><i class="ti ti-x"></i> Cancel attempt</button>
+    </div>`;
+  } else {
+    statusEl.innerHTML=`<div class="card-sm">
+      <div class="form-group"><label class="form-label">New account name (last 4 digits)</label><input type="text" id="new-pass-acc-name" placeholder="e.g. 4821" maxlength="6"></div>
+      <div class="form-group"><label class="form-label">Note (optional)</label><input type="text" id="new-pass-acc-note" placeholder="e.g. trading 1min only"></div>
+      <p style="font-size:11px;color:#888780">Select a trade below to assign as T1 and start this account.</p>
+    </div>`;
+  }
+
+  const assignedIds=getAssignedPassTradeIds();
+  const unassigned=[...passTrades].filter(t=>!assignedIds.has(t.id)).sort((a,b)=>b.date.localeCompare(a.date));
+  if(!unassigned.length){
+    poolEl.innerHTML='<p style="color:#888780;font-size:13px">No unassigned passing trades. Log or import some first.</p>';
+  } else {
+    poolEl.innerHTML=unassigned.map(t=>{
+      const label=open?'Assign as T2':'Assign as T1';
+      const resCls=t.result==='W'?'badge-g':'badge-r';
+      return`<div class="trade-pill">
+        <div class="trade-pill-info">
+          <span class="trade-pill-date">${t.date}</span>
+          <span class="badge badge-gray">${t.tf}</span>
+          <span class="badge ${t.system==='B'?'badge-b':'badge-g'}">Sys ${t.system}</span>
+          <span class="badge ${resCls}">${t.result==='W'?'Win':'Loss'}</span>
+          <span style="font-size:11px;color:${t.pnl>=0?'#3B6D11':'#A32D2D'}">${t.pnl>=0?'+':''}$${t.pnl}</span>
+        </div>
+        <button class="btn btn-sm ${open?'btn-primary':''}" onclick="assignPassTrade('${t.id}','${open?'t2':'t1'}')">${label}</button>
+      </div>`;
+    }).join('');
+  }
+
+  if(!passAccounts.length){
+    listEl.innerHTML='<p style="color:#888780;font-size:13px">No passing accounts tracked yet.</p>';
+  } else {
+    listEl.innerHTML=[...passAccounts].reverse().map(a=>{
+      const t1=passTrades.find(t=>t.id===a.t1TradeId);
+      const t2=passTrades.find(t=>t.id===a.t2TradeId);
+      const statusBadge=a.status==='open'?'<span class="badge badge-a">Open</span>':a.status==='pass'?'<span class="badge badge-g">Passed</span>':'<span class="badge badge-r">Failed</span>';
+      return`<div class="card-account" style="cursor:default">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px">
+          <div><div style="font-weight:500;font-size:13px">${a.name}</div>
+          <div style="font-size:11px;color:#888780">${a.note||'No notes'}</div></div>
+          ${statusBadge}
+        </div>
+        <div style="font-size:11px;color:#5f5e5a">
+          T1: ${t1?`${t1.date} ${t1.tf} Sys${t1.system} — ${t1.result}`:'—'}<br>
+          T2: ${t2?`${t2.date} ${t2.tf} Sys${t2.system} — ${t2.result}`:'<span style="color:#d3d1c7">pending</span>'}
+        </div>
+      </div>`;
+    }).join('');
+  }
+}
+function assignPassTrade(tradeId,role){
+  const trade=passTrades.find(t=>t.id===tradeId);if(!trade)return;
+  const open=getOpenPassAccount();
+  if(role==='t1'){
+    if(open){alert('Close the current open attempt first.');return;}
+    const nameEl=document.getElementById('new-pass-acc-name');
+    const noteEl=document.getElementById('new-pass-acc-note');
+    const name=nameEl?nameEl.value.trim():'';
+    if(!name){alert('Enter an account name (last 4 digits) before assigning T1.');return;}
+    passAccounts.push({
+      id:Date.now().toString(),
+      name:`Account ${name}`,
+      note:noteEl?noteEl.value.trim():'',
+      status:'open',
+      t1TradeId:trade.id,
+      t2TradeId:null,
+      createdAt:Date.now()
+    });
+    savePassAccounts();
+    renderAttemptBuilder();
+  } else {
+    if(!open){alert('No open attempt to assign T2 to.');return;}
+    open.t2TradeId=trade.id;
+    open.status=trade.result==='W'?'pass':'fail';
+    savePassAccounts();
+    const msg=open.status==='pass'?`🎉 ${open.name} passed! Both trades won.`:`❌ ${open.name} failed.`;
+    renderAttemptBuilder();
+    setTimeout(()=>alert(msg),50);
+  }
+}
+function cancelOpenAttempt(btn){
+  if(!doubleClickConfirm(btn,'Click again to cancel'))return;
+  const idx=passAccounts.findIndex(a=>a.status==='open');
+  if(idx>=0){passAccounts.splice(idx,1);savePassAccounts();renderAttemptBuilder();}
+}
+
+function doubleClickConfirm(btn,label){
+  if(!btn)return true;
+  if(!btn.dataset.confirming){
+    btn.dataset.confirming='1';
+    const original=btn.innerHTML;
+    btn.dataset.original=original;
+    btn.innerHTML=`<i class="ti ti-alert-triangle"></i> ${label||'Confirm'}`;
+    setTimeout(()=>{if(btn.dataset.confirming){delete btn.dataset.confirming;btn.innerHTML=btn.dataset.original;}},4000);
+    return false;
+  }
+  delete btn.dataset.confirming;
+  return true;
+}
+function recalcAccountState(accId){
+  const acc=accounts.find(a=>a.id===accId);if(!acc)return;
+  const accTrades=trades.filter(t=>tradeHasAccount(t,accId)).sort((a,b)=>a.date.localeCompare(b.date));
+  const payouts=(acc.payouts||[]).slice().sort((a,b)=>(a.date||'').localeCompare(b.date||''));
+  let balance=acc.startBalance||50000;
+  let winningDays=0;
+  let payoutIdx=0;
+  let floor=(acc.startBalance||50000)-2000; // initial $2,000 trailing DD from start
+  let permFloor=false; // becomes true once first payout locks the floor at $50,100
+
+  // group trades by date so the trailing floor updates once per day (end of day), not per trade
+  const byDate={};
+  accTrades.forEach(t=>{(byDate[t.date]=byDate[t.date]||[]).push(t);});
+  const allDates=Object.keys(byDate).sort();
+
+  allDates.forEach(date=>{
+    // apply any payouts dated on or before this trading day first
+    while(payoutIdx<payouts.length&&payouts[payoutIdx].date&&payouts[payoutIdx].date<=date){
+      balance-=(payouts[payoutIdx].gross||0);
+      winningDays=0;
+      floor=50100; // floor locks permanently here
+      permFloor=true;
+      payoutIdx++;
+    }
+    // apply the day's trades
+    byDate[date].forEach(t=>{
+      balance+=t.pnl||0;
+      if((t.pnl||0)>150)winningDays=Math.min(5,winningDays+1);
+    });
+    // end-of-day trailing floor update (only while no payout has locked it yet)
+    if(!permFloor)floor=Math.max(floor,balance-2000);
+  });
+  // apply any remaining payouts dated after the last trade
+  while(payoutIdx<payouts.length){
+    balance-=(payouts[payoutIdx].gross||0);
+    winningDays=0;
+    floor=50100;
+    permFloor=true;
+    payoutIdx++;
+  }
+  acc.currentBalance=balance;
+  acc.winningDays=winningDays;
+  acc.hadPayout=payouts.length>0;
+  acc.floor=floor;
+  saveAccounts();
+}
+function deletePayout(accId,idx){
+  const btn=document.getElementById(`del-payout-btn-${accId}-${idx}`);
+  if(btn&&!btn.dataset.confirming){
+    btn.dataset.confirming='1';
+    btn.innerHTML=`<i class="ti ti-check"></i> Confirm`;
+    btn.classList.add('btn-success');
+    setTimeout(()=>{if(btn.dataset.confirming){delete btn.dataset.confirming;btn.innerHTML=`<i class="ti ti-trash"></i>`;btn.classList.remove('btn-success');}},4000);
+    return;
+  }
+  const acc=accounts.find(a=>a.id===accId);if(!acc||!acc.payouts)return;
+  const p=acc.payouts[idx];
+  if(p.financeId)finances=finances.filter(f=>f.id!==p.financeId);
+  acc.payouts.splice(idx,1);
+  recalcAccountState(accId);
+  savePassData();
+  showAccountDetail(accId);
+}
+function updateAccount(accId){
+  const acc=accounts.find(a=>a.id===accId);if(!acc)return;
+  acc.currentBalance=parseFloat(document.getElementById(`edit-bal-${accId}`).value)||acc.currentBalance;
+  acc.winningDays=parseInt(document.getElementById(`edit-wd-${accId}`).value)||0;
+  acc.hadPayout=document.getElementById(`edit-payout-${accId}`).value==='yes';
+  acc.status=document.getElementById(`edit-status-${accId}`).value;
+  acc.payoutTarget=parseInt(document.getElementById(`edit-payouttarget-${accId}`).value)||5;
+  const floorOverride=document.getElementById(`edit-floor-${accId}`).value;
+  acc.floor=floorOverride?parseFloat(floorOverride):(acc.hadPayout?50100:(acc.startBalance||50000)-2000);
+  acc.note=document.getElementById(`edit-note-${accId}`).value.trim();
+  saveAccounts();
+  const msg=document.getElementById(`edit-msg-${accId}`);
+  msg.className='msg-ok';msg.textContent='Saved.';
+  setTimeout(()=>{showAccountDetail(accId);},900);
+}
+
 function logTrade(){
   const date=document.getElementById('l-date').value;
   const sys=document.getElementById('l-sys').value;
@@ -1205,14 +1957,53 @@ function logTrade(){
   const pnl=parseFloat(document.getElementById('l-pnl').value);
   const contracts=parseInt(document.getElementById('l-contracts').value)||1;
   const notes=document.getElementById('l-notes').value.trim();
+  const closedAccount=document.getElementById('l-closedacc').checked;
+  const checkedBoxes=[...document.querySelectorAll('#l-account-list input[type=checkbox]:checked')];
+  const accountIds=checkedBoxes.map(cb=>cb.value);
   const msg=document.getElementById('log-msg');
   if(!date){msg.className='msg-err';msg.textContent='Enter a date.';return;}
   if(isNaN(pnl)){msg.className='msg-err';msg.textContent='Enter P&L.';return;}
-  trades.push({id:Date.now(),date,system:sys,tf,result:res,pnl,contracts,notes});
+  trades.push({id:Date.now().toString(),date,system:sys,tf,result:res,pnl,contracts,notes,accountId:accountIds[0]||'',accountIds,closedAccount});
   trades.sort((a,b)=>a.date.localeCompare(b.date));
-  saveData();msg.className='msg-ok';msg.textContent='Added.';
+  accountIds.forEach(accId=>{
+    const acc=accounts.find(a=>a.id===accId);
+    if(acc&&closedAccount)acc.status='blown';
+    recalcAccountState(accId);
+  });
+  saveData();msg.className='msg-ok';msg.textContent=`Added${accountIds.length>1?` to ${accountIds.length} accounts`:''}.`;
   document.getElementById('l-pnl').value='';document.getElementById('l-notes').value='';
+  document.getElementById('l-closedacc').checked=false;
+  document.querySelectorAll('#l-account-list input[type=checkbox]').forEach(cb=>cb.checked=false);
   setTimeout(()=>msg.textContent='',2500);
+}
+function populateAccountDropdown(listId){
+  const el=document.getElementById(listId);if(!el)return;
+  const active=accounts.filter(a=>a.status==='active');
+  if(!active.length){el.innerHTML='<p style="color:#888780;font-size:12px;margin:0">No active accounts — leave unassigned, or add one in the Accounts tab.</p>';return;}
+  el.innerHTML=active.map(a=>`<label style="display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer;padding:4px 0">
+    <input type="checkbox" value="${a.id}"> ${a.name} (#${a.accountId}) <span style="color:#888780">— $${(a.currentBalance||50000).toLocaleString()}</span>
+  </label>`).join('');
+}
+function populateAccountFilter(){
+  const sel=document.getElementById('f-acc');if(!sel)return;
+  const cur=sel.value;
+  sel.innerHTML='<option value="">All accounts</option>';
+  accounts.forEach(a=>{
+    const opt=document.createElement('option');
+    opt.value=a.id;opt.textContent=`${a.name} (#${a.accountId})`;
+    sel.appendChild(opt);
+  });
+  sel.value=cur;
+}
+function assignTradeAccount(tradeId,accountId){
+  const t=trades.find(t=>t.id===tradeId);if(!t)return;
+  const oldAccounts=t.accountIds&&t.accountIds.length?t.accountIds:(t.accountId?[t.accountId]:[]);
+  t.accountId=accountId;
+  t.accountIds=accountId?[accountId]:[];
+  saveData();
+  // recalc both the old and new account so balances stay correct
+  const affected=new Set([...oldAccounts,...(accountId?[accountId]:[])]);
+  affected.forEach(accId=>recalcAccountState(accId));
 }
 function convertTV(){
   const raw=document.getElementById('tv-in').value.trim();
@@ -1265,7 +2056,7 @@ function importCSV(){
   saveData();msg.className='msg-ok';msg.textContent=`Imported ${added}${skipped?' ('+skipped+' skipped)':''}`;
   document.getElementById('csv-in').value='';renderDashboard();setTimeout(()=>msg.textContent='',4000);
 }
-function clearAll(){if(!confirm('Delete all funded trade data?'))return;trades=[];saveData();renderDashboard();}
+function clearAll(btn){if(!doubleClickConfirm(btn,'Click again to confirm'))return;trades=[];saveData();renderDashboard();}
 
 function convertPassTV(){
   const raw=document.getElementById('ptv-in').value.trim();
@@ -1335,7 +2126,7 @@ function applyFix(){
   setTimeout(()=>msg.textContent='',3000);
 }
 
-function clearPassTrades(){if(!confirm('Clear all passing trades?'))return;passTrades=[];savePassTrades();renderPassDashboard();}
+function clearPassTrades(btn){if(!doubleClickConfirm(btn,'Click again to confirm'))return;passTrades=[];savePassTrades();renderPassDashboard();}
 
 function logPassTrade(){
   const date=document.getElementById('pl-date').value;
@@ -1398,28 +2189,49 @@ function importAttempts(){
   savePassData();msg.className='msg-ok';msg.textContent=`Imported ${added} attempt${added!==1?'s':''}`;
   document.getElementById('pi-in').value='';renderPassAttempts();setTimeout(()=>msg.textContent='',4000);
 }
-function clearAttempts(){if(!confirm('Clear all attempts?'))return;attempts=[];savePassData();renderPassAttempts();}
+function clearAttempts(btn){if(!doubleClickConfirm(btn,'Click again to confirm'))return;attempts=[];savePassData();renderPassAttempts();}
 function deleteAttempt(id){attempts=attempts.filter(a=>a.id!==id);savePassData();renderPassAttempts();}
 
 function renderHistory(){
+  populateAccountFilter();
   const sys=document.getElementById('f-sys').value;
   const tf=document.getElementById('f-tf').value;
-  const filtered=[...trades].filter(t=>(!sys||t.system===sys)&&(!tf||t.tf===tf)).reverse();
+  const accId=document.getElementById('f-acc').value;
+  const filtered=[...trades].filter(t=>(!sys||t.system===sys)&&(!tf||t.tf===tf)&&(!accId||tradeHasAccount(t,accId))).reverse();
   const body=document.getElementById('hist-body');const empty=document.getElementById('hist-empty');
   if(!filtered.length){body.innerHTML='';empty.style.display='block';return;}
   empty.style.display='none';
+  const accOptions=accounts.map(a=>`<option value="${a.id}">${a.name} (#${a.accountId})</option>`).join('');
   body.innerHTML=filtered.map(t=>`<tr>
     <td style="font-size:11px;white-space:nowrap">${t.date}</td>
     <td><span class="badge ${t.system==='B'?'badge-b':'badge-gray'}">Sys ${t.system}</span></td>
     <td><span class="badge badge-gray">${t.tf}</span></td>
-    <td><span class="badge ${t.result==='W'?'badge-g':'badge-r'}">${t.result==='W'?'Win':'Loss'}</span></td>
+    <td><span class="badge ${t.result==='W'?'badge-g':'badge-r'}">${t.result==='W'?'Win':'Loss'}${t.closedAccount?' 💀':''}</span></td>
     <td style="font-weight:500;color:${t.pnl>=0?'#3B6D11':'#A32D2D'}">${t.pnl>=0?'+':''}$${Math.round(t.pnl)}</td>
-    <td style="color:#888780">${t.contracts||1}</td>
-    <td style="color:#888780;max-width:140px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.notes||'—'}</td>
-    <td><button class="btn btn-danger btn-sm" onclick="deleteTrade(${t.id})"><i class="ti ti-trash"></i></button></td>
+    <td><select style="width:140px;padding:3px 6px;font-size:11px" onchange="assignTradeAccount('${t.id}',this.value)">
+      <option value="">— unassigned —</option>${accOptions}</select></td>
+    <td style="color:#888780;max-width:120px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${t.notes||'—'}</td>
+    <td><button class="btn btn-danger btn-sm" onclick="deleteTrade('${t.id}')"><i class="ti ti-trash"></i></button></td>
   </tr>`).join('');
+  filtered.forEach(t=>{
+    if(t.accountId){
+      const sel=document.querySelector(`select[onchange="assignTradeAccount('${t.id}',this.value)"]`);
+      if(sel)sel.value=t.accountId;
+    }
+  });
 }
-function deleteTrade(id){trades=trades.filter(t=>t.id!==id);saveData();renderHistory();renderDashboard();}
+function deleteTrade(id){
+  const t=trades.find(t=>String(t.id)===String(id));
+  const affectedAccounts=t?(t.accountIds&&t.accountIds.length?t.accountIds:(t.accountId?[t.accountId]:[])):[];
+  trades=trades.filter(t=>String(t.id)!==String(id));
+  saveData();
+  affectedAccounts.forEach(accId=>recalcAccountState(accId));
+  renderHistory();renderDashboard();
+}
+function deleteTradeFromAccount(id,accId){
+  deleteTrade(id);
+  showAccountDetail(accId);
+}
 
 function renderPassHistory(){
   const sys=document.getElementById('pf-sys').value;
@@ -1495,7 +2307,20 @@ function logFinance(){
   document.getElementById('fin-amount').value='';document.getElementById('fin-notes').value='';
   setTimeout(()=>msg.textContent='',2500);renderFinance();
 }
-function deleteFinance(id){finances=finances.filter(f=>f.id!==id);savePassData();renderFinance();}
+function deleteFinance(id){
+  const f=finances.find(f=>f.id===id);
+  if(f&&f.linkedAccountId){
+    const acc=accounts.find(a=>a.id===f.linkedAccountId);
+    if(acc&&acc.payouts){
+      const idx=acc.payouts.findIndex(p=>p.financeId===id);
+      if(idx>=0){
+        acc.payouts.splice(idx,1);
+        recalcAccountState(f.linkedAccountId);
+      }
+    }
+  }
+  finances=finances.filter(f=>f.id!==id);savePassData();renderFinance();
+}
 function renderFinance(){
   const ts=finances.filter(f=>f.type==='spend').reduce((s,f)=>s+f.amount,0);
   const tp=finances.filter(f=>f.type==='payout').reduce((s,f)=>s+f.amount,0);
@@ -1525,6 +2350,7 @@ document.getElementById('l-date').value=today;
 document.getElementById('pa-date').value=today;
 document.getElementById('pl-date').value=today;
 document.getElementById('fin-date').value=today;
+populateAccountDropdown('l-account-list');
 renderDashboard();
 </script>
 </body>
